@@ -103,7 +103,7 @@ export default class Main extends React.Component {
                                                             duration: 90
                                                         }
                                                     ]
-                                                }, ,
+                                                },
                                                 {
                                                     name: "Środa",
                                                     events: [
@@ -126,8 +126,7 @@ export default class Main extends React.Component {
                                                             duration: 90
                                                         }
                                                     ]
-                                                }
-                                                ,
+                                                },
                                                 {
                                                     name: "Czwartek",
                                                     events: [
@@ -150,8 +149,7 @@ export default class Main extends React.Component {
                                                             duration: 90
                                                         }
                                                     ]
-                                                }
-                                                ,
+                                                },
                                                 {
                                                     name: "Piątek",
                                                     events: [

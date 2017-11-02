@@ -15,7 +15,12 @@ interface IState {
 
 export default class Timetable extends React.Component<IProps, IState> {
 
-    renderDayTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+    filterIndexes(data: ITimetable, filters: ITimetableFilters): {
+        fieldOfStudyIndex: number,
+        degreeIndex: number,
+        modeIndex: number,
+        semesterIndex: number
+    } {
 
         let { fieldOfStudy, degree, mode, semester } = filters;
 
@@ -28,6 +33,25 @@ export default class Timetable extends React.Component<IProps, IState> {
             .modes[modeIndex]
             .semesters.findIndex(s => s.number === semester);
 
+        return (
+            {
+                fieldOfStudyIndex: fieldOfStudyIndex,
+                degreeIndex: degreeIndex,
+                modeIndex: modeIndex,
+                semesterIndex: semesterIndex
+            }
+        );
+    }
+
+    renderDayTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+
+        let {
+            fieldOfStudyIndex,
+            degreeIndex,
+            modeIndex,
+            semesterIndex
+        } = this.filterIndexes(data, filters);
+
         return data
             .fieldsOfStudy[fieldOfStudyIndex]
             .degrees[degreeIndex]
@@ -37,9 +61,48 @@ export default class Timetable extends React.Component<IProps, IState> {
             .map((day) => {
                 return (
                     day.events.length > 0 &&
-                    <Tab key={day.name} label={day.name}>{day.name}</Tab>
+                    <Tab key={day.name} label={day.name}>
+                        <Tabs>
+                            {this.renderGroupsTabs(data, filters)}
+                        </Tabs>
+                    </Tab>
                 );
             });
+    }
+
+    renderGroupsTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+        if (filters.groups) {
+            if (filters.groups.length > 0) {
+                return filters.groups.map((group) => {
+                    return (
+                        <Tab key={group} label={group} />
+                    );
+                });
+            }
+        } else {
+            let {
+                fieldOfStudyIndex,
+                degreeIndex,
+                modeIndex,
+                semesterIndex
+            } = this.filterIndexes(data, filters);
+
+            let groupNumbers: number[] = [];
+
+            data.fieldsOfStudy[fieldOfStudyIndex].degrees[degreeIndex].modes[modeIndex].semesters[semesterIndex].days.forEach(day => {
+                day.events.forEach(event => {
+                    groupNumbers.push(...event.groups);
+                });
+            });
+
+            let groupNumbersSet: Set<number> = new Set(groupNumbers);
+
+            return Array.from(groupNumbersSet).map((group) => {
+                return (
+                    <Tab key={group} label={group} />
+                );
+            });
+        }
     }
 
     render(): JSX.Element {
