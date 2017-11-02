@@ -1,8 +1,8 @@
 import * as React from "react";
 import ITimetable from "../models/ITimetable";
 import ITimetableFilters from "../models/ITimetableFilters";
-import IFieldOfStudy from "../models/IFieldOfStudy";
 import { Tab, Tabs } from "material-ui/Tabs";
+import EventBlock from "./EventBlock";
 
 interface IProps {
     data: ITimetable;
@@ -58,24 +58,27 @@ export default class Timetable extends React.Component<IProps, IState> {
             .modes[modeIndex]
             .semesters[semesterIndex]
             .days
-            .map((day) => {
+            .map((day, index) => {
                 return (
                     day.events.length > 0 &&
                     <Tab key={day.name} label={day.name}>
                         <Tabs>
-                            {this.renderGroupsTabs(data, filters)}
+                            {this.renderGroupsTabs(data, filters, index)}
                         </Tabs>
                     </Tab>
                 );
             });
     }
 
-    renderGroupsTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+    renderGroupsTabs(data: ITimetable, filters: ITimetableFilters, dayIndex: number): JSX.Element[] {
+
         if (filters.groups) {
             if (filters.groups.length > 0) {
                 return filters.groups.map((group) => {
                     return (
-                        <Tab key={group} label={group} />
+                        <Tab key={group} label={group}>
+                            {this.renderEventBlocks(data, filters, dayIndex, group)}
+                        </Tab>
                     );
                 });
             }
@@ -99,10 +102,43 @@ export default class Timetable extends React.Component<IProps, IState> {
 
             return Array.from(groupNumbersSet).map((group) => {
                 return (
-                    <Tab key={group} label={group} />
+                    <Tab key={group} label={group}>
+                        {this.renderEventBlocks(data, filters, dayIndex, group)}
+                    </Tab>
                 );
             });
         }
+    }
+
+    renderEventBlocks(data: ITimetable, filters: ITimetableFilters, dayIndex: number, group: number): JSX.Element[] {
+
+        let {
+            fieldOfStudyIndex,
+            degreeIndex,
+            modeIndex,
+            semesterIndex
+        } = this.filterIndexes(data, filters);
+
+        return data
+            .fieldsOfStudy[fieldOfStudyIndex]
+            .degrees[degreeIndex]
+            .modes[modeIndex]
+            .semesters[semesterIndex]
+            .days[dayIndex]
+            .events
+            .map((event, index) => {
+                return (
+                    event.groups.indexOf(group)!==-1&&
+                    <EventBlock
+                        key={index}
+                        name={event.name}
+                        lecturer={event.lecturer}
+                        type={event.type}
+                        room={event.room}
+                        duration={event.duration}
+                        startTime={event.startTime} />
+                );
+            });
     }
 
     render(): JSX.Element {
