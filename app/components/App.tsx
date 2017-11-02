@@ -4,6 +4,7 @@ import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 import FloorPage from "./Pages/FloorPage";
 import FilteringPage from "./Pages/FilteringPage";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class App extends React.Component {
     render(): JSX.Element {
