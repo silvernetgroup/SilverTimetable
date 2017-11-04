@@ -1,16 +1,16 @@
 import * as React from "react";
-import { TimetableEventType } from "../models/TimetableEventType";
 import Paper from "material-ui/Paper";
 import * as Colors from "material-ui/styles/colors";
+import * as Moment from "moment";
 
 interface IProps {
     name: string;
     lecturer: string;
-    type: TimetableEventType;
+    type: string;
     room: string;
     duration: number;
     comment?: string;
-    startTime: Date;
+    startTime: Moment.Moment;
 }
 
 interface IState {
@@ -19,37 +19,40 @@ interface IState {
 
 export default class EventBlock extends React.Component<IProps, IState> {
 
-    basicBlockHeight: number = 100; // 45 minut
+    basicBlockHeight: number = 35; // 15 minut
 
-    getBgColor(eventType: TimetableEventType): string {
+    getBgColor(eventType: string): string {
         switch (eventType) {
-            case TimetableEventType.activities:
+            case "ćwiczenia":
                 return Colors.yellow500;
-            case TimetableEventType.faculty:
+            case "fakultet":
                 return Colors.blue500;
-            case TimetableEventType.laboratory:
+            case "laboratorium":
                 return Colors.deepOrange100;
-            case TimetableEventType.lecture:
+            case "wykład":
                 return Colors.lightGreenA100;
-            case TimetableEventType.other:
+            case "inny":
                 return Colors.deepOrange400;
         }
     }
 
     render(): JSX.Element {
 
+        let { startTime, duration } = this.props;
         const style: any = {
-            height: this.basicBlockHeight * (this.props.duration / 45),
+            height: this.basicBlockHeight * (duration / 15),
             backgroundColor: this.getBgColor(this.props.type),
             width: "100%",
-            position: "relative",
-            top: ((this.props.startTime.getHours() * 60 + this.props.startTime.getMinutes()) / 15) * this.basicBlockHeight
+            position: "absolute",
+            top: ((startTime.hours() * 60 + startTime.minutes() - 480) / 15) * this.basicBlockHeight
         };
         return (
             <Paper style={style} zDepth={3}>
-                <h3>{this.props.name}</h3>
-                {this.props.lecturer}
-                {this.props.room}
+                <h2>{this.props.name}</h2>
+                <h3>{startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}</h3>
+                <h3>{this.props.type}</h3>
+                <p>{this.props.lecturer}</p>
+                <p>{this.props.room}</p>
             </Paper>
         );
     }

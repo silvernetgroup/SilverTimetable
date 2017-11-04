@@ -1,12 +1,12 @@
-import { TimetableEventType } from "./TimetableEventType";
+import * as Moment from "moment";
 
 export default interface ITimetableEvent {
     groups: number[];
     name: string;
     lecturer: string;
-    type: TimetableEventType;
+    type: string;
     room: string;
-    startTime: Date;
+    startTime: Moment.Moment;
     duration: number;
     comment?: string;
 }

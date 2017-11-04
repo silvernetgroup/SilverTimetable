@@ -2,7 +2,7 @@ import * as React from "react";
 import Timetable from "../Timetable";
 import ITimetable from "../../models/ITimetable";
 import ITimetableFilters from "../../models/ITimetableFilters";
-import { TimetableEventType } from "../../models/TimetableEventType";
+import * as Moment from "moment";
 
 export default class Main extends React.Component {
     render(): JSX.Element {
@@ -29,54 +29,54 @@ export default class Main extends React.Component {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("8:45"),
+                                                            startTime: Moment.utc("8:45","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("10:30"),
+                                                            startTime: Moment.utc("10:30","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("14:00"),
+                                                            startTime: Moment.utc("14:00","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "3/40",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [3, 4],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "3/83",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [5, 6],
                                                             name: "Podstawy analizy matematycznej",
                                                             lecturer: "J. Bojarski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "1/78",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         }
                                                     ]
@@ -88,18 +88,18 @@ export default class Main extends React.Component {
                                                             groups: [3, 4],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "3/83",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [5, 6],
                                                             name: "Podstawy analizy matematycznej",
                                                             lecturer: "J. Bojarski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "1/78",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         }
                                                     ]
@@ -111,18 +111,18 @@ export default class Main extends React.Component {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("14:00"),
+                                                            startTime: Moment.utc("14:00","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
-                                                            type: TimetableEventType.activities,
+                                                            type: "ćwiczenia",
                                                             room: "3/40",
-                                                            startTime: new Date("15:30"),
+                                                            startTime: Moment.utc("15:30","HH:mm"),
                                                             duration: 90
                                                         }
                                                     ]
@@ -134,18 +134,18 @@ export default class Main extends React.Component {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("8:45"),
+                                                            startTime: Moment.utc("8:45","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("10:30"),
+                                                            startTime: Moment.utc("10:30","HH:mm"),
                                                             duration: 90
                                                         }
                                                     ]
@@ -157,18 +157,18 @@ export default class Main extends React.Component {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("8:45"),
+                                                            startTime: Moment.utc("8:45","HH:mm"),
                                                             duration: 90
                                                         },
                                                         {
                                                             groups: [1, 2, 3, 4, 5, 6],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
-                                                            type: TimetableEventType.lecture,
+                                                            type: "wykład",
                                                             room: "Aula IV",
-                                                            startTime: new Date("10:30"),
+                                                            startTime: Moment.utc("10:30","HH:mm"),
                                                             duration: 90
                                                         }
                                                     ]
