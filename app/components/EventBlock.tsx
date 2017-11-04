@@ -44,10 +44,12 @@ export default class EventBlock extends React.Component<IProps, IState> {
             backgroundColor: this.getBgColor(this.props.type),
             width: "100%",
             position: "absolute",
-            top: ((startTime.hours() * 60 + startTime.minutes() - 480) / 15) * this.basicBlockHeight
+            top: ((startTime.hours() * 60 + startTime.minutes() - 480) / 15) * this.basicBlockHeight,
+            borderRadius: 20,
+            paddingLeft: 10
         };
         return (
-            <Paper style={style} zDepth={3}>
+            <Paper style={style} zDepth={2}>
                 <h2>{this.props.name}</h2>
                 <h3>{startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}</h3>
                 <h3>{this.props.type}</h3>
