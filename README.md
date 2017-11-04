@@ -4,10 +4,10 @@ Musisz miec zainstalowane node.js i PhoneGap Desktop oraz edytor kodu, najlepiej
 
 1. Sklonuj repozytorium
 2. Przełącz na branch "develop"
-3. Wpisz w terminalu w folderze projektu:
-    "npm install"
-    "npm install -g webpack"
-    "webpack"
+3. Wpisz w terminalu w folderze projektu:  
+    "npm install"  
+    "npm install -g webpack"  
+    "webpack"  
 4. W PhoneGap Desktop dodaj "existing project" i wybierz folder projektu
 5. Doinstaluj do VS Code lub innego edytora dodatek TSLint i zrestartuj VS Code(reload nie wystarczy)
 6. Jeżeli błędy w kodzie nie podkreślają się na czerwono, wpisz jeszcze "npm install -g tslint" i zrestartuj edytor
