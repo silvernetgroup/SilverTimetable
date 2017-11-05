@@ -19,6 +19,9 @@ import Time from 'material-ui-icons/AccessTime';
 import Notifications from 'material-ui-icons/Notifications';
 import Download from 'material-ui-icons/CloudDownload';
 
+//AppBar
+import SettingsAppBar from '../settingsComponents/SettingsAppBar';
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -79,6 +82,14 @@ export default class Settings extends React.Component {
       'padding-top': '0px'
     }
 
+    const topBar = {
+      statusBar: {
+        height: '20px',
+        width: '100%',
+        'background-color': 'red'
+    }
+    }
+
     let inputfield = null;
     if (nofityOn) {
       inputfield = (
@@ -101,7 +112,10 @@ export default class Settings extends React.Component {
       );
     }
     return (
+      <div>
+       <SettingsAppBar />
       <div className="Powiadomienia">
+        
         <List subheader={<ListSubheader>Powiadomienia</ListSubheader>}>
           <ListItem>
             <ListItemIcon>
@@ -134,7 +148,7 @@ export default class Settings extends React.Component {
             <ListItemIcon>
               <Download />
             </ListItemIcon>
-            <ListItemText primary="Zapisuj plan na urządzeniu" />
+            <ListItemText primary="Zapisuj na urządzeniu" />
             <ListItemSecondaryAction>
               <Switch
                 onChange={this.handleToggle('offline')}
@@ -143,6 +157,7 @@ export default class Settings extends React.Component {
             </ListItemSecondaryAction>
           </ListItem>
         </List>
+      </div>
       </div>
     );
   }
