@@ -43,7 +43,7 @@ export default class EventBlock extends React.Component<IProps, IState> {
             height: this.basicBlockHeight * (duration / 15),
             backgroundColor: this.getBgColor(this.props.type),
             width: "100%",
-            position: "absolute",
+            position: "relative",
             top: ((startTime.hours() * 60 + startTime.minutes() - 480) / 15) * this.basicBlockHeight,
             borderRadius: 20,
             paddingLeft: 10

@@ -61,8 +61,12 @@ export default class Timetable extends React.Component<IProps, IState> {
             .map((day, index) => {
                 return (
                     day.events.length > 0 &&
-                    <Tab key={day.name} label={day.name}>
-                        <Tabs>
+                    <Tab key={day.name} label={day.name} style={{ height: "calc(100% - 48px)" }}>
+                        <Tabs
+                            style={{ height: "100%" }}
+                            tabTemplateStyle={{ height: "100%" }}
+                            contentContainerStyle={{ height: "calc(100% - 48px)" }}
+                        >
                             {this.renderGroupsTabs(data, filters, index)}
                         </Tabs>
                     </Tab>
@@ -77,7 +81,9 @@ export default class Timetable extends React.Component<IProps, IState> {
                 return filters.groups.map((group) => {
                     return (
                         <Tab key={group} label={group}>
-                            {this.renderEventBlocks(data, filters, dayIndex, group)}
+                            <div className="event-blocks-container">
+                                {this.renderEventBlocks(data, filters, dayIndex, group)}
+                            </div>
                         </Tab>
                     );
                 });
@@ -103,7 +109,9 @@ export default class Timetable extends React.Component<IProps, IState> {
             return Array.from(groupNumbersSet).map((group) => {
                 return (
                     <Tab key={group} label={group}>
-                        {this.renderEventBlocks(data, filters, dayIndex, group)}
+                        <div className="event-blocks-container">
+                            {this.renderEventBlocks(data, filters, dayIndex, group)}
+                        </div>
                     </Tab>
                 );
             });
@@ -128,7 +136,7 @@ export default class Timetable extends React.Component<IProps, IState> {
             .events
             .map((event, index) => {
                 return (
-                    event.groups.indexOf(group)!==-1&&
+                    event.groups.indexOf(group) !== -1 &&
                     <EventBlock
                         key={index}
                         name={event.name}
@@ -143,9 +151,11 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     render(): JSX.Element {
         return (
-            <Tabs>
-                {this.renderDayTabs(this.props.data, this.props.filters)}
-            </Tabs>
+            <div className="timetable-container">
+                <Tabs style={{ height: "100%" }} tabTemplateStyle={{ height: "100%" }} contentContainerStyle={{ height: "calc(100% - 48px)" }}>
+                    {this.renderDayTabs(this.props.data, this.props.filters)}
+                </Tabs>
+            </div>
         );
     }
 }
