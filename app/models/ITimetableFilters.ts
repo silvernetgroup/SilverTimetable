@@ -3,5 +3,5 @@ export default interface ITimetableFilters {
     degree: string;
     mode: string;
     semester: number;
-    groups?: number[];
+    // groups?: number[];
 }

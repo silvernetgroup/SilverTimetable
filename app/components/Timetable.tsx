@@ -76,46 +76,32 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     renderGroupsTabs(data: ITimetable, filters: ITimetableFilters, dayIndex: number): JSX.Element[] {
 
-        if (filters.groups) {
-            if (filters.groups.length > 0) {
-                return filters.groups.map((group) => {
-                    return (
-                        <Tab key={group} label={group}>
-                            <div className="event-blocks-container">
-                                {this.renderEventBlocks(data, filters, dayIndex, group)}
-                            </div>
-                        </Tab>
-                    );
-                });
-            }
-        } else {
-            let {
-                fieldOfStudyIndex,
-                degreeIndex,
-                modeIndex,
-                semesterIndex
-            } = this.filterIndexes(data, filters);
+        let {
+            fieldOfStudyIndex,
+            degreeIndex,
+            modeIndex,
+            semesterIndex
+        } = this.filterIndexes(data, filters);
 
-            let groupNumbers: number[] = [];
+        let groupNumbers: number[] = [];
 
-            data.fieldsOfStudy[fieldOfStudyIndex].degrees[degreeIndex].modes[modeIndex].semesters[semesterIndex].days.forEach(day => {
-                day.events.forEach(event => {
-                    groupNumbers.push(...event.groups);
-                });
+        data.fieldsOfStudy[fieldOfStudyIndex].degrees[degreeIndex].modes[modeIndex].semesters[semesterIndex].days.forEach(day => {
+            day.events.forEach(event => {
+                groupNumbers.push(...event.groups);
             });
+        });
 
-            let groupNumbersSet: Set<number> = new Set(groupNumbers);
+        let groupNumbersSet: Set<number> = new Set(groupNumbers);
 
-            return Array.from(groupNumbersSet).map((group) => {
-                return (
-                    <Tab key={group} label={group}>
-                        <div className="event-blocks-container">
-                            {this.renderEventBlocks(data, filters, dayIndex, group)}
-                        </div>
-                    </Tab>
-                );
-            });
-        }
+        return Array.from(groupNumbersSet).map((group) => {
+            return (
+                <Tab key={group} label={group}>
+                    <div className="event-blocks-container">
+                        {this.renderEventBlocks(data, filters, dayIndex, group)}
+                    </div>
+                </Tab>
+            );
+        });
     }
 
     renderEventBlocks(data: ITimetable, filters: ITimetableFilters, dayIndex: number, group: number): JSX.Element[] {
