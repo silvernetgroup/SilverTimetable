@@ -15,15 +15,19 @@
     "webpack": "^3.8.1"
   },
   "dependencies": {
+    "@types/cordova": "0.0.34",
     "@types/react": "^16.0.18",
+    "android": "0.0.8",
     "cordova-android": "^6.3.0",
+    "cordova-plugin-device": "^1.1.6",
     "cordova-plugin-inappbrowser": "^1.7.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-device": {}
     },
     "platforms": [
       "android"

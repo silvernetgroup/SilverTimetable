@@ -11,4 +11,5 @@
     <access origin="*" />
     <engine name="android" spec="^6.3.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />
+    <plugin name="cordova-plugin-device" spec="^1.1.6" />
 </widget>
