@@ -16,11 +16,17 @@
   },
   "dependencies": {
     "@types/react": "^16.0.18",
+    "cordova-android": "^6.3.0",
+    "cordova-plugin-inappbrowser": "^1.7.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "cordova": {
-    "plugins": {},
-    "platforms": []
+    "plugins": {
+      "cordova-plugin-inappbrowser": {}
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }
