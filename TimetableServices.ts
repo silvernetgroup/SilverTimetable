@@ -1,9 +1,9 @@
 export class TimeTableServices {
 
     constructor(){}
-     downloadTimetableFile(/*url: string*/) {
+     public static downloadTimetableFile(url: string) {
         var xhttp = new XMLHttpRequest();
-        //xhttp.open('GET', url, true);
+        xhttp.open('GET', url, true);
         xhttp.send(null)
         return xhttp.responseText
 
