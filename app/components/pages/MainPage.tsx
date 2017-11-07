@@ -1,5 +1,4 @@
 import * as React from "react";
-import App from "./App";
 
 export default class MainPage extends React.Component {
     render(): JSX.Element {
