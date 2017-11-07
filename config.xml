@@ -9,6 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <engine name="browser" spec="^5.0.1" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0" />
+    <engine name="browser" spec="^5.0.1" />
+    <engine name="android" spec="~6.3.0" />
 </widget>

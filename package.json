@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@types/react": "^16.0.18",
+    "cordova-android": "^6.3.0",
     "cordova-browser": "^5.0.1",
     "phonegap-plugin-push": "^2.1.0",
     "react": "^16.0.0",
@@ -24,10 +25,13 @@
   },
   "cordova": {
     "plugins": {
-      "phonegap-plugin-push": {}
+      "phonegap-plugin-push": {
+        "FCM_VERSION": "11.0.1"
+      }
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
