@@ -16,12 +16,20 @@
   },
   "dependencies": {
     "@types/react": "^16.0.18",
+    "cordova-android": "^6.3.0",
+    "phonegap-plugin-push": "^2.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2"
   },
   "cordova": {
-    "plugins": {},
-    "platforms": []
+    "plugins": {
+      "phonegap-plugin-push": {
+        "FCM_VERSION": "11.0.1"
+      }
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
-import MainPage from "./MainPage";
-import SettingsPage from "./SettingsPage";
-import FloorPage from "./FloorPage";
-import FilteringPage from "./FilteringPage";
+import MainPage from "./Pages/MainPage";
+import SettingsPage from "./Pages/SettingsPage";
+import FloorPage from "./Pages/FloorPage";
+import FilteringPage from "./Pages/FilteringPage";
 
 export default class App extends React.Component {
     render(): JSX.Element {
