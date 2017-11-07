@@ -1,7 +1,7 @@
 import * as React from "react";
 import App from "./App";
 
-export default class Settings extends React.Component {
+export default class SettingsPage extends React.Component {
     render(): JSX.Element{
         return (
             <div>
