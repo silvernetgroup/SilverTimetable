@@ -6,11 +6,12 @@ import TextField from "material-ui/TextField";
 
 export default class App extends React.Component {
     render(): JSX.Element {
+        let result = new TimeTableServices.TimeTableServices();
         return (
             // <h1>Silver Timetable</h1>
             <MuiThemeProvider>
                 <div>
-                    <TextField id="text" value="DUPSKO" />
+                    {"Test"/*result.downloadTimetableFile("https://www.ifj.edu.pl/private/krawczyk/kurshtml/odsylacz/przyklad.txt")*/}
                 </div>
             </MuiThemeProvider>
         );

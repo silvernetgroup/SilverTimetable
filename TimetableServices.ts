@@ -1,17 +1,11 @@
 export class TimeTableServices {
 
-    SERVER_URL: string
-
-    constructor(){
-        this.SERVER_URL=""
-    }
-
-
-    public DownloadTimetableFile() {
+    constructor(){}
+     downloadTimetableFile(/*url: string*/) {
         var xhttp = new XMLHttpRequest();
-        xhttp.open('GET', this.SERVER_URL, true);
+        //xhttp.open('GET', url, true);
         xhttp.send(null)
         return xhttp.responseText
-        
+
     }
 }
