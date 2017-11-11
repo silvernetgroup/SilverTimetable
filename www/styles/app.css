@@ -9,7 +9,7 @@ body, html, .app-container{
 }
 
 .event-blocks-container{
-    overflow: auto;    
+    overflow-y: auto;      
     height: 100%;
 }
 

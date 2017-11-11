@@ -1,7 +1,7 @@
 import * as Moment from "moment";
 
 export default interface ITimetableEvent {
-    groups: number[];
+    groups: string[];
     name: string;
     lecturer: string;
     type: string;

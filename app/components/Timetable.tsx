@@ -1,8 +1,9 @@
 import * as React from "react";
 import ITimetable from "../models/ITimetable";
 import ITimetableFilters from "../models/ITimetableFilters";
-import { Tab, Tabs } from "material-ui/Tabs";
+import Tabs, { Tab } from "material-ui/Tabs";
 import EventBlock from "./EventBlock";
+import AppBar from "material-ui/AppBar";
 
 interface IProps {
     data: ITimetable;
@@ -10,10 +11,19 @@ interface IProps {
 }
 
 interface IState {
-
+    selectedDayIndex: number;
+    selectedGroupIndex: number;
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
+
+    constructor() {
+        super();
+        this.state = {
+            selectedDayIndex: 0,
+            selectedGroupIndex: 0
+        };
+    }
 
     filterIndexes(data: ITimetable, filters: ITimetableFilters): {
         fieldOfStudyIndex: number,
@@ -43,7 +53,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         );
     }
 
-    renderDayTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+    renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
 
         let {
             fieldOfStudyIndex,
@@ -52,62 +62,55 @@ export default class Timetable extends React.Component<IProps, IState> {
             semesterIndex
         } = this.filterIndexes(data, filters);
 
-        return data
-            .fieldsOfStudy[fieldOfStudyIndex]
-            .degrees[degreeIndex]
-            .modes[modeIndex]
-            .semesters[semesterIndex]
-            .days
-            .map((day, index) => {
-                return (
-                    day.events.length > 0 &&
-                    <Tab key={day.name} label={day.name} style={{ height: "calc(100% - 48px)" }}>
-                        <Tabs
-                            style={{ height: "100%" }}
-                            tabTemplateStyle={{ height: "100%" }}
-                            contentContainerStyle={{ height: "calc(100% - 48px)" }}
-                        >
-                            {this.renderGroupsTabs(data, filters, index)}
-                        </Tabs>
-                    </Tab>
-                );
-            });
-    }
-
-    renderGroupsTabs(data: ITimetable, filters: ITimetableFilters, dayIndex: number): JSX.Element[] {
-
-        let {
-            fieldOfStudyIndex,
-            degreeIndex,
-            modeIndex,
-            semesterIndex
-        } = this.filterIndexes(data, filters);
-
-        let groupNumbers: number[] = [];
+        let groupNames: string[] = [];
 
         data.fieldsOfStudy[fieldOfStudyIndex].degrees[degreeIndex].modes[modeIndex].semesters[semesterIndex].days.forEach(day => {
             day.events.forEach(event => {
-                groupNumbers.push(...event.groups);
+                groupNames.push(...event.groups);
             });
         });
 
-        let groupNumbersSet: Set<number> = new Set(groupNumbers);
+        let groupNamesSet: Set<string> = new Set(groupNames);
 
-        return Array.from(groupNumbersSet).map((group) => {
-            return (
-                <Tab key={group} label={group}>
-                    <div className="event-blocks-container">
-                        {this.renderEventBlocks(data, filters, dayIndex, group)}
-                    </div>
-                </Tab>
-            );
-        });
+        return (
+            <div>
+                <Tabs value={this.state.selectedGroupIndex} onChange={this.handleGroupChange}>
+                    {
+                        Array.from(groupNamesSet).map((group) => {
+                            return (
+                                <Tab label={group} />
+                            );
+                        })
+                    }
+                </Tabs>
+                {this.renderEventBlocks(data, filters, selectedDayIndex, groupNames[this.state.selectedGroupIndex])}
+            </div>
+        );
     }
 
-    renderEventBlocks(data: ITimetable, filters: ITimetableFilters, dayIndex: number, group: number): JSX.Element[] {
+    //     renderGroupsTabs(data: ITimetable, filters: ITimetableFilters, dayIndex: number): JSX.Element[] {
+
+    //         let {
+    //                 fieldOfStudyIndex,
+    //             degreeIndex,
+    //             modeIndex,
+    //             semesterIndex
+    //         } = this.filterIndexes(data, filters);
+
+
+
+    //         return
+    //     }).concat(
+    //             <div className = "event-blocks-container" >
+    //             { this.renderEventBlocks(data, filters, dayIndex, groupNames[this.state.selectedGroupIndex]) }
+    //                 </div>
+    //                 );
+    // }
+
+    renderEventBlocks(data: ITimetable, filters: ITimetableFilters, dayIndex: number, group: string): JSX.Element[] {
 
         let {
-            fieldOfStudyIndex,
+                fieldOfStudyIndex,
             degreeIndex,
             modeIndex,
             semesterIndex
@@ -135,12 +138,32 @@ export default class Timetable extends React.Component<IProps, IState> {
             });
     }
 
+    handleDayChange = (event: any, value: any) => {
+        this.setState({ selectedDayIndex: value });
+    }
+
+    handleGroupChange = (event: any, value: any) => {
+        this.setState({ selectedGroupIndex: value });
+    }
+
     render(): JSX.Element {
         return (
             <div className="timetable-container">
-                <Tabs style={{ height: "100%" }} tabTemplateStyle={{ height: "100%" }} contentContainerStyle={{ height: "calc(100% - 48px)" }}>
-                    {this.renderDayTabs(this.props.data, this.props.filters)}
-                </Tabs>
+                <AppBar style={{ position: "relative", width: "100%" }}>
+                    <Tabs fullWidth value={this.state.selectedDayIndex} onChange={this.handleDayChange} style={{ width: "100%" }}>
+
+
+                        <Tab label="Pon" />
+                        <Tab label="Wt" />
+                        <Tab label="Śr" />
+                        <Tab label="Czw" />
+                        <Tab label="Pt" />
+
+
+
+                    </Tabs>
+                </AppBar>
+                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDayIndex)}
             </div>
         );
     }
