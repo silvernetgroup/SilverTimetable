@@ -5,6 +5,14 @@ import SettingsPage from "./Pages/SettingsPage";
 import FloorPage from "./Pages/FloorPage";
 import FilteringPage from "./Pages/FilteringPage";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import * as Colors from "material-ui/colors";
+import createMuiTheme from "material-ui/styles/createMuiTheme";
+
+const theme: any = createMuiTheme({
+    palette: {
+        secondary: Colors.yellow
+    }
+});
 
 export default class App extends React.Component {
     render(): JSX.Element {

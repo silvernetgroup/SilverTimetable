@@ -27,8 +27,10 @@ export default class EventBlock extends React.Component<IProps, IState> {
             padding: 10,
             margin: 10
         };
+
+
         return (
-            <Paper style={style} zDepth={1}>
+            <Paper style={style} {...{ elevation: 1 } as any}>
                 {this.props.name} <br />
                 {this.props.type} {startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}<br />
                 {this.props.room} - {this.props.lecturer}<br />

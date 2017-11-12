@@ -10,7 +10,8 @@ body, html, .app-container{
 
 .event-blocks-container{
     overflow-y: auto;      
-    height: 100%;
+    flex: 1;
+    background-color: #D8D8D8;
 }
 
 .app-container{    
@@ -20,12 +21,14 @@ body, html, .app-container{
 }
 
 .main-page-container{
-    flex: 0.95;  
+    flex: 1;  
     display: flex;
     flex-direction: column; 
 }
 
 .timetable-container{
+    display: flex;
+    flex-direction: column;
     flex: 1;  
-    min-height: 0;      
+    min-height: 0;         
 }

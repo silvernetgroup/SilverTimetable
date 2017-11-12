@@ -5,6 +5,7 @@ import ITimetableFilters from "../../models/ITimetableFilters";
 import * as Moment from "moment";
 
 export default class MainPage extends React.Component {
+
     render(): JSX.Element {
 
         let data: ITimetable = {
