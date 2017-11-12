@@ -27,7 +27,7 @@ export default class MainPage extends React.Component {
                                                     name: "Poniedzialek",
                                                     events: [
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
                                                             type: "wykład",
@@ -36,7 +36,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
                                                             type: "wykład",
@@ -45,7 +45,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
                                                             type: "wykład",
@@ -54,7 +54,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2],
+                                                            groups: ["1", "2"],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
                                                             type: "ćwiczenia",
@@ -63,7 +63,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [3, 4],
+                                                            groups: ["3", "4"],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
                                                             type: "ćwiczenia",
@@ -72,7 +72,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [5, 6],
+                                                            groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
                                                             lecturer: "J. Bojarski",
                                                             type: "ćwiczenia",
@@ -86,7 +86,7 @@ export default class MainPage extends React.Component {
                                                     name: "Wtorek",
                                                     events: [
                                                         {
-                                                            groups: [3, 4],
+                                                            groups: ["3", "4","ISI1"],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
                                                             type: "ćwiczenia",
@@ -95,7 +95,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [5, 6],
+                                                            groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
                                                             lecturer: "J. Bojarski",
                                                             type: "ćwiczenia",
@@ -109,7 +109,7 @@ export default class MainPage extends React.Component {
                                                     name: "Środa",
                                                     events: [
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
                                                             type: "wykład",
@@ -118,7 +118,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2],
+                                                            groups: ["1", "2"],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
                                                             type: "ćwiczenia",
@@ -132,7 +132,7 @@ export default class MainPage extends React.Component {
                                                     name: "Czwartek",
                                                     events: [
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
                                                             type: "wykład",
@@ -141,7 +141,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
                                                             type: "wykład",
@@ -155,7 +155,7 @@ export default class MainPage extends React.Component {
                                                     name: "Piątek",
                                                     events: [
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
                                                             type: "wykład",
@@ -164,7 +164,7 @@ export default class MainPage extends React.Component {
                                                             duration: 90
                                                         },
                                                         {
-                                                            groups: [1, 2, 3, 4, 5, 6],
+                                                            groups: ["1", "2", "3", "4", "5", "6"],
                                                             name: "Podstawy fizyki",
                                                             lecturer: "Andrzej Zembrzuski",
                                                             type: "wykład",

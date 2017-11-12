@@ -11,8 +11,8 @@ interface IProps {
 }
 
 interface IState {
-    selectedDayIndex: number;
-    selectedGroupIndex: number;
+    selectedDay: number;
+    selectedGroup: string;
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
@@ -20,8 +20,8 @@ export default class Timetable extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.state = {
-            selectedDayIndex: 0,
-            selectedGroupIndex: 0
+            selectedDay: 0,
+            selectedGroup: props.data.fieldsOfStudy[0].degrees[0].modes[0].semesters[0].days[0].events[0].groups[0]
         };
     }
 
@@ -76,7 +76,7 @@ export default class Timetable extends React.Component<IProps, IState> {
             <div style={{ display: "flex", flexDirection: "column" }}>
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
-                        value={this.state.selectedGroupIndex}
+                        value={this.state.selectedGroup}
                         onChange={this.handleGroupChange}
                         fullWidth
                         scrollable
@@ -85,7 +85,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                         {
                             Array.from(groupNamesSet).map((group) => {
                                 return (
-                                    <Tab label={group} key={group} />
+                                    <Tab label={group} key={group} value={group} />
                                 );
                             })
                         }
@@ -93,7 +93,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                 </AppBar>
 
                 <div className="event-blocks-container">
-                    {this.renderEventBlocks(data, filters, selectedDayIndex, groupNames[this.state.selectedGroupIndex])}
+                    {this.renderEventBlocks(data, filters, selectedDayIndex, this.state.selectedGroup)}
                 </div>
             </div >
 
@@ -132,11 +132,11 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     handleDayChange = (event: any, value: any) => {
-        this.setState({ selectedDayIndex: value });
+        this.setState({ selectedDay: value });
     }
 
     handleGroupChange = (event: any, value: any) => {
-        this.setState({ selectedGroupIndex: value });
+        this.setState({ selectedGroup: value });
     }
 
     render(): JSX.Element {
@@ -144,7 +144,7 @@ export default class Timetable extends React.Component<IProps, IState> {
             <div className="timetable-container">
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
-                        value={this.state.selectedDayIndex}
+                        value={this.state.selectedDay}
                         onChange={this.handleDayChange}
                         scrollable
                         fullWidth
@@ -157,7 +157,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                         <Tab label="Pt" />
                     </Tabs>
                 </AppBar>
-                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDayIndex)}
+                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
             </div>
         );
     }
