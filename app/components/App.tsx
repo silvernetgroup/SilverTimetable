@@ -7,6 +7,14 @@ import FilteringPage from "./Pages/FilteringPage";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
+import * as ReactDOM from "react-dom";
+
+// Config
+import * as config from 'react-global-configuration';
+import configuration from '../Config';
+
+// Components
+import Settings from "./pages/Settings";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -15,6 +23,12 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
+
+  constructor() {
+        super();
+        config.set(configuration, { freeze: false });
+      }
+      
     public render(): JSX.Element {
         return (
             <Router>
@@ -36,6 +50,6 @@ export default class App extends React.Component {
                     </Switch>
                 </div>
             </Router>
-        );
-    }
+    
+    
 }

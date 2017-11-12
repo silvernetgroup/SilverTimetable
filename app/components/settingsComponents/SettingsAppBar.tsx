@@ -52,7 +52,7 @@ function ButtonAppBar(props) {
                 <ArrowBack />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
-                Settings
+                Ustawienia
             </Typography>
             </Toolbar>
         </AppBar>
@@ -60,6 +60,5 @@ function ButtonAppBar(props) {
     </div>
   );
 }
-
 
 export default withStyles(styles)(ButtonAppBar);

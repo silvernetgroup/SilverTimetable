@@ -14,14 +14,16 @@
   },
   "dependencies": {
     "@types/react": "^16.0.18",
+    "material-ui": "^1.0.0-beta.20",
+    "material-ui-icons": "^1.0.0-beta.17",
     "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.2.1",
     "cordova-android": "^6.3.0",
-    "material-ui": "^1.0.0-beta.20",
     "moment": "^2.19.1",
     "phonegap-plugin-push": "^2.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-global-configuration": "^1.2.0",
     "typeface-roboto": "0.0.43"
     "react-router-dom": "^4.2.2"
   },
