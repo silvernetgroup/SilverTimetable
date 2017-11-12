@@ -19,9 +19,12 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
+
+        let groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
+
         this.state = {
             selectedDay: 0,
-            selectedGroup: props.data.fieldsOfStudy[0].degrees[0].modes[0].semesters[0].days[0].events[0].groups[0]
+            selectedGroup: Array.from(groupNamesSet).sort()[0]
         };
     }
 
@@ -53,7 +56,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         );
     }
 
-    renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
+    generateGroupNamesSet(data: ITimetable, filters: ITimetableFilters): Set<string> {
 
         let {
             fieldOfStudyIndex,
@@ -70,7 +73,12 @@ export default class Timetable extends React.Component<IProps, IState> {
             });
         });
 
-        let groupNamesSet: Set<string> = new Set(groupNames);
+        return new Set(groupNames);
+    }
+
+    renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
+
+        let groupNamesSet: Set<string> = this.generateGroupNamesSet(data, filters);
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -83,7 +91,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                         {...{} as any}
                     >
                         {
-                            Array.from(groupNamesSet).map((group) => {
+                            Array.from(groupNamesSet).sort().map((group) => {
                                 return (
                                     <Tab label={group} key={group} value={group} />
                                 );
