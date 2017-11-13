@@ -4,10 +4,12 @@ import ITimetableFilters from "../models/ITimetableFilters";
 import Tabs, { Tab } from "material-ui/Tabs";
 import EventBlock from "./EventBlock";
 import AppBar from "material-ui/AppBar";
+import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
+    onEventBlockClick(event: ITimetableEvent): void;
 }
 
 interface IState {
@@ -134,7 +136,8 @@ export default class Timetable extends React.Component<IProps, IState> {
                         type={event.type}
                         room={event.room}
                         duration={event.duration}
-                        startTime={event.startTime} />
+                        startTime={event.startTime}
+                        onClick={() => this.props.onEventBlockClick(event)} />
                 );
             });
     }

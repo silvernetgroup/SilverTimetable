@@ -1,6 +1,7 @@
 import * as React from "react";
 import Paper from "material-ui/Paper";
 import * as Moment from "moment";
+import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
     name: string;
@@ -10,6 +11,7 @@ interface IProps {
     duration: number;
     comment?: string;
     startTime: Moment.Moment;
+    onClick(event: ITimetableEvent): void;
 }
 
 interface IState {
@@ -30,7 +32,7 @@ export default class EventBlock extends React.Component<IProps, IState> {
 
 
         return (
-            <Paper style={style} {...{ elevation: 1 } as any}>
+            <Paper style={style} elevation={1} onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}  {...{} as any}>
                 {this.props.name} <br />
                 {this.props.type} {startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}<br />
                 {this.props.room} - {this.props.lecturer}<br />
