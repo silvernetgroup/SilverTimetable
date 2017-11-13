@@ -9,6 +9,8 @@ import ITimetableEvent from "../models/ITimetableEvent";
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
+    defaultDay?: number;
+    defaultGroup?: string;
     onEventBlockClick(event: ITimetableEvent): void;
 }
 
@@ -25,8 +27,8 @@ export default class Timetable extends React.Component<IProps, IState> {
         let groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
 
         this.state = {
-            selectedDay: 0,
-            selectedGroup: Array.from(groupNamesSet).sort()[0]
+            selectedDay: props.defaultDay||0,
+            selectedGroup: props.defaultGroup||Array.from(groupNamesSet).sort()[0]
         };
     }
 

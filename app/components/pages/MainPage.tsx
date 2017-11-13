@@ -201,7 +201,13 @@ export default class MainPage extends React.Component {
         return (
             <div className="main-page-container">
                 <h1 style={{ margin: 0 }}>Plan zajęć</h1>
-                <Timetable data={data} filters={filters} onEventBlockClick={(event) => this.handleEventBlockClick(event)} />
+                <Timetable
+                    data={data}
+                    filters={filters}
+                    // defaultDay={3}
+                    // defaultGroup="3"
+                    onEventBlockClick={(event) => this.handleEventBlockClick(event)}
+                />
             </div>
         );
     }
