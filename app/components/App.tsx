@@ -23,9 +23,8 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
-
-  constructor() {
-        super();
+    constructor(props) {
+        super(props);
         config.set(configuration, { freeze: false });
       }
       
