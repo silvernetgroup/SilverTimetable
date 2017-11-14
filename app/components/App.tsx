@@ -1,12 +1,12 @@
 import * as React from "react";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import FilteringPage from "./Pages/FilteringPage";
+import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
-import FloorPage from "./Pages/FloorPage";
-import FilteringPage from "./Pages/FilteringPage";
 
 export default class App extends React.Component {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <Router>
                 <div className="App">
@@ -23,7 +23,7 @@ export default class App extends React.Component {
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
-                        <Route path="/floor" component={FloorPage} />
+                        <Route path="/floor" render={() => <FloorPage pinpointCoordinates={{ x: 50, y: 20}}/>} />
                     </Switch>
                 </div>
             </Router>
