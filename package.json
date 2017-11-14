@@ -18,10 +18,7 @@
     "@types/react-router-dom": "^4.2.1",
     "cordova-android": "^6.3.0",
     "material-ui": "^1.0.0-beta.20",
-<<<<<<< HEAD
     "moment": "^2.19.1",
-=======
->>>>>>> 294da4a2a1b971387bc4e5a935c63da14e2fec53
     "phonegap-plugin-push": "^2.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",

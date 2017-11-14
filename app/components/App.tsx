@@ -7,15 +7,12 @@ import FilteringPage from "./Pages/FilteringPage";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
-<<<<<<< HEAD
 
 const theme: any = createMuiTheme({
     palette: {
         secondary: Colors.yellow,
     },
 });
-=======
->>>>>>> 294da4a2a1b971387bc4e5a935c63da14e2fec53
 
 export default class App extends React.Component {
     public render(): JSX.Element {
