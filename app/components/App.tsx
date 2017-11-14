@@ -14,7 +14,7 @@ import * as config from 'react-global-configuration';
 import configuration from '../Config';
 
 // Components
-import Settings from "./pages/Settings";
+import Settings from "./pages/SettingsPage";
 
 const theme: any = createMuiTheme({
     palette: {

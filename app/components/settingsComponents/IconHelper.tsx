@@ -4,6 +4,7 @@ import * as React from 'react';
 import Time from 'material-ui-icons/AccessTime';
 import Notifications from 'material-ui-icons/Notifications';
 import Download from 'material-ui-icons/CloudDownload';
+import Top from 'material-ui-icons/VerticalAlignTop';
 
 interface IProps {
     iconName: string;
@@ -16,6 +17,8 @@ function SetIcon(props) {
         return <Notifications />;
     } else if (props === "Download") {
         return <Download />;
+    } else if (props === "Top") {
+        return <Top />;
     }
 }
 

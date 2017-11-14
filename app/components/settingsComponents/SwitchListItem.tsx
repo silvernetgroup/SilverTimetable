@@ -90,6 +90,12 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
           config.set({ offline: false});
         break;
 
+      case "Top":
+        if (currentIndex === -1)
+          config.set({ showGroupChange: true});
+        else
+          config.set({ showGroupChange: false});
+
       default:
         break;
     }

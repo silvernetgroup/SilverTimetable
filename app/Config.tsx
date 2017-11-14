@@ -4,7 +4,8 @@ const config = {
   filterGrupa: 0,
   notificationNewVersion: true,
   notificationBeforeClass: 0,
-  offline: true
+  offline: true,
+  showGroupChange: false
 };
 
 export default config;

@@ -28,7 +28,8 @@ const styles = theme => ({
       height: '24px',
       width: '100%',
       'background-color': '#303F9F',
-      right: 0
+      right: 0,
+      'z-index': 1100,
   }
 
 });
