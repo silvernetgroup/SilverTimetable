@@ -3,6 +3,7 @@ import ITimetable from "../models/ITimetable";
 import ITimetableFilters from "../models/ITimetableFilters";
 import Tabs, { Tab } from "material-ui/Tabs";
 import EventBlock from "./EventBlock";
+import BreakBlock from "./BreakBlock";
 import AppBar from "material-ui/AppBar";
 import ITimetableEvent from "../models/ITimetableEvent";
 
@@ -131,15 +132,19 @@ export default class Timetable extends React.Component<IProps, IState> {
             .map((event, index) => {
                 return (
                     event.groups.indexOf(group) !== -1 &&
-                    <EventBlock
-                        key={index}
-                        name={event.name}
-                        lecturer={event.lecturer}
-                        type={event.type}
-                        room={event.room}
-                        duration={event.duration}
-                        startTime={event.startTime}
-                        onClick={() => this.props.onEventBlockClick(event)} />
+                    <div>
+                        <EventBlock
+                            key={index}
+                            name={event.name}
+                            lecturer={event.lecturer}
+                            type={event.type}
+                            room={event.room}
+                            duration={event.duration}
+                            startTime={event.startTime}
+                            onClick={() => this.props.onEventBlockClick(event)} />
+                            
+                        <BreakBlock duration={event.startTime} />
+                    </div>
                 );
             });
     }
