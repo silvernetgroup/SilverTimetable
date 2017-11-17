@@ -26,6 +26,7 @@ export default class BreakBlock extends React.Component<IProps, IState> {
             justifyContent: 'center',
             fontWeight: 'bold',
             color: 'rgb(125,125,125)', //'rgb(74,74,74)'
+            fontSize: 15
         };
         var text = "";
         if(this.props.isStart)
@@ -46,6 +47,11 @@ export default class BreakBlock extends React.Component<IProps, IState> {
                 text = "brak";
             text += " przerwy";
         }
+
+        if(this.props.isStart)
+            style.marginTop = 8;
+        if(this.props.isEnd)
+            style.paddingBottom = 10;
 
         return (
             <div style={style}>
