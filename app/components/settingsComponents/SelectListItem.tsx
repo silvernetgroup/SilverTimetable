@@ -19,7 +19,7 @@ const style: any = {
 
 const padding: any = {
   padding: "16px",
-  "paddingTop": "0px"
+  paddingTop: "0px"
 };
 
 export default class SelectListItem extends React.Component<IProps, {}> {
@@ -33,13 +33,13 @@ export default class SelectListItem extends React.Component<IProps, {}> {
     this.setState({ [name]: event.target.value });
     switch (this.props.name) {
       case "Wydział":
-        config.set({ filterWydział: event.target.value });
+        config.set({ facultyFilter: event.target.value });
         break;
       case "Semestr":
-        config.set({ filterSemestr: event.target.value });
+        config.set({ semesterFilter: event.target.value });
         break;
       case "Grupa":
-        config.set({ filterGrupa: event.target.value });
+        config.set({ groupFilter: event.target.value });
         break;
       default:
         break;
