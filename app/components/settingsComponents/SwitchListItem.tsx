@@ -33,7 +33,7 @@ const style: any = {
 
 const padding: any = {
   padding: "16px",
-  "paddingTop": "0px"
+  paddingTop: "0px"
 };
 
 export default class SwitchListItem extends React.Component<IProps, {}> {
