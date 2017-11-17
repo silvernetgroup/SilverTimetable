@@ -20,8 +20,8 @@ export default class BreakBlock extends React.Component<IProps, IState> {
     render(): JSX.Element {
         const style: any = {
             height: 17,
-            marginTop: "-2px",
-            marginBottom: "-2px",
+            marginTop: "-4px",
+            marginBottom: "-4px",
             display: 'flex',
             justifyContent: 'center',
             fontWeight: 'bold',
