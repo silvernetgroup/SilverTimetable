@@ -1,11 +1,11 @@
 import * as React from "react";
-import * as config from 'react-global-configuration';
+import * as config from "react-global-configuration";
 
-// Material UI Select
-import Input, { InputLabel } from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
+// material UI Select
+import Input, { InputLabel } from "material-ui/Input";
+import { MenuItem } from "material-ui/Menu";
+import { FormControl, FormHelperText } from "material-ui/Form";
+import Select from "material-ui/Select";
 
 interface IProps {
   name: string;
@@ -13,14 +13,14 @@ interface IProps {
   enabled: boolean;
 }
 
-const style = {
-  width: '100%'
+const style: any = {
+  width: "100%"
 };
 
-const padding = {
-  padding: '16px',
-  'paddingTop': '0px'
-}
+const padding: any = {
+  padding: "16px",
+  "paddingTop": "0px"
+};
 
 export default class SelectListItem extends React.Component<IProps, {}> {
 
@@ -28,7 +28,7 @@ export default class SelectListItem extends React.Component<IProps, {}> {
     option: 0,
   };
 
-  // Select controller
+  // select controller
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
     switch (this.props.name) {
@@ -41,50 +41,46 @@ export default class SelectListItem extends React.Component<IProps, {}> {
       case "Grupa":
         config.set({ filterGrupa: event.target.value });
         break;
-    
       default:
         break;
     }
-  };
+  }
 
-  drawSelect() {
+  drawSelect(): JSX.Element {
     if (this.props.enabled) {
       return (
         <Select
           value={this.state.option}
-          onChange={this.handleChange('option')}
+          onChange={this.handleChange("option")}
           input={<Input />}
         >
           {this.props.options.map((item, index) => (
             <MenuItem value={index} key={index}>{this.props.options[index]}</MenuItem>
           ))}
         </Select>
-        
       );
     } else {
       return (
         <Select
           value={this.state.option}
-          onChange={this.handleChange('option')}
+          onChange={this.handleChange("option")}
           input={<Input />}
           disabled
         >
           <MenuItem value={0}>{this.props.options[0]}</MenuItem>
         </Select>
-        
       );
     }
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <div style={padding}>
-          <FormControl style={style}>
-            <InputLabel>{this.props.name}</InputLabel>
-            {this.drawSelect()}
-          </FormControl>
-        </div>
-      );
+        <FormControl style={style}>
+          <InputLabel>{this.props.name}</InputLabel>
+          {this.drawSelect()}
+        </FormControl>
+      </div>
+    );
   }
-
 }

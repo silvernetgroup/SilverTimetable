@@ -1,21 +1,21 @@
 import * as React from "react";
-import * as config from 'react-global-configuration';
+import * as config from "react-global-configuration";
 
-// Material UI
-import List, {ListSubheader} from 'material-ui/List';
+// material UI
+import List, {ListSubheader} from "material-ui/List";
 
-// Settings Components
-import SettingsAppBar from '../settingsComponents/SettingsAppBar';
-import SwitchListItem from '../settingsComponents/SwitchListItem';
-import SelectListItem from '../settingsComponents/SelectListItem';
+// settings Components
+import SettingsAppBar from "../settingsComponents/SettingsAppBar";
+import SwitchListItem from "../settingsComponents/SwitchListItem";
+import SelectListItem from "../settingsComponents/SelectListItem";
 
-const wydziały = ['Informatyka', 'Informatyka i ekonometria'];
-const semestry = ['Semestr I', 'Semestr III', 'Semestr V', 'Semestr VII'];
-const rodzaj = ['Stacjonarne', 'Niestacjonarne'];
-const grupy = ['1', '2', '3', '4', '5', '6'];
+const wydziały: string[] = ["Informatyka", "Informatyka i ekonometria"];
+const semestry: string[] = ["Semestr I", "Semestr III", "Semestr V", "Semestr VII"]; // todo: pobierac to z planu
+const rodzaj: string[] = ["Stacjonarne", "Niestacjonarne"];
+const grupy: string[] = ["1", "2", "3", "4", "5", "6"];
 
-export default class Settings extends React.Component {
-  render() {
+export default class SettingsPage extends React.Component {
+  render(): JSX.Element {
     return (
       <div>
         <SettingsAppBar />

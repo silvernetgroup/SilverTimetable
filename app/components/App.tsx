@@ -9,9 +9,9 @@ import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 import * as ReactDOM from "react-dom";
 
-// Config
-import * as config from 'react-global-configuration';
-import configuration from '../Config';
+// config
+import * as config from "react-global-configuration";
+import configuration from "../Config";
 
 // Components
 import Settings from "./pages/SettingsPage";
@@ -23,7 +23,7 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         config.set(configuration, { freeze: false });
       }

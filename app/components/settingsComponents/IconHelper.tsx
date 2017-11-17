@@ -1,16 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 
-// Icons
-import Time from 'material-ui-icons/AccessTime';
-import Notifications from 'material-ui-icons/Notifications';
-import Download from 'material-ui-icons/CloudDownload';
-import Top from 'material-ui-icons/VerticalAlignTop';
+// icons
+import Time from "material-ui-icons/AccessTime";
+import Notifications from "material-ui-icons/Notifications";
+import Download from "material-ui-icons/CloudDownload";
+import Top from "material-ui-icons/VerticalAlignTop";
 
 interface IProps {
     iconName: string;
 }
 
-function SetIcon(props) {
+function SetIcon(props: string): JSX.Element {
     if (props === "Time") {
         return <Time />;
     } else if (props === "Notifications") {
@@ -23,7 +23,7 @@ function SetIcon(props) {
 }
 
 export default class IconHelper extends React.Component<IProps, {}> {
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 {SetIcon(this.props.iconName)}

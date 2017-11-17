@@ -1,4 +1,4 @@
-const config = {
+const config: any = {
   filterWydział: 0,
   filterSemestr: 0,
   filterGrupa: 0,
