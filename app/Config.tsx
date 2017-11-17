@@ -1,5 +1,5 @@
 const config: any = {
-  filterWydział: 0,
+  filterFaculty: 0,
   filterSemestr: 0,
   filterGrupa: 0,
   notificationNewVersion: true,
