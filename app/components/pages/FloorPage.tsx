@@ -1,22 +1,17 @@
 import * as React from "react";
 
-interface IProps {
-    pinpointCoordinates: {x: number, y: number};
-}
 interface IState {
-    pinpointCoordinates: {x: number, y: number};
+    pinpointCoordinates: { x: number, y: number };
 }
-export default class FloorPage extends React.Component<IProps, IState> {
+export default class FloorPage extends React.Component<{}, IState> {
     private roomCoordinates = {
-        room1: {x: 50, y: 20},
-        room2: {x: 150, y: 20},
-        room3: {x: 250, y: 20},
-        room4: {x: 50, y: 125},
-        room5: {x: 250, y: 125},
+        room1: { x: 50, y: 20 },
+        room2: { x: 150, y: 20 },
+        room3: { x: 250, y: 20 },
+        room4: { x: 50, y: 125 },
+        room5: { x: 250, y: 125 },
     };
-    /**
-     *
-     */
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -35,7 +30,7 @@ export default class FloorPage extends React.Component<IProps, IState> {
             top: this.state.pinpointCoordinates.y,
             left: this.state.pinpointCoordinates.x,
         };
-        return(
+        return (
             <div style={style}>
                 <h1>Plan piętra</h1>
                 <select onChange={(e) => this.setPinpointCoordinates(e.target.value)}>
@@ -45,9 +40,9 @@ export default class FloorPage extends React.Component<IProps, IState> {
                     <option value="room4">4</option>
                     <option value="room5">5</option>
                 </select>
-                <div style={{position: "relative"}}>
+                <div style={{ position: "relative" }}>
                     <div style={pointerStyle}>x</div>
-                    <img src="res/img/floor.png" style={{width: "100%"}}/>
+                    <img src="res/img/floor.png" style={{ width: "100%" }} />
                 </div>
             </div>
         );

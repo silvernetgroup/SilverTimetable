@@ -32,7 +32,7 @@ export default class App extends React.Component {
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
-                        <Route path="/floor" render={() => <FloorPage pinpointCoordinates={{ x: 50, y: 20}}/>} />
+                        <Route path="/floor" render={() => <FloorPage />} />
                     </Switch>
                 </div>
             </Router>
