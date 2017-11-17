@@ -129,28 +129,85 @@ export default class Timetable extends React.Component<IProps, IState> {
             .semesters[semesterIndex]
             .days[dayIndex]
             .events
-            .map((event, index) => {
-                return (
-                    event.groups.indexOf(group) !== -1 &&
-                    <div>
-                        <EventBlock
-                            key={index}
-                            name={event.name}
-                            lecturer={event.lecturer}
-                            type={event.type}
-                            room={event.room}
-                            duration={event.duration}
-                            startTime={event.startTime}
-                            onClick={() => this.props.onEventBlockClick(event)} />
-                            
-                        <BreakBlock duration={event.startTime} />
-                    </div>
-                );
-            });
-    }
-
-    handleDayChange = (event: any, value: any) => {
-        this.setState({ selectedDay: value });
+            .map((event, index, array) => {
+                var dur;
+                if(index + 1 < array.length){
+                    dur = (array[index + 1].startTime.get('minutes') + array[index+1].startTime.get('hours') * 60) - (event.startTime.get('minutes') + event.startTime.get('hours') * 60) - event.duration;
+                }
+                else
+                    dur = 0;
+                if(array.length < 2){
+                    return (
+                        event.groups.indexOf(group) !== -1 &&
+                        <div key = {index}>
+                            <BreakBlock isStart = {true} isEnd = {false} duration={0} startTime = {event.startTime}/>
+                            <EventBlock
+                                name={event.name}
+                                lecturer={event.lecturer}
+                                type={event.type}
+                                room={event.room}
+                                duration={event.duration}
+                                startTime={event.startTime}
+                                onClick={() => this.props.onEventBlockClick(event)} />
+                            <BreakBlock isStart = {false} isEnd = {true} duration={dur}/>
+                        </div>
+                    );
+                }
+                else{
+                    if(index === 0){
+                    return (
+                            event.groups.indexOf(group) !== -1 &&
+                            <div key = {index}>
+                                <BreakBlock isStart = {true} isEnd = {false} duration={0} startTime = {event.startTime}/>
+                                <EventBlock
+                                    name={event.name}
+                                    lecturer={event.lecturer}
+                                    type={event.type}
+                                    room={event.room}
+                                    duration={event.duration}
+                                    startTime={event.startTime}
+                                    onClick={() => this.props.onEventBlockClick(event)} />
+                                <BreakBlock isStart = {false} isEnd = {false} duration={dur}/>
+                            </div>
+                        );
+                    }
+                    else if(index === array.length - 3) //why minus 3 ???????
+                        return (
+                            event.groups.indexOf(group) !== -1 &&
+                            <div key = {index}>
+                                <EventBlock
+                                    name={event.name}
+                                    lecturer={event.lecturer}
+                                    type={event.type}
+                                    room={event.room}
+                                    duration={event.duration}
+                                    startTime={event.startTime}
+                                    onClick={() => this.props.onEventBlockClick(event)} />
+                                <BreakBlock isStart = {false} isEnd = {true} duration={dur}/>
+                            </div>
+                        );
+                    else{
+                        return (
+                            event.groups.indexOf(group) !== -1 &&
+                            <div key = {index}>
+                                    <EventBlock
+                                        name={event.name}
+                                        lecturer={event.lecturer}
+                                        type={event.type}
+                                        room={event.room}
+                                        duration={event.duration}
+                                        startTime={event.startTime}
+                                        onClick={() => this.props.onEventBlockClick(event)} />
+                                    <BreakBlock isStart = {false} isEnd = {false} duration={dur}/>
+                                </div>
+                            );
+                        }
+                    }
+                });
+            }
+            
+            handleDayChange = (event: any, value: any) => {
+                this.setState({ selectedDay: value });
     }
 
     handleGroupChange = (event: any, value: any) => {

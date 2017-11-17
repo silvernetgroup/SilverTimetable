@@ -4,6 +4,7 @@ import * as Moment from "moment";
 import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
+    //key: number;
     name: string;
     lecturer: string;
     type: string;
