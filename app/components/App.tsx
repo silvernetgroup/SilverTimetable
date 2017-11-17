@@ -1,21 +1,21 @@
-import * as React from "react";
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
-import MainPage from "./Pages/MainPage";
-import SettingsPage from "./Pages/SettingsPage";
-import FloorPage from "./Pages/FloorPage";
-import FilteringPage from "./Pages/FilteringPage";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as Colors from "material-ui/colors";
 import createMuiTheme from "material-ui/styles/createMuiTheme";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import * as React from "react";
+import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import FilteringPage from "./Pages/FilteringPage";
+import FloorPage from "./Pages/FloorPage";
+import MainPage from "./Pages/MainPage";
+import SettingsPage from "./Pages/SettingsPage";
 
 const theme: any = createMuiTheme({
     palette: {
-        secondary: Colors.yellow
-    }
+        secondary: Colors.yellow,
+    },
 });
 
 export default class App extends React.Component {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <Router>
                 <div className="App">
@@ -32,7 +32,7 @@ export default class App extends React.Component {
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
-                        <Route path="/floor" component={FloorPage} />
+                        <Route path="/floor" render={() => <FloorPage />} />
                     </Switch>
                 </div>
             </Router>
