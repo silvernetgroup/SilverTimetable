@@ -18,7 +18,7 @@ export default class App extends React.Component {
     public render(): JSX.Element {
         return (
             <Router>
-                <div className="App">
+                <div className="app-container">
                     <nav>
                         <ul>
                             <li><Link to="/" replace>[Strona główna]</Link></li>
