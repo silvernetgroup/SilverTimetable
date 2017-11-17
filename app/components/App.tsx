@@ -8,6 +8,10 @@ import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
+// config
+import * as config from "react-global-configuration";
+import configuration from "../Config";
+
 const theme: any = createMuiTheme({
     palette: {
         secondary: Colors.yellow,
@@ -15,6 +19,11 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
+    constructor(props: any) {
+        super(props);
+        config.set(configuration, { freeze: false });
+    }
+
     public render(): JSX.Element {
         return (
             <Router>
@@ -27,7 +36,7 @@ export default class App extends React.Component {
                             <li><Link to="/floor" replace>[Schemat piętra]</Link></li>
                         </ul>
                     </nav>
-                    <hr/>
+                    <hr />
                     <Switch>
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
