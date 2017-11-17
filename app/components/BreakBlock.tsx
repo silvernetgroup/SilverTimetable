@@ -20,14 +20,12 @@ export default class BreakBlock extends React.Component<IProps, IState> {
     render(): JSX.Element {
         const style: any = {
             height: 17,
-            bottom: 2,
-            padding: 0,
-            margin: 0,
+            marginTop: "-2px",
+            marginBottom: "-2px",
             display: 'flex',
             justifyContent: 'center',
             fontWeight: 'bold',
             color: 'rgb(125,125,125)', //'rgb(74,74,74)'
-            fontSize: 15
         };
         var text = "";
         if(this.props.isStart)
