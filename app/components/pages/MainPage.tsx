@@ -8,8 +8,36 @@ import ITimetableEvent from "../../models/ITimetableEvent";
 export default class MainPage extends React.Component {
 
     handleEventBlockClick = (event: ITimetableEvent): void => {
-        console.log(event.lecturer);
-        // przekierowanie na strone prowadzacego
+
+        let cordova: any;
+        let device: any;
+        var linkURL:string;
+        var name: string = event.lecturer.toLowerCase().replace(' ', '_');
+        name = name.replace('ą', 'a').replace('ć','c').replace('ę','e').replace('ł','l').replace('ó','o').replace('ż','z').replace('ź','z');
+        //#region "Custom links"
+        if(name ==="arkadiusz_orlowski") linkURL = "http://ao.cem.sggw.pl/";
+        else if(name ==="krzysztof_gajowniczek") linkURL = "http://krzysztof_gajowniczek.users.sggw.pl/";
+        else if(name ==="ewa_jalowiecka") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175692";
+        else if(name ==="piotr_jalowiecki") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175694";
+        else if(name ==="maciej_janowicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1180300";
+        else if(name ==="marek_karwanski") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1207500";
+        else if(name ==="michal_kruk") linkURL = "http://michal_kruk.users.sggw.pl/";
+        else if(name ==="piotr_lukasiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1310301";
+        else if(name ==="rafik_nafkha") linkURL = "http://www.wzim.pl/";
+        else if(name ==="luiza_ochnio") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1070900";
+        else if(name ==="adam_przezdziecki") linkURL = "http://adam_przezdziecki.users.sggw.pl";
+        else if(name ==="marian_rusek") linkURL = "http://e.sggw.pl/rusek/";
+        else if(name ==="piotr_stachura") linkURL = "http://www.wzim.sggw.pl/piotr_stachura1/";
+        else if(name ==="aleksander_strasburger") linkURL = "http://aleksander_strasburger.users.sggw.pl";
+        else if(name ==="monika_zielinska-sitkiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1621855";
+        else if(name ==="wojciech_zielisnki") linkURL = "http://wojtek.zielinski.statystyka.info";
+        else linkURL = "http://www.wzim.sggw.pl/" + name + "/";
+        //#endregion "Custom links"
+        if(device.platform.toUpperCase() === "BROWSER"){
+            window.open(linkURL, "_blank");
+            return;   
+        }
+        window.open = cordova.InAppBrowser.open(linkURL, "_system", "location=yes");
     }
 
     render(): JSX.Element {

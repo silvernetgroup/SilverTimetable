@@ -9,8 +9,10 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <engine name="android" spec="^6.3.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.2" />
+    <engine name="browser" spec="~5.0.1" />
+    <engine name="android" spec="~6.3.0" />
 </widget>
