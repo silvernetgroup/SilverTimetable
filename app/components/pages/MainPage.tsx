@@ -14,7 +14,7 @@ export default class MainPage extends React.Component {
         var linkURL:string;
         var name: string = event.lecturer.toLowerCase().replace(' ', '_');
         name = name.replace('ą', 'a').replace('ć','c').replace('ę','e').replace('ł','l').replace('ó','o').replace('ż','z').replace('ź','z');
-        //#region "Custom links"
+        //#region "Own links"
         if(name ==="arkadiusz_orlowski") linkURL = "http://ao.cem.sggw.pl/";
         else if(name ==="krzysztof_gajowniczek") linkURL = "http://krzysztof_gajowniczek.users.sggw.pl/";
         else if(name ==="ewa_jalowiecka") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175692";
@@ -32,7 +32,7 @@ export default class MainPage extends React.Component {
         else if(name ==="monika_zielinska-sitkiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1621855";
         else if(name ==="wojciech_zielisnki") linkURL = "http://wojtek.zielinski.statystyka.info";
         else linkURL = "http://www.wzim.sggw.pl/" + name + "/";
-        //#endregion "Custom links"
+        //#endregion "Own links"
         if(device.platform.toUpperCase() === "BROWSER"){
             window.open(linkURL, "_blank");
             return;   
