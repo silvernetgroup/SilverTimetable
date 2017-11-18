@@ -18,6 +18,8 @@
     "@types/react-router-dom": "^4.2.1",
     "cordova-android": "^6.3.0",
     "cordova-android-support-gradle-release": "^1.1.5",
+    "cordova-plugin-device": "^1.1.7",
+    "cordova-plugin-dialogs": "^1.3.4",
     "material-ui": "^1.0.0-beta.20",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.19.1",
@@ -35,7 +37,9 @@
       },
       "cordova-android-support-gradle-release": {
         "ANDROID_SUPPORT_VERSION": "26.+"
-      }
+      },
+      "cordova-plugin-device": {},
+      "cordova-plugin-dialogs": {}
     },
     "platforms": [
       "android"
