@@ -6,19 +6,17 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height">
     
     <link rel="stylesheet" type="text/css" href="styles/app.css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <script type="text/javascript" src="cordova.js"></script>    
+    <script type="text/javascript" src="js/push.js"></script> 
 
     <title>Silver Timetable</title>
 </head>
 
 <body>
-    <div id="app-root"></div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="dist/app-bundle.js"></script>
-    <script type="text/javascript" src="js/push.js"></script>
-    <script type="text/javascript">
-        push.initialize();
-    </script>
+    <div id="app-root"></div>     
+    <script type="text/javascript" src="dist/app-bundle.js"></script>  
 </body>
 
 </html>
