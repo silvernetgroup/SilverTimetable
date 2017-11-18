@@ -1,12 +1,10 @@
 window.onload = this.onLoad;
-console.log("plik")
+
 function onLoad() {
-	document.addEventListener("deviceready", onDeviceReady, false);
-	console.log("onLoad");
+	document.addEventListener("deviceready", onDeviceReady, false);	
 }
 
-function onDeviceReady() {
-	console.log("ready");
+function onDeviceReady() {	
 	const push = PushNotification.init({
 		android: {
 			senderID: "948434874310"

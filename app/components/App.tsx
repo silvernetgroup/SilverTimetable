@@ -7,6 +7,7 @@ import FilteringPage from "./Pages/FilteringPage";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
+import "typeface-roboto";
 
 // config
 import * as config from "react-global-configuration";

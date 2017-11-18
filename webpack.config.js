@@ -19,7 +19,8 @@ module.exports = {
             { test: /(\.css)$/, loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
             { test: /\.jsx$/, include: /app/, loaders: ['babel-loader'] },
             { test: /\.ts$/, include: /app/, exclude: /node_modules/, loader: 'ts-loader' },
-            { test: /\.tsx$/, include: /app/, exclude: /node_modules/, loader: 'ts-loader' }
+            { test: /\.tsx$/, include: /app/, exclude: /node_modules/, loader: 'ts-loader' },
+            { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: 'file-loader' }
         ]
     },
     resolve: {
