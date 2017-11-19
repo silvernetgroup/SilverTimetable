@@ -4,65 +4,20 @@ import ITimetable from "../../models/ITimetable";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import * as Moment from "moment";
 import ITimetableEvent from "../../models/ITimetableEvent";
+import LecturersPages from "../LecturersPages";
 
 declare let device: any;
 declare let cordova: any;
 
 export default class MainPage extends React.Component {
 
-    handleEventBlockClick = (event: ITimetableEvent): void => {
+    private handleEventBlockClick = (event: ITimetableEvent): void => {
 
-        var linkURL: string;
-        var name: string = event.lecturer.toLowerCase().replace(' ', '_');
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-        name = name.replace('ą', 'a').replace('ć','c').replace('ę','e').replace('ł','l').replace('ó','o').replace('ż','z').replace('ź','z');
->>>>>>> Stashed changes
-        //#region "Own links"
-        else if(name ==="ewa_jalowiecka") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175692";
-        else if(name ==="krzysztof_gajowniczek") linkURL = "http://krzysztof_gajowniczek.users.sggw.pl/";
-        if(name ==="arkadiusz_orlowski") linkURL = "http://ao.cem.sggw.pl/";
-        else if(name ==="piotr_jalowiecki") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175694";
-        else if(name ==="maciej_janowicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1180300";
-        else if(name ==="marek_karwanski") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1207500";
-        else if(name ==="piotr_lukasiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1310301";
-        else if(name ==="michal_kruk") linkURL = "http://michal_kruk.users.sggw.pl/";
-        else if(name ==="luiza_ochnio") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1070900";
-        else if(name ==="rafik_nafkha") linkURL = "http://www.wzim.pl/";
-        else if(name ==="marian_rusek") linkURL = "http://e.sggw.pl/rusek/";
-        else if(name ==="adam_przezdziecki") linkURL = "http://adam_przezdziecki.users.sggw.pl";
-        else if(name ==="piotr_stachura") linkURL = "http://www.wzim.sggw.pl/piotr_stachura1/";
-        else if(name ==="aleksander_strasburger") linkURL = "http://aleksander_strasburger.users.sggw.pl";
-        else if(name ==="monika_zielinska-sitkiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1621855";
-        else if(name ==="wojciech_zielisnki") linkURL = "http://wojtek.zielinski.statystyka.info";
-        name = name.replace('ą', 'a').replace('ć','c').replace('ę','e').replace('ł','l').replace('ó','o').replace('ż','z').replace('ź','z');
-        else linkURL = "http://www.wzim.sggw.pl/" + name + "/";
-        //#endregion "Own links"
-        if(device.platform.toUpperCase() === "BROWSER"){
-=======
-        name = name.replace('ą', 'a').replace('ć', 'c').replace('ę', 'e').replace('ł', 'l').replace('ó', 'o').replace('ż', 'z').replace('ź', 'z');
-        //#region "Custom links"
-        if (name === "arkadiusz_orlowski") linkURL = "http://ao.cem.sggw.pl/";
-        else if (name === "krzysztof_gajowniczek") linkURL = "http://krzysztof_gajowniczek.users.sggw.pl/";
-        else if (name === "ewa_jalowiecka") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175692";
-        else if (name === "piotr_jalowiecki") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1175694";
-        else if (name === "maciej_janowicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1180300";
-        else if (name === "marek_karwanski") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1207500";
-        else if (name === "michal_kruk") linkURL = "http://michal_kruk.users.sggw.pl/";
-        else if (name === "piotr_lukasiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1310301";
-        else if (name === "rafik_nafkha") linkURL = "http://www.wzim.pl/";
-        else if (name === "luiza_ochnio") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1070900";
-        else if (name === "adam_przezdziecki") linkURL = "http://adam_przezdziecki.users.sggw.pl";
-        else if (name === "marian_rusek") linkURL = "http://e.sggw.pl/rusek/";
-        else if (name === "piotr_stachura") linkURL = "http://www.wzim.sggw.pl/piotr_stachura1/";
-        else if (name === "aleksander_strasburger") linkURL = "http://aleksander_strasburger.users.sggw.pl";
-        else if (name === "monika_zielinska-sitkiewicz") linkURL = "http://www.sggw.pl/o_pracowniku&employee_id=1621855";
-        else if (name === "wojciech_zielisnki") linkURL = "http://wojtek.zielinski.statystyka.info";
-        else linkURL = "http://www.wzim.sggw.pl/" + name + "/";
-        //#endregion "Custom links"
+        let name: string = event.lecturer.toLowerCase().replace(" ", "_");
+        name = name.replace("ą", "a").replace("ć", "c").replace("ę", "e").replace("ł", "l").replace("ó", "o").replace("ż", "z").replace("ź", "z");
+        let lecturerr: LecturersPages = new LecturersPages(name);
+        let linkURL: string = LecturersPages[name];
         if (device.platform.toUpperCase() === "BROWSER") {
->>>>>>> redirectingToBrowser2
             window.open(linkURL, "_blank");
             return;
         }
@@ -132,7 +87,7 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "3/83",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["5", "6"],
@@ -166,7 +121,7 @@ export default class MainPage extends React.Component {
                                                             startTime: Moment.utc("15:30", "HH:mm"),
                                                             duration: 90
                                                         }
-                                                    ]
+                                                    ],
                                                 },
                                                 {
                                                     name: "Środa",
@@ -248,11 +203,11 @@ export default class MainPage extends React.Component {
             ]
         };
 
-        let filters: ITimetableFilters = {
+        const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
             degree: "I - inżynierskie",
             mode: "Stacjonarne",
-            semester: 1
+            semester: 1,
         };
 
         return (
