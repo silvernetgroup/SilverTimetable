@@ -1,14 +1,11 @@
 import * as React from "react";
 import { TabClassKey } from "material-ui/Tabs";
+import { stat } from "fs";
+
 
 export default class LecturersPages {
-
-    constructor(lecturer: string){
+    public static GetLecturerPage(lecturer:string) : string {
         LecturersPages[lecturer] = "http://www.wzim.sggw.pl/" + lecturer + "/";
-        this.fillInLinks();
-    }
-
-    private fillInLinks() : void {
         LecturersPages["arkadiusz_orlowski"] = "http://ao.cem.sggw.pl/";
         LecturersPages["krzysztof_gajowniczek"] = "http://krzysztof_gajowniczek.users.sggw.pl/";
         LecturersPages["ewa_jalowiecka"] = "http://www.sggw.pl/o_pracowniku&employee_id=1175692";
@@ -25,5 +22,7 @@ export default class LecturersPages {
         LecturersPages["aleksander_strasburger"] = "http://aleksander_strasburger.users.sggw.pl";
         LecturersPages["monika_zielinska-sitkiewicz"] = "http://www.sggw.pl/o_pracowniku&employee_id=1621855";
         LecturersPages["wojciech_zielisnki"] = "http://wojtek.zielinski.statystyka.info";
+
+        return LecturersPages[lecturer];
     } 
 }

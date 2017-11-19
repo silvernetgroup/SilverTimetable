@@ -15,12 +15,7 @@ export default class MainPage extends React.Component {
 
         let name: string = event.lecturer.toLowerCase().replace(" ", "_");
         name = name.replace("ą", "a").replace("ć", "c").replace("ę", "e").replace("ł", "l").replace("ó", "o").replace("ż", "z").replace("ź", "z");
-        let lecturerr: LecturersPages = new LecturersPages(name);
-        let linkURL: string = LecturersPages[name];
-        if (device.platform.toUpperCase() === "BROWSER") {
-            window.open(linkURL, "_blank");
-            return;
-        }
+        let linkURL: string = LecturersPages.GetLecturerPage(name);
         window.open = cordova.InAppBrowser.open(linkURL, "_system", "location=yes");
     }
 
