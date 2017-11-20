@@ -37,9 +37,9 @@ export default class EventBlock extends React.Component<IProps, IState> {
                 </div>
                 <div className="props-event-block">
                     <span>
-                        {this.props.type} <span className="startTime-event-block">{startTime.format("HH:mm")}</span> - {startTime.clone().add(duration, "minutes").format("HH:mm")}
+                        {this.props.type} {startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}
                         <br />
-                        <span className="startTime-event-block">{this.props.room}</span> - {this.props.lecturer}
+                        <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
                     </span>
                 </div>
             </Paper>
