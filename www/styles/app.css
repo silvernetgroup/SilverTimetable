@@ -32,3 +32,33 @@ body, html, .app-container{
     min-height: 0; 
     background-color: #D8D8D8;        
 }
+
+.lectureName-event-block{
+    font-family: 'Roboto';
+    flex: 1;  
+    display: flex;
+    flex-direction: column; 
+    font-weight: 600;
+    font-size: 120%;
+    color: #151515;
+    overflow: auto;
+    padding: 5px;
+}
+
+.props-event-block{
+    font-family: 'Roboto';
+    flex: 1;  
+    display: flex;
+    flex-direction: column; 
+    font-weight: normal;
+    font-size: 90%;
+    color:#787878;
+    overflow: auto;
+    padding: 0 5px;
+    line-height: 150%;
+}
+
+.startTime-event-block{
+    color: #000000;
+    font-weight: 500;
+}

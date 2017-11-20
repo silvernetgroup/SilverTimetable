@@ -20,22 +20,28 @@ interface IState {
 
 export default class EventBlock extends React.Component<IProps, IState> {
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
 
         let { startTime, duration } = this.props;
         const style: any = {
             height: 80,
             backgroundColor: "#FFFFFF",
             padding: 10,
-            margin: 10
+            margin: 10,
         };
-
 
         return (
             <Paper style={style} elevation={1} onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}  {...{} as any}>
-                {this.props.name} <br />
-                {this.props.type} {startTime.format("HH:mm")} - {startTime.clone().add(duration, "minutes").format("HH:mm")}<br />
-                {this.props.room} - {this.props.lecturer}<br />
+                <div className="lectureName-event-block">
+                    {this.props.name}
+                </div>
+                <div className="props-event-block">
+                    <span>
+                        {this.props.type} <span className="startTime-event-block">{startTime.format("HH:mm")}</span> - {startTime.clone().add(duration, "minutes").format("HH:mm")}
+                        <br />
+                        <span className="startTime-event-block">{this.props.room}</span> - {this.props.lecturer}
+                    </span>
+                </div>
             </Paper>
         );
     }
