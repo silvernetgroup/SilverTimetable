@@ -5,7 +5,6 @@ import * as config from "react-global-configuration";
 import List, { ListSubheader } from "material-ui/List";
 
 // settings Components
-import SettingsAppBar from "../settingsComponents/SettingsAppBar";
 import SwitchListItem from "../settingsComponents/SwitchListItem";
 import SelectListItem from "../settingsComponents/SelectListItem";
 

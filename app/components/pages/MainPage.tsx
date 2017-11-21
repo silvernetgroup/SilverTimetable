@@ -200,7 +200,6 @@ export default class MainPage extends React.Component {
 
         return (
             <div className="main-page-container">
-                <h1 style={{ margin: 0 }}>Plan zajęć</h1>
                 <Timetable
                     data={data}
                     filters={filters}

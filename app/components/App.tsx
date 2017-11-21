@@ -8,6 +8,10 @@ import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
+import Drawer from "./appComponents/Drawer";
+
+import AppBar from "./appComponents/AppBar";
+
 // config
 import * as config from "react-global-configuration";
 import configuration from "../Config";
@@ -26,25 +30,20 @@ export default class App extends React.Component {
 
     public render(): JSX.Element {
         return (
+            <div>
+                
             <Router>
-                <div className="app-container">
-                    <nav>
-                        <ul>
-                            <li><Link to="/" replace>[Strona główna]</Link></li>
-                            <li><Link to="/settings" replace>[Ustawienia]</Link></li>
-                            <li><Link to="/filtering" replace>[Filtrowanie]</Link></li>
-                            <li><Link to="/floor" replace>[Schemat piętra]</Link></li>
-                        </ul>
-                    </nav>
-                    <hr />
+                <div className="app-container" style={{marginTop: "92px"}}>
                     <Switch>
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
                         <Route path="/floor" render={() => <FloorPage />} />
                     </Switch>
+                    <AppBar />
                 </div>
             </Router>
+            </div>
         );
     }
 }

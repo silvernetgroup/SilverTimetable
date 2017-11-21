@@ -9,6 +9,9 @@ import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
 import ArrowBack from "material-ui-icons/ArrowBack";
+import Hamburger from "material-ui-icons/Menu";
+
+import LeftDrawer from "./Drawer";
 
 const styles: any = theme => ({
   root: {
@@ -35,7 +38,8 @@ const styles: any = theme => ({
 
 const testPadding: any = {
   padding: "7px",
-  top: "23px"
+  top: "23px",
+  boxShadow: "0px 2px 4px -1px rgba(0, 0, 0, 0), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0)",
 };
 
 
@@ -47,11 +51,9 @@ function ButtonAppBar(props: any): JSX.Element {
       <div className={classes.root}>
         <AppBar style={testPadding}>
           <Toolbar>
-            <IconButton className={classes.menuButton} color="contrast">
-              <ArrowBack />
-            </IconButton>
+            <LeftDrawer/>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Ustawienia
+              Plan zajęć WZiM
             </Typography>
           </Toolbar>
         </AppBar>

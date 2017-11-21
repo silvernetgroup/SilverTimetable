@@ -155,7 +155,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     render(): JSX.Element {
         return (
             <div className="timetable-container">
-                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                <AppBar style={{ position: "relative", color: "white" }}>
                     <Tabs
                         value={this.state.selectedDay}
                         onChange={this.handleDayChange}
