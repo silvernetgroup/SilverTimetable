@@ -130,17 +130,25 @@ export default class Timetable extends React.Component<IProps, IState> {
             .days[dayIndex]
             .events
             .map((event, index, array) => {
-                var dur;
-                if(index + 1 < array.length){
-                    dur = (array[index + 1].startTime.get('minutes') + array[index+1].startTime.get('hours') * 60) - (event.startTime.get('minutes') + event.startTime.get('hours') * 60) - event.duration;
+                let duration;
+                if (index + 1 < array.length) {
+                    const nextEventStartTime = array[index + 1].startTime.get("minutes")
+                                             + array[index + 1].startTime.get("hours") * 60;
+                    const currentEventStartTime = event.startTime.get("minutes")
+                                                + event.startTime.get("hours") * 60;
+                    duration = nextEventStartTime - currentEventStartTime - event.duration;
+                } else {
+                    duration = 0;
                 }
-                else
-                    dur = 0;
-                if(array.length < 2){
+                if (array.length < 2) {
                     return (
                         event.groups.indexOf(group) !== -1 &&
                         <div key = {index}>
-                            <BreakBlock isStart = {true} isEnd = {false} duration={0} startTime = {event.startTime}/>
+                            <BreakBlock
+                                isStart = {true}
+                                isEnd = {false}
+                                duration={0}
+                                startTime = {event.startTime}/>
                             <EventBlock
                                 name={event.name}
                                 lecturer={event.lecturer}
@@ -149,16 +157,22 @@ export default class Timetable extends React.Component<IProps, IState> {
                                 duration={event.duration}
                                 startTime={event.startTime}
                                 onClick={() => this.props.onEventBlockClick(event)} />
-                            <BreakBlock isStart = {false} isEnd = {true} duration={dur}/>
+                            <BreakBlock
+                                isStart = {false}
+                                isEnd = {true}
+                                duration={duration}/>
                         </div>
                     );
-                }
-                else{
-                    if(index === 0){
+                } else {
+                    if (index === 0) {
                     return (
                             event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
-                                <BreakBlock isStart = {true} isEnd = {false} duration={0} startTime = {event.startTime}/>
+                                <BreakBlock
+                                    isStart = {true}
+                                    isEnd = {false}
+                                    duration={0}
+                                    startTime = {event.startTime}/>
                                 <EventBlock
                                     name={event.name}
                                     lecturer={event.lecturer}
@@ -167,11 +181,13 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     duration={event.duration}
                                     startTime={event.startTime}
                                     onClick={() => this.props.onEventBlockClick(event)} />
-                                <BreakBlock isStart = {false} isEnd = {false} duration={dur}/>
+                                <BreakBlock
+                                    isStart = {false}
+                                    isEnd = {false}
+                                    duration={duration}/>
                             </div>
                         );
-                    }
-                    else if(index === array.length - 3) //why minus 3 ???????
+                    } else if (index === array.length - 3) {
                         return (
                             event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
@@ -183,10 +199,13 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     duration={event.duration}
                                     startTime={event.startTime}
                                     onClick={() => this.props.onEventBlockClick(event)} />
-                                <BreakBlock isStart = {false} isEnd = {true} duration={dur}/>
+                                <BreakBlock
+                                    isStart = {false}
+                                    isEnd = {true}
+                                    duration={duration}/>
                             </div>
                         );
-                    else{
+                    } else {
                         return (
                             event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
@@ -198,14 +217,17 @@ export default class Timetable extends React.Component<IProps, IState> {
                                         duration={event.duration}
                                         startTime={event.startTime}
                                         onClick={() => this.props.onEventBlockClick(event)} />
-                                    <BreakBlock isStart = {false} isEnd = {false} duration={dur}/>
+                                    <BreakBlock
+                                        isStart = {false}
+                                        isEnd = {false}
+                                        duration={duration}/>
                                 </div>
                             );
                         }
                     }
                 });
             }
-            
+
             handleDayChange = (event: any, value: any) => {
                 this.setState({ selectedDay: value });
     }
