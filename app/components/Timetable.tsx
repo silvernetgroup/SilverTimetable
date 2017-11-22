@@ -129,6 +129,7 @@ export default class Timetable extends React.Component<IProps, IState> {
             .semesters[semesterIndex]
             .days[dayIndex]
             .events
+            .filter((obj) => obj.groups.indexOf(group) !== -1)
             .map((event, index, array) => {
                 let duration;
                 if (index + 1 < array.length) {
@@ -142,7 +143,6 @@ export default class Timetable extends React.Component<IProps, IState> {
                 }
                 if (array.length < 2) {
                     return (
-                        event.groups.indexOf(group) !== -1 &&
                         <div key = {index}>
                             <BreakBlock
                                 isStart = {true}
@@ -166,7 +166,6 @@ export default class Timetable extends React.Component<IProps, IState> {
                 } else {
                     if (index === 0) {
                     return (
-                            event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
                                 <BreakBlock
                                     isStart = {true}
@@ -187,9 +186,8 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     duration={duration}/>
                             </div>
                         );
-                    } else if (index === array.length - 3) {
+                    } else if (index === array.length - 1) {
                         return (
-                            event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
                                 <EventBlock
                                     name={event.name}
@@ -207,7 +205,6 @@ export default class Timetable extends React.Component<IProps, IState> {
                         );
                     } else {
                         return (
-                            event.groups.indexOf(group) !== -1 &&
                             <div key = {index}>
                                     <EventBlock
                                         name={event.name}
