@@ -10,12 +10,10 @@ declare let device: any;
 declare let cordova: any;
 
 export default class MainPage extends React.Component {
-
     private handleEventBlockClick = (event: ITimetableEvent): void => {
-
-        let name: string = event.lecturer.toLowerCase().replace(" ", "_");
-        name = name.replace("ą", "a").replace("ć", "c").replace("ę", "e").replace("ł", "l").replace("ó", "o").replace("ż", "z").replace("ź", "z");
-        let linkURL: string = LecturersPages.GetLecturerPage(name);
+        let name: string = event.lecturer.toLowerCase().replace(" ", "_").replace("ą", "a").replace("ć", "c");
+        name = name.replace("ę", "e").replace("ł", "l").replace("ó", "o").replace("ż", "z").replace("ź", "z");
+        const linkURL: string = LecturersPages.GetLecturerPage(name);
         window.open = cordova.InAppBrowser.open(linkURL, "_system", "location=yes");
     }
 
