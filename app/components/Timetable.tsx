@@ -5,6 +5,7 @@ import Tabs, { Tab } from "material-ui/Tabs";
 import EventBlock from "./EventBlock";
 import AppBar from "material-ui/AppBar";
 import ITimetableEvent from "../models/ITimetableEvent";
+import PTREvent from "react-pull-to-refresh";
 
 interface IProps {
     data: ITimetable;
@@ -17,6 +18,7 @@ interface IProps {
 interface IState {
     selectedDay: number;
     selectedGroup: string;
+    refreshing: boolean;
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
@@ -28,10 +30,27 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         this.state = {
             selectedDay: props.defaultDay||0,
-            selectedGroup: props.defaultGroup||Array.from(groupNamesSet).sort()[0]
+            selectedGroup: props.defaultGroup||Array.from(groupNamesSet).sort()[0],
+            refreshing: false
         };
     }
 
+    handleRefresh = (resolve, reject) => {
+        console.log("refreshing");
+        this.setState({refreshing: true});
+        if (this.state.refreshing) {
+            console.log("wnętrze ifa");
+            resolve();
+            this.setState({refreshing: false});
+        } 
+        else {
+            console.log("wnętrze elsa");
+            reject();
+            this.setState({refreshing: false});
+        }
+        
+
+    }
     filterIndexes(data: ITimetable, filters: ITimetableFilters): {
         fieldOfStudyIndex: number,
         degreeIndex: number,
@@ -154,6 +173,11 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     render(): JSX.Element {
         return (
+            <PTREvent
+            //refreshing = {this.state.refreshing}
+            onRefresh = {this.handleRefresh}
+            >
+
             <div className="timetable-container">
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
@@ -172,6 +196,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
             </div>
+            </PTREvent>
         );
     }
 }
