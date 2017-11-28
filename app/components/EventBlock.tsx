@@ -1,6 +1,6 @@
-import * as React from "react";
 import Paper from "material-ui/Paper";
 import * as Moment from "moment";
+import * as React from "react";
 import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
@@ -14,15 +14,11 @@ interface IProps {
     onClick(event: ITimetableEvent): void;
 }
 
-interface IState {
-
-}
-
-export default class EventBlock extends React.Component<IProps, IState> {
+export default class EventBlock extends React.Component<IProps, {}> {
 
     public render(): JSX.Element {
 
-        let { startTime, duration } = this.props;
+        const { startTime, duration } = this.props;
         const style: any = {
             height: 80,
             backgroundColor: "#FFFFFF",
@@ -31,7 +27,10 @@ export default class EventBlock extends React.Component<IProps, IState> {
         };
 
         return (
-            <Paper style={style} elevation={1} onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}  {...{} as any}>
+            <Paper 
+            style={style} 
+            elevation={1} 
+            onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}  {...{} as any}>
                 <div className="lectureName-event-block">
                     {this.props.name}
                 </div>
