@@ -24,6 +24,19 @@ export default class App extends React.Component {
         config.set(configuration, { freeze: false });
     }
 
+    calendarExport = () => {
+        var startDate = new Date(2017, 10, 29, 12, 0, 0, 0); // 10 month == listopad
+        var endDate = new Date(2017, 10, 29, 20, 0, 0, 0);
+        var title = "test kalendarza";
+        var eventLocation = "SGGW";
+        var notes = "nic ważnego";
+        var success = function(message) {console.log("udało się: " + message); };
+        var error = function(message) {console.log("dupa: " + message); };
+        //window['plugins'].
+        //window['plugins'].calendar.createEvent(title, eventLocation, notes, startDate, endDate, success, error);
+        window.plugins.calendar.createEvent(title,eventLocation,notes,startDate,endDate,success,error);
+    }
+
     public render(): JSX.Element {
         return (
             <Router>
@@ -34,6 +47,7 @@ export default class App extends React.Component {
                             <li><Link to="/settings" replace>[Ustawienia]</Link></li>
                             <li><Link to="/filtering" replace>[Filtrowanie]</Link></li>
                             <li><Link to="/floor" replace>[Schemat piętra]</Link></li>
+                            <li><a onClick={this.calendarExport}>[Test kalendarza]</a></li>
                         </ul>
                     </nav>
                     <hr />
