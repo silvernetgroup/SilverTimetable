@@ -36,6 +36,7 @@
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-swipeable-views": "^0.12.12",
     "typeface-roboto": "0.0.43"
   },
   "cordova": {
