@@ -13,6 +13,9 @@ import SettingsPage from "./Pages/SettingsPage";
 import * as config from "react-global-configuration";
 import configuration from "../Config";
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
+
 const theme: any = createMuiTheme({
     palette: {
         secondary: Colors.yellow,
