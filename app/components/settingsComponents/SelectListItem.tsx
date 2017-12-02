@@ -2,9 +2,9 @@ import * as React from "react";
 import * as config from "react-global-configuration";
 
 // material UI Select
+import { FormControl, FormHelperText } from "material-ui/Form";
 import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
-import { FormControl, FormHelperText } from "material-ui/Form";
 import Select from "material-ui/Select";
 
 interface IProps {
@@ -13,23 +13,34 @@ interface IProps {
   enabled: boolean;
 }
 
+interface IState {
+  option: 0;
+}
+
 const style: any = {
-  width: "100%"
+  width: "100%",
 };
 
 const padding: any = {
   padding: "16px",
-  paddingTop: "0px"
+  paddingTop: "0px",
 };
 
-export default class SelectListItem extends React.Component<IProps, {}> {
+export default class SelectListItem extends React.Component<IProps, IState> {
 
-  state = {
-    option: 0,
-  };
+  public render(): JSX.Element {
+    return (
+      <div style={padding}>
+        <FormControl style={style}>
+          <InputLabel>{this.props.name}</InputLabel>
+          {this.drawSelect()}
+        </FormControl>
+      </div>
+    );
+  }
 
   // select controller
-  handleChange = name => event => {
+  private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
     switch (this.props.name) {
       case "Wydział":
@@ -46,7 +57,7 @@ export default class SelectListItem extends React.Component<IProps, {}> {
     }
   }
 
-  drawSelect(): JSX.Element {
+  private drawSelect(): JSX.Element {
     if (this.props.enabled) {
       return (
         <Select
@@ -73,14 +84,4 @@ export default class SelectListItem extends React.Component<IProps, {}> {
     }
   }
 
-  render(): JSX.Element {
-    return (
-      <div style={padding}>
-        <FormControl style={style}>
-          <InputLabel>{this.props.name}</InputLabel>
-          {this.drawSelect()}
-        </FormControl>
-      </div>
-    );
-  }
 }

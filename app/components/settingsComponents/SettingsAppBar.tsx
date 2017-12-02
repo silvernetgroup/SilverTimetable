@@ -1,16 +1,16 @@
 // @flow weak
 
-import * as React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "material-ui/styles";
+import ArrowBack from "material-ui-icons/ArrowBack";
 import AppBar from "material-ui/AppBar";
-import Toolbar from "material-ui/Toolbar";
-import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
-import ArrowBack from "material-ui-icons/ArrowBack";
+import { withStyles } from "material-ui/styles";
+import Toolbar from "material-ui/Toolbar";
+import Typography from "material-ui/Typography";
+import PropTypes from "prop-types";
+import * as React from "react";
 
-const styles: any = theme => ({
+const styles: any = (theme) => ({
   root: {
     marginTop: theme.spacing.unit * 3,
     width: "100%",
@@ -27,17 +27,16 @@ const styles: any = theme => ({
     top: 0,
     height: "24px",
     width: "100%",
-    "background-color": "#303F9F",
+    backgroundColor: "#303F9F",
     right: 0,
-    "z-index": 1100,
-  }
+    zIndex: 1100,
+  },
 });
 
 const testPadding: any = {
   padding: "7px",
-  top: "23px"
+  top: "23px",
 };
-
 
 function ButtonAppBar(props: any): JSX.Element {
   const { classes } = props;
