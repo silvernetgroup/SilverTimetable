@@ -11,9 +11,9 @@ import {
 import Switch from "material-ui/Switch";
 
 // material UI Select
+import { FormControl, FormHelperText } from "material-ui/Form";
 import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
-import { FormControl, FormHelperText } from "material-ui/Form";
 import Select from "material-ui/Select";
 
 // settings Components
@@ -25,36 +25,56 @@ interface IProps {
   defValue: boolean;
 }
 
-var notifyOn: boolean = false;
+interface IState {
+  time: number;
+  checked: string[];
+}
+
+let notifyOn: boolean = false;
 
 const style: any = {
-  width: "100%"
+  width: "100%",
 };
 
 const padding: any = {
   padding: "16px",
-  paddingTop: "0px"
+  paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, {}> {
-
-  state = {
-    time: 5,
-    checked: ["none"],
-  };
+export default class SwitchListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
     if (this.props.defValue === true) {
       this.state = {
         checked: [this.props.iconName],
-        time: 5
+        time: 5,
       };
     }
   }
 
+  public render(): JSX.Element {
+    return (
+      <div>
+        <ListItem>
+          <ListItemIcon>
+            <IconHelper iconName={this.props.iconName} />
+          </ListItemIcon>
+          <ListItemText primary={this.props.name} />
+          <ListItemSecondaryAction>
+            <Switch
+              onChange={this.handleToggle(this.props.iconName)}
+              checked={this.state.checked.indexOf(this.props.iconName) !== -1}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>
+        {this.renderInputField()}
+      </div>
+    );
+  }
+
   // toggle controller
-  handleToggle = value => () => {
+  private handleToggle = (value) => () => {
     const { checked } = this.state;
     const currentIndex: number = checked.indexOf(value);
     const newChecked: string[] = [...checked];
@@ -108,12 +128,12 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
   }
 
   // select controller
-  handleChange = name => event => {
+  private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
     config.set({ notificationBeforeClass: event.target.value });
   }
 
-  renderInputField(): JSX.Element {
+  private renderInputField(): JSX.Element {
     if (notifyOn === true && this.props.iconName === "Time") {
       return (
         <div style={padding}>
@@ -136,25 +156,5 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
     } else {
       return;
     }
-  }
-
-  render(): JSX.Element {
-    return (
-      <div>
-        <ListItem>
-          <ListItemIcon>
-            <IconHelper iconName={this.props.iconName} />
-          </ListItemIcon>
-          <ListItemText primary={this.props.name} />
-          <ListItemSecondaryAction>
-            <Switch
-              onChange={this.handleToggle(this.props.iconName)}
-              checked={this.state.checked.indexOf(this.props.iconName) !== -1}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
-        {this.renderInputField()}
-      </div>
-    );
   }
 }
