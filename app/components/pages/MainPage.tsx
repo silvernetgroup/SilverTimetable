@@ -76,7 +76,7 @@ export default class MainPage extends React.Component {
                                                         {
                                                             groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
-                                                            lecturer: "J. Bojarski",
+                                                            lecturer: "Jarosław Bojarski",
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
@@ -99,7 +99,7 @@ export default class MainPage extends React.Component {
                                                         {
                                                             groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
-                                                            lecturer: "J. Bojarski",
+                                                            lecturer: "Jarosław Bojarski",
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),

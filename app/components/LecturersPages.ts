@@ -38,11 +38,11 @@ export default class LecturersPages {
         "piotr_stachura": "http://www.wzim.sggw.pl/piotr_stachura1/",
         "aleksander_strasburger": "http://aleksander_strasburger.users.sggw.pl",
         "monika_zielinska-sitkiewicz": "http://www.sggw.pl/o_pracowniku&employee_id=1621855",
-        "wojciech_zielisnki": "http://wojtek.zielinski.statystyka.info",
+        "wojciech_zielinski": "http://wojtek.zielinski.statystyka.info",
     };
 
     private static getLecturerPage(lecturer: string): string {
-        if (LecturersPages[lecturer] !== undefined) {
+        if (this.lecturersPages[lecturer] !== undefined) {
             return this.lecturersPages[lecturer];
         }
         return "http://www.wzim.sggw.pl/" + lecturer + "/";
