@@ -5,9 +5,9 @@ import * as config from "react-global-configuration";
 import List, { ListSubheader } from "material-ui/List";
 
 // settings Components
+import SelectListItem from "../settingsComponents/SelectListItem";
 import SettingsAppBar from "../settingsComponents/SettingsAppBar";
 import SwitchListItem from "../settingsComponents/SwitchListItem";
-import SelectListItem from "../settingsComponents/SelectListItem";
 
 const faculties: string[] = ["Informatyka", "Informatyka i ekonometria"];
 const semesters: string[] = ["Semestr I", "Semestr III", "Semestr V", "Semestr VII"]; // todo: pobierac to z planu
@@ -15,7 +15,7 @@ const modes: string[] = ["Stacjonarne", "Niestacjonarne"];
 const groups: string[] = ["1", "2", "3", "4", "5", "6"];
 
 export default class SettingsPage extends React.Component {
-  render(): JSX.Element {
+  public render(): JSX.Element {
     return (
       <div>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>

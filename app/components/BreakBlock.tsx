@@ -1,7 +1,6 @@
 import * as Moment from "moment";
 import * as React from "react";
 import ITimetableEvent from "../models/ITimetableEvent";
-import { Typography } from "material-ui";
 
 interface IProps {
     isStart: boolean;
@@ -52,9 +51,7 @@ export default class BreakBlock extends React.Component<IProps> {
 
         return (
             <div style={style}>
-                <Typography type="subheading">
-                    {text}
-                </Typography>
+                {text}
             </div>
         );
     }
