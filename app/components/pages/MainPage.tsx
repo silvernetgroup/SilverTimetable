@@ -3,6 +3,7 @@ import * as React from "react";
 import ITimetable from "../../models/ITimetable";
 import ITimetableEvent from "../../models/ITimetableEvent";
 import ITimetableFilters from "../../models/ITimetableFilters";
+import LecturersPages from "../LecturersPages";
 import Timetable from "../Timetable";
 
 export default class MainPage extends React.Component {
@@ -75,7 +76,7 @@ export default class MainPage extends React.Component {
                                                         {
                                                             groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
-                                                            lecturer: "J. Bojarski",
+                                                            lecturer: "Jarosław Bojarski",
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
@@ -98,7 +99,7 @@ export default class MainPage extends React.Component {
                                                         {
                                                             groups: ["5", "6"],
                                                             name: "Podstawy analizy matematycznej",
-                                                            lecturer: "J. Bojarski",
+                                                            lecturer: "Jarosław Bojarski",
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
@@ -208,7 +209,6 @@ export default class MainPage extends React.Component {
     }
 
     private handleEventBlockClick = (event: ITimetableEvent): void => {
-        // console.log(event.lecturer);
-        // przekierowanie na strone prowadzacego
+        LecturersPages.openLecturersPage(event);
     }
 }
