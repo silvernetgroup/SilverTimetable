@@ -33,10 +33,17 @@ export default class EventBlock extends React.Component<IProps, {}> {
                 onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
                 {...{} as any}
             >
-                {this.props.name} <br />
-                {this.props.type} {startTime.format("HH:mm")}
-                - {startTime.clone().add(duration, "minutes").format("HH:mm")}<br />
-                {this.props.room} - {this.props.lecturer}<br />
+                <div className="lectureName-event-block">
+                    {this.props.name}
+                </div>
+                <div className="props-event-block">
+                    <span>
+                        {this.props.type} {startTime.format("HH:mm")}
+                        - {startTime.clone().add(duration, "minutes").format("HH:mm")}
+                        <br />
+                        <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
+                    </span>
+                </div>
             </Paper>
         );
     }
