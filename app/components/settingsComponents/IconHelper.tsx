@@ -2,8 +2,8 @@ import * as React from "react";
 
 // icons
 import Time from "material-ui-icons/AccessTime";
-import Notifications from "material-ui-icons/Notifications";
 import Download from "material-ui-icons/CloudDownload";
+import Notifications from "material-ui-icons/Notifications";
 import Top from "material-ui-icons/VerticalAlignTop";
 
 interface IProps {
@@ -23,7 +23,7 @@ function SetIcon(props: string): JSX.Element {
 }
 
 export default class IconHelper extends React.Component<IProps, {}> {
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <div>
                 {SetIcon(this.props.iconName)}

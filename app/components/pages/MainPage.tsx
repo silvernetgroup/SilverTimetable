@@ -1,20 +1,15 @@
-import * as React from "react";
-import Timetable from "../Timetable";
-import ITimetable from "../../models/ITimetable";
-import ITimetableFilters from "../../models/ITimetableFilters";
 import * as Moment from "moment";
+import * as React from "react";
+import ITimetable from "../../models/ITimetable";
 import ITimetableEvent from "../../models/ITimetableEvent";
+import ITimetableFilters from "../../models/ITimetableFilters";
+import Timetable from "../Timetable";
 
 export default class MainPage extends React.Component {
 
-    handleEventBlockClick = (event: ITimetableEvent): void => {
-        console.log(event.lecturer);
-        // przekierowanie na strone prowadzacego
-    }
+    public render(): JSX.Element {
 
-    render(): JSX.Element {
-
-        let data: ITimetable = {
+        const data: ITimetable = {
             creationDate: new Date("02.11.2017"),
             fieldsOfStudy: [
                 {
@@ -39,7 +34,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -48,7 +43,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -57,7 +52,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2"],
@@ -66,7 +61,7 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "3/40",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["3", "4"],
@@ -75,7 +70,7 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "3/83",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["5", "6"],
@@ -84,9 +79,9 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
-                                                        }
-                                                    ]
+                                                            duration: 90,
+                                                        },
+                                                    ],
                                                 },
                                                 {
                                                     name: "Wtorek",
@@ -98,7 +93,7 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "3/83",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["5", "6"],
@@ -107,9 +102,9 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "1/78",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
-                                                        }
-                                                    ]
+                                                            duration: 90,
+                                                        },
+                                                    ],
                                                 },
                                                 {
                                                     name: "Środa",
@@ -121,7 +116,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2"],
@@ -130,9 +125,9 @@ export default class MainPage extends React.Component {
                                                             type: "ćwiczenia",
                                                             room: "3/40",
                                                             startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90
-                                                        }
-                                                    ]
+                                                            duration: 90,
+                                                        },
+                                                    ],
                                                 },
                                                 {
                                                     name: "Czwartek",
@@ -144,7 +139,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -153,9 +148,9 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90
-                                                        }
-                                                    ]
+                                                            duration: 90,
+                                                        },
+                                                    ],
                                                 },
                                                 {
                                                     name: "Piątek",
@@ -167,7 +162,7 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90
+                                                            duration: 90,
                                                         },
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -176,26 +171,26 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+                                                            duration: 90,
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         };
 
-        let filters: ITimetableFilters = {
+        const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
             degree: "I - inżynierskie",
             mode: "Stacjonarne",
-            semester: 1
+            semester: 1,
         };
 
         return (
@@ -210,5 +205,10 @@ export default class MainPage extends React.Component {
                 />
             </div>
         );
+    }
+
+    private handleEventBlockClick = (event: ITimetableEvent): void => {
+        // console.log(event.lecturer);
+        // przekierowanie na strone prowadzacego
     }
 }
