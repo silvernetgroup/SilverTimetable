@@ -14,7 +14,7 @@
     <platform name="android">
         <resource-file src="google-services.json" target="google-services.json" />
     </platform>
-    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#0096A6" />
     <engine name="android" spec="^6.4.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
