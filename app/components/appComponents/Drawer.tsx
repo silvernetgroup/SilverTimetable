@@ -1,68 +1,74 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
+import * as React from "react";
+import config from "react-global-configuration";
 
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Drawer from 'material-ui/Drawer';
-import Button from 'material-ui/Button';
-import List from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import LinkListItem from "./LinkListItem";
+import Button from "material-ui/Button";
+import Divider from "material-ui/Divider";
+import Drawer from "material-ui/Drawer";
+import Typography from "material-ui/Typography";
+import List from "material-ui/List";
+import { withStyles } from "material-ui/styles";
 import IconButton from "material-ui/IconButton";
+import LinkListItem from "./LinkListItem";
+
+// Icons
 import Hamburger from "material-ui-icons/Menu";
+
+// Router
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 const styles = {
   list: {
     width: 250,
-  }
+  },
 };
 
 export default class LeftDrawer extends React.Component {
-  state = {
+  public state = {
     left: false,
   };
 
-  toggleDrawer = (open) => () => {
+  public render() {
+        const sideList = (
+          <div style={{width: 250}}>
+            <List style={{paddingTop: 0}}>
+              <div style={{height: 160, backgroundColor: "#3f51b5", top: 0, display: "flex", marginBottom: 16}}>
+                <div style={{display: "inline-block", alignSelf: "flex-end", marginLeft: 16, marginBottom: 6}}>
+                  <Typography type="headline" gutterBottom style={{color: "white", marginBottom: 0}}>
+                    {config.get("fieldOfStudy")}
+                  </Typography>
+                  <Typography gutterBottom style={{color: "white"}}>
+                    {config.get("mode")}, semestr {config.get("semester")}
+                  </Typography>
+                </div>
+              </div>
+              <LinkListItem name="Plan" iconName="Time" linkPage="/" />
+              <LinkListItem name="Ustawienia" iconName="Time" linkPage="/settings" />
+              <LinkListItem name="Schemat piętra" iconName="Time" linkPage="/floor" />
+            </List>
+          </div>
+        );
+        return (
+          <div>
+            <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{marginLeft: -12, marginRight: 20}}>
+                  <Hamburger />
+            </IconButton>
+            <Drawer open={this.state.left} onRequestClose={this.toggleDrawer(false)}>
+              <div
+                tabIndex={0}
+                role="button"
+                onClick={this.toggleDrawer(false)}
+                onKeyDown={this.toggleDrawer(false)}
+              >
+                {sideList}
+              </div>
+            </Drawer>
+          </div>
+        );
+      }
+
+  private toggleDrawer = (open) => () => {
     this.setState({
       left: open,
     });
-  };
-
-  render() {
-
-    const sideList = (
-      <div style={{width: 250}}>
-        <List>
-          <nav>
-                    
-            <ul>
-              <li><Link to="/" replace>[Strona główna]</Link></li>
-              <li><Link to="/settings" replace>[Ustawienia]</Link></li>
-              <li><Link to="/filtering" replace>[Filtrowanie]</Link></li>
-              <li><Link to="/floor" replace>[Schemat piętra]</Link></li>
-            </ul>
-          </nav>
-        </List>
-      </div>
-    );
-
-    return (
-      <div>
-        <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{marginLeft: -12, marginRight: 20}}>
-              <Hamburger />
-        </IconButton>
-        <Drawer open={this.state.left} onRequestClose={this.toggleDrawer(false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
-          >
-            {sideList}
-          </div>
-        </Drawer>
-      </div>
-    );
   }
 }

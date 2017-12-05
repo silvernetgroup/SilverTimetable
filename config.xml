@@ -10,7 +10,8 @@
     <content src="index.html" />
     <access origin="*" />
     <engine name="android" spec="^6.3.0" />
-    <plugin name="phonegap-plugin-push" spec="^2.1.0">
+    <engine name="ios" spec="^4.5.4" />
+    <plugin name="phonegap-plugin-push" spec="^2.1.2">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
 </widget>

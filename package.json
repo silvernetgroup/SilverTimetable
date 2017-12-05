@@ -17,10 +17,11 @@
     "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.2.1",
     "cordova-android": "^6.3.0",
+    "cordova-ios": "^4.5.4",
     "material-ui": "^1.0.0-beta.20",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.19.1",
-    "phonegap-plugin-push": "^2.1.0",
+    "phonegap-plugin-push": "^2.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-global-configuration": "^1.2.0",
@@ -34,7 +35,8 @@
       }
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

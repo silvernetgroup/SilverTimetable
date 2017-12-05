@@ -14,39 +14,55 @@ interface IProps {
 }
 
 const style: any = {
-  width: "100%"
+  width: "100%",
 };
 
 const padding: any = {
   padding: "16px",
-  paddingTop: "0px"
+  paddingTop: "0px",
 };
 
 export default class SelectListItem extends React.Component<IProps, {}> {
 
-  state = {
+  public state = {
     option: 0,
   };
 
+  public render(): JSX.Element {
+    return (
+      <div style={padding}>
+        <FormControl style={style}>
+          <InputLabel>{this.props.name}</InputLabel>
+          {this.drawSelect()}
+        </FormControl>
+      </div>
+    );
+  }
+
   // select controller
-  handleChange = name => event => {
+  private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
+    const temp = config.get();
     switch (this.props.name) {
-      case "Wydział":
-        config.set({ facultyFilter: event.target.value });
+      case "FieldOfStudy":
+        temp.fieldOfStudy = this.props.options[event.target.value];
         break;
-      case "Semestr":
-        config.set({ semesterFilter: event.target.value });
+      case "Mode":
+        temp.mode = this.props.options[event.target.value];
         break;
-      case "Grupa":
-        config.set({ groupFilter: event.target.value });
+      case "Semester":
+        temp.semester = this.props.options[event.target.value];
+        break;
+      case "Group":
+        temp.group = event.target.value;
         break;
       default:
         break;
     }
+    config.set(temp);
   }
 
-  drawSelect(): JSX.Element {
+  private drawSelect(): JSX.Element {
     if (this.props.enabled) {
       return (
         <Select
@@ -71,16 +87,5 @@ export default class SelectListItem extends React.Component<IProps, {}> {
         </Select>
       );
     }
-  }
-
-  render(): JSX.Element {
-    return (
-      <div style={padding}>
-        <FormControl style={style}>
-          <InputLabel>{this.props.name}</InputLabel>
-          {this.drawSelect()}
-        </FormControl>
-      </div>
-    );
   }
 }

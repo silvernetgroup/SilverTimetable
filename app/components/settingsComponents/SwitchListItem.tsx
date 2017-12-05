@@ -16,7 +16,7 @@ import { MenuItem } from "material-ui/Menu";
 import { FormControl, FormHelperText } from "material-ui/Form";
 import Select from "material-ui/Select";
 
-// settings Components
+// Icons
 import IconHelper from "./IconHelper";
 
 interface IProps {
@@ -25,20 +25,20 @@ interface IProps {
   defValue: boolean;
 }
 
-var notifyOn: boolean = false;
+let notifyOn: boolean = false;
 
 const style: any = {
-  width: "100%"
+  width: "100%",
 };
 
 const padding: any = {
   padding: "16px",
-  paddingTop: "0px"
+  paddingTop: "0px",
 };
 
 export default class SwitchListItem extends React.Component<IProps, {}> {
 
-  state = {
+  public state = {
     time: 5,
     checked: ["none"],
   };
@@ -48,13 +48,33 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
     if (this.props.defValue === true) {
       this.state = {
         checked: [this.props.iconName],
-        time: 5
+        time: 5,
       };
     }
   }
 
+  public render(): JSX.Element {
+    return (
+      <div>
+        <ListItem>
+          <ListItemIcon>
+            <IconHelper iconName={this.props.iconName} />
+          </ListItemIcon>
+          <ListItemText primary={this.props.name} />
+          <ListItemSecondaryAction>
+            <Switch
+              onChange={this.handleToggle(this.props.iconName)}
+              checked={this.state.checked.indexOf(this.props.iconName) !== -1}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>
+        {this.renderInputField()}
+      </div>
+    );
+  }
+
   // toggle controller
-  handleToggle = value => () => {
+  private handleToggle = (value) => () => {
     const { checked } = this.state;
     const currentIndex: number = checked.indexOf(value);
     const newChecked: string[] = [...checked];
@@ -66,41 +86,43 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
     }
 
     // global settings controller
+    const temp = config.get();
     switch (this.props.iconName) {
       case "Time":
         notifyOn = !notifyOn;
         if (notifyOn) {
-          config.set({ notificationBeforeClass: this.state.time });
+          temp.notificationBeforeClass = this.state.time;
         } else {
-          config.set({ notificationBeforeClass: 0 });
+          temp.notificationBeforeClass = 0;
         }
         break;
       case "Notifications":
         if (currentIndex === -1) {
-          config.set({ notificationNewVersion: true });
+          temp.notificationNewVersion = true;
         } else {
-          config.set({ notificationNewVersion: false });
+          temp.notificationNewVersion = false;
         }
         break;
 
       case "Download":
         if (currentIndex === -1) {
-          config.set({ offline: true });
+          temp.offline = true;
         } else {
-          config.set({ offline: false });
+          temp.offline = false;
         }
         break;
 
       case "Top":
         if (currentIndex === -1) {
-          config.set({ showGroupChange: true });
+          temp.showGroupChange = true;
         } else {
-          config.set({ showGroupChange: false });
+          temp.showGroupChange = false;
         }
 
       default:
         break;
     }
+    config.set(temp);
 
     this.setState({
       checked: newChecked,
@@ -108,12 +130,12 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
   }
 
   // select controller
-  handleChange = name => event => {
+  private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
     config.set({ notificationBeforeClass: event.target.value });
   }
 
-  renderInputField(): JSX.Element {
+  private renderInputField(): JSX.Element {
     if (notifyOn === true && this.props.iconName === "Time") {
       return (
         <div style={padding}>
@@ -136,25 +158,5 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
     } else {
       return;
     }
-  }
-
-  render(): JSX.Element {
-    return (
-      <div>
-        <ListItem>
-          <ListItemIcon>
-            <IconHelper iconName={this.props.iconName} />
-          </ListItemIcon>
-          <ListItemText primary={this.props.name} />
-          <ListItemSecondaryAction>
-            <Switch
-              onChange={this.handleToggle(this.props.iconName)}
-              checked={this.state.checked.indexOf(this.props.iconName) !== -1}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
-        {this.renderInputField()}
-      </div>
-    );
   }
 }
