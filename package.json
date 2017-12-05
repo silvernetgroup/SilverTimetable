@@ -14,7 +14,6 @@
     "style-loader": "^0.19.0",
     "ts-loader": "^3.1.0",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1",
     "webpack": "^3.8.1"
   },
   "dependencies": {
@@ -37,7 +36,8 @@
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "typeface-roboto": "0.0.43"
+    "typeface-roboto": "0.0.43",
+    "typescript": "^2.6.1"
   },
   "cordova": {
     "plugins": {
