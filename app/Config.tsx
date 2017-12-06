@@ -4,12 +4,12 @@ const config: any = {
   fieldOfStudy: "Informatyka",
   degree: "I - inżynierskie",
   mode: "Stacjonarne",
-  semester: 1,
-  group: 1,
+  semester: "1",
+  group: "1",
   notificationNewVersion: true,
   notificationBeforeClass: 0,
   offline: true,
-  showGroupChange: false,
+  showGroupChange: true,
 };
 
 export default config;

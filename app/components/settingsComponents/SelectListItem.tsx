@@ -11,6 +11,7 @@ interface IProps {
   name: string;
   options: string[];
   enabled: boolean;
+  configName: string;
 }
 
 const style: any = {
@@ -28,6 +29,13 @@ export default class SelectListItem extends React.Component<IProps, {}> {
     option: 0,
   };
 
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+        option: this.props.options.indexOf(config.get(this.props.configName)),
+    };
+  }
+
   public render(): JSX.Element {
     return (
       <div style={padding}>
@@ -43,18 +51,18 @@ export default class SelectListItem extends React.Component<IProps, {}> {
   private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
     const temp = config.get();
-    switch (this.props.name) {
-      case "FieldOfStudy":
+    switch (this.props.configName) {
+      case "fieldOfStudy":
         temp.fieldOfStudy = this.props.options[event.target.value];
         break;
-      case "Mode":
+      case "mode":
         temp.mode = this.props.options[event.target.value];
         break;
-      case "Semester":
+      case "semester":
         temp.semester = this.props.options[event.target.value];
         break;
-      case "Group":
-        temp.group = event.target.value;
+      case "group":
+        temp.group = this.props.options[event.target.value];
         break;
       default:
         break;

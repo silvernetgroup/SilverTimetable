@@ -29,10 +29,9 @@ export default class Timetable extends React.Component<IProps, IState> {
         super(props);
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
-
         this.state = {
             selectedDay: props.defaultDay || 0,
-            selectedGroup: props.defaultGroup || Array.from(groupNamesSet).sort()[0],
+            selectedGroup: config.get("group"),
         };
     }
 
@@ -128,6 +127,12 @@ export default class Timetable extends React.Component<IProps, IState> {
         return new Set(groupNames);
     }
 
+    private saveCurrentGroup() {
+        const temp = config.get();
+        temp.group = this.state.selectedGroup;
+        config.set(temp);
+    }
+
     private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(data, filters);
@@ -153,7 +158,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                     </Tabs>
                 </AppBar>
                 }
-
+                {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
                     {this.renderEventBlocks(data, filters, selectedDayIndex, this.state.selectedGroup)}
                 </div>

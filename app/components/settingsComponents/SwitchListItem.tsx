@@ -22,7 +22,7 @@ import IconHelper from "./IconHelper";
 interface IProps {
   name: string;
   iconName: string;
-  defValue: boolean;
+  configName: string;
 }
 
 let notifyOn: boolean = false;
@@ -45,7 +45,16 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
 
   constructor(props: IProps) {
     super(props);
-    if (this.props.defValue === true) {
+    if (this.props.configName === "notificationBeforeClass") {
+      const configTime = config.get("notificationBeforeClass");
+      if (config.get("notificationBeforeClass") > 0) {
+        this.state = {
+          checked: [this.props.iconName],
+          time: configTime,
+        };
+        notifyOn = true;
+      }
+    } else if (config.get(this.props.configName) === true) {
       this.state = {
         checked: [this.props.iconName],
         time: 5,
@@ -132,7 +141,9 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
   // select controller
   private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
-    config.set({ notificationBeforeClass: event.target.value });
+    const temp = config.get();
+    temp.notificationBeforeClass = event.target.value;
+    config.set(temp);
   }
 
   private renderInputField(): JSX.Element {
