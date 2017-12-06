@@ -25,11 +25,6 @@ interface IProps {
   defValue: boolean;
 }
 
-interface IState {
-  time: number;
-  checked: string[];
-}
-
 let notifyOn: boolean = false;
 
 const style: any = {
@@ -41,7 +36,13 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, IState> {
+export default class SwitchListItem extends React.Component<IProps, {}> {
+
+  public state = {
+    time: 5,
+    checked: ["none"],
+  };
+
   constructor(props: IProps) {
     super(props);
     if (this.props.defValue === true) {

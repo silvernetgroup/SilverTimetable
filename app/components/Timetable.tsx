@@ -36,7 +36,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         return (
             <div className="timetable-container">
-                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                <AppBar style={{ position: "relative", color: "white" }}>
                     <Tabs
                         value={this.state.selectedDay}
                         onChange={this.handleDayChange}
@@ -131,7 +131,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <AppBar style={{ position: "relative", color: "white" }}>
+                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
                         value={this.state.selectedGroup}
                         onChange={this.handleGroupChange}
@@ -158,7 +158,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-        dayIndex: number, group: string): JSX.Element[] {
+                              dayIndex: number, group: string): JSX.Element[] {
 
         const {
                 fieldOfStudyIndex,
