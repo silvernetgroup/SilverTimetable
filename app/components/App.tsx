@@ -29,6 +29,10 @@ export default class App extends React.Component {
     constructor(props: any) {
         super(props);
         config.set(configuration, { freeze: false });
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            StatusBar.styleLightContent();
+        }
     }
 
     public render(): JSX.Element {

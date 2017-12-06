@@ -70,5 +70,10 @@ export default class LeftDrawer extends React.Component {
     this.setState({
       left: open,
     });
+    if (open === true) {
+      StatusBar.hide(); //TSlint nie ogarnia
+    } else {
+      StatusBar.show(); //TSlint nie ogarnia
+    }
   }
 }
