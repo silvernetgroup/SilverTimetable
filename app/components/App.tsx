@@ -3,7 +3,6 @@ import createMuiTheme from "material-ui/styles/createMuiTheme";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
-import "typeface-roboto";
 
 // Pages
 import FilteringPage from "./Pages/FilteringPage";
