@@ -35,8 +35,7 @@
     "react-dom": "^16.1.1",
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "typeface-roboto": "0.0.43",
+    "react-router-dom": "^4.2.2",    
     "typescript": "^2.6.1"
   },
   "cordova": {
