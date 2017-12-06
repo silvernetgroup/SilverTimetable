@@ -16,7 +16,7 @@ import AppBar from "./appComponents/AppBar";
 
 // Config
 import * as config from "react-global-configuration";
-import configuration from "./Config";
+import configuration from "../Config";
 
 const theme: any = createMuiTheme({
     palette: {
