@@ -51,22 +51,7 @@ export default class SelectListItem extends React.Component<IProps, {}> {
   private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
     const temp = config.get();
-    switch (this.props.configName) {
-      case "fieldOfStudy":
-        temp.fieldOfStudy = this.props.options[event.target.value];
-        break;
-      case "mode":
-        temp.mode = this.props.options[event.target.value];
-        break;
-      case "semester":
-        temp.semester = this.props.options[event.target.value];
-        break;
-      case "group":
-        temp.group = this.props.options[event.target.value];
-        break;
-      default:
-        break;
-    }
+    temp[this.props.configName] = this.props.options[event.target.value];
     config.set(temp);
   }
 
