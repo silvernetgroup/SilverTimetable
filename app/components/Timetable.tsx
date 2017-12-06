@@ -28,7 +28,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
 
         this.state = {
-            selectedDay: props.defaultDay || 0,
+            selectedDay: props.defaultDay,
             selectedGroup: props.defaultGroup || Array.from(groupNamesSet).sort()[0],
         };
     }
