@@ -9,8 +9,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <engine name="android" spec="^6.4.0" />
-    <engine name="ios" spec="^4.5.4" />
     <allow-intent href="*" />
     <allow-navigation href="*" />
     <platform name="android">

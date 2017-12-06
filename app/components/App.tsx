@@ -45,7 +45,7 @@ export default class App extends React.Component {
                             <Route path="/filtering" component={FilteringPage} />
                             <Route path="/floor" render={() => <FloorPage />} />
                         </Switch>
-                        <AppBar />
+                        {/* <AppBar /> */}
                     </div>
                 </Router>
             </div>

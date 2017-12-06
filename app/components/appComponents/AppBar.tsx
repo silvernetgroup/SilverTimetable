@@ -47,8 +47,8 @@ const testPadding: any = {
 function ButtonAppBar(props: any): JSX.Element {
   const { classes } = props;
   return (
-    <div>
-      <div className={classes.statusBar} style={{ position: "fixed" }} />
+    // <div>
+     // <div className={classes.statusBar} style={{ position: "fixed" }} />
       <div className={classes.root}>
         <AppBar style={testPadding}>
           <Toolbar>
@@ -67,7 +67,7 @@ function ButtonAppBar(props: any): JSX.Element {
           </Toolbar>
         </AppBar>
       </div>
-    </div>
+    // </div>
   );
 }
 

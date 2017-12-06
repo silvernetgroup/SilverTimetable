@@ -13,6 +13,9 @@ interface IProps {
   enabled: boolean;
   configName: string;
 }
+interface IState {
+  option: number;
+}
 
 const style: any = {
   width: "100%",
@@ -23,11 +26,11 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SelectListItem extends React.Component<IProps, {}> {
+export default class SelectListItem extends React.Component<IProps, IState> {
 
-  public state = {
-    option: 0,
-  };
+  // public state = {
+  //   option: 0,
+  // };
 
   constructor(props: IProps) {
     super(props);
