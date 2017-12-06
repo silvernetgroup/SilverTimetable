@@ -106,27 +106,15 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
         }
         break;
       case "Notifications":
-        if (currentIndex === -1) {
-          temp.notificationNewVersion = true;
-        } else {
-          temp.notificationNewVersion = false;
-        }
+        temp.notificationNewVersion = currentIndex === -1;
         break;
 
       case "Download":
-        if (currentIndex === -1) {
-          temp.offline = true;
-        } else {
-          temp.offline = false;
-        }
+        temp.offline = currentIndex === -1;
         break;
 
       case "Top":
-        if (currentIndex === -1) {
-          temp.showGroupChange = true;
-        } else {
-          temp.showGroupChange = false;
-        }
+        temp.showGroupChange = currentIndex === -1;
 
       default:
         break;
