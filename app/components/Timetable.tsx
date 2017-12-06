@@ -7,6 +7,9 @@ import ITimetableFilters from "../models/ITimetableFilters";
 import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 
+// Config
+import * as config from "react-global-configuration";
+
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
@@ -131,6 +134,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
+                {config.get("showGroupChange") === true &&
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
                         value={this.state.selectedGroup}
@@ -148,6 +152,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                         }
                     </Tabs>
                 </AppBar>
+                }
 
                 <div className="event-blocks-container">
                     {this.renderEventBlocks(data, filters, selectedDayIndex, this.state.selectedGroup)}

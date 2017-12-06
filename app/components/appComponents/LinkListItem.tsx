@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as config from "react-global-configuration";
 
-import { HashRouter as Router, Link, Route, Switch, Redirect } from "react-router-dom";
+import { HashRouter as Router, NavLink, Link, Route, Switch, Redirect } from "react-router-dom";
 
 // material UI
 import {
@@ -21,10 +21,6 @@ interface IProps {
   linkPage: string;
 }
 
-interface IState {
-  redirect: boolean;
-}
-
 const style: any = {
   width: "100%",
 };
@@ -34,40 +30,26 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, IState> {
+const linkStyle: any = {
+  color: "#333333",
+  textDecoration: "none",
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {redirect: false};
-  }
-
-  public componentDidMount() {
-    this.state = {redirect: false};
-  }
+export default class SwitchListItem extends React.Component<IProps, {}> {
 
   public render(): JSX.Element {
     return (
       <div>
-    <ListItem button onClick={ () => {this.setState({redirect: true})}}>
+        <NavLink to={this.props.linkPage}
+        style={linkStyle}>
+          <ListItem button>
             <ListItemIcon>
               <IconHelper iconName={this.props.iconName} />
             </ListItemIcon>
             <ListItemText primary={this.props.name} />
           </ListItem>
-          {this.linkTo()}
+        </NavLink>
       </div>
     );
-  }
-
-  private linkTo(): JSX.Element {
-    if (this.state.redirect) {
-      return (
-        <Redirect to={this.props.linkPage}/>
-      );
-    } else {
-      return (
-        <div />
-      );
-    }
   }
 }
