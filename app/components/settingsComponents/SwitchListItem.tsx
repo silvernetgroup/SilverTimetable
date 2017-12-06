@@ -11,9 +11,9 @@ import {
 import Switch from "material-ui/Switch";
 
 // material UI Select
+import { FormControl, FormHelperText } from "material-ui/Form";
 import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
-import { FormControl, FormHelperText } from "material-ui/Form";
 import Select from "material-ui/Select";
 
 // Icons
@@ -23,6 +23,11 @@ interface IProps {
   name: string;
   iconName: string;
   defValue: boolean;
+}
+
+interface IState {
+  time: number;
+  checked: string[];
 }
 
 let notifyOn: boolean = false;
@@ -36,13 +41,7 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, {}> {
-
-  public state = {
-    time: 5,
-    checked: ["none"],
-  };
-
+export default class SwitchListItem extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     if (this.props.defValue === true) {

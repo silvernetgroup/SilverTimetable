@@ -2,15 +2,19 @@ import * as React from "react";
 import * as config from "react-global-configuration";
 
 // material UI Select
+import { FormControl, FormHelperText } from "material-ui/Form";
 import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
-import { FormControl, FormHelperText } from "material-ui/Form";
 import Select from "material-ui/Select";
 
 interface IProps {
   name: string;
   options: string[];
   enabled: boolean;
+}
+
+interface IState {
+  option: 0;
 }
 
 const style: any = {
@@ -22,11 +26,7 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SelectListItem extends React.Component<IProps, {}> {
-
-  public state = {
-    option: 0,
-  };
+export default class SelectListItem extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     return (
