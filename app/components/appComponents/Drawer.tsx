@@ -22,10 +22,18 @@ const styles = {
   },
 };
 
-export default class LeftDrawer extends React.Component {
-  public state = {
-    left: false,
+interface IState {
+  left: boolean;
+}
+
+export default class LeftDrawer extends React.Component<{}, IState> {
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      left: false,
   };
+}
 
   public render() {
         const sideList = (
@@ -37,7 +45,7 @@ export default class LeftDrawer extends React.Component {
                     {config.get("fieldOfStudy")}
                   </Typography>
                   <Typography gutterBottom style={{color: "white"}}>
-                    {config.get("mode")}, semestrqsads {config.get("semester")}
+                    {config.get("mode")}, semestr {config.get("semester")}
                   </Typography>
                 </div>
               </div>
@@ -70,10 +78,5 @@ export default class LeftDrawer extends React.Component {
     this.setState({
       left: open,
     });
-    if (open === true) {
-      StatusBar.hide(); // TSlint nie ogarnia
-    } else {
-      StatusBar.show(); // TSlint nie ogarnia
-    }
   }
 }

@@ -28,10 +28,6 @@ const padding: any = {
 
 export default class SelectListItem extends React.Component<IProps, IState> {
 
-  // public state = {
-  //   option: 0,
-  // };
-
   constructor(props: IProps) {
     super(props);
     this.state = {

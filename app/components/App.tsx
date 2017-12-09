@@ -29,6 +29,12 @@ export default class App extends React.Component {
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
             StatusBar.styleLightContent();
+            StatusBar.overlaysWebView(false); // config one doesn't work (on iOS)
+            if (device.platform == "Android") {
+                StatusBar.backgroundColorByHexString("#303F9F");
+            } else if (device.platform == "iOS") {
+                StatusBar.backgroundColorByHexString("#3f51b5");
+            }
         }
     }
 
@@ -36,14 +42,14 @@ export default class App extends React.Component {
         return (
             <div>
                 <Router>
-                    <div className="app-container" style={{marginTop: "92px"}}>
+                    <div className="app-container" style={{marginTop: "69px"}}>
                         <Switch>
                             <Route exact path="/" component={MainPage} />
                             <Route path="/settings" component={SettingsPage} />
                             <Route path="/filtering" component={FilteringPage} />
                             <Route path="/floor" render={() => <FloorPage />} />
                         </Switch>
-                        {/* <AppBar /> */}
+                        <AppBar />
                     </div>
                 </Router>
             </div>

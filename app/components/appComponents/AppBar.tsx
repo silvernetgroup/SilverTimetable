@@ -41,14 +41,11 @@ const styles: any = (theme) => ({
 const testPadding: any = {
   boxShadow: "0px 2px 4px -1px rgba(0, 0, 0, 0), 0px 4px 5px 0px rgba(0, 0, 0, 0), 0px 1px 10px 0px rgba(0, 0, 0, 0)",
   padding: "7px",
-  top: "23px",
 };
 
 function ButtonAppBar(props: any): JSX.Element {
   const { classes } = props;
   return (
-    // <div>
-     // <div className={classes.statusBar} style={{ position: "fixed" }} />
       <div className={classes.root}>
         <AppBar style={testPadding}>
           <Toolbar>
@@ -67,7 +64,6 @@ function ButtonAppBar(props: any): JSX.Element {
           </Toolbar>
         </AppBar>
       </div>
-    // </div>
   );
 }
 

@@ -25,6 +25,11 @@ interface IProps {
   configName: string;
 }
 
+interface IState {
+  time: number;
+  checked: string[];
+}
+
 let notifyOn: boolean = false;
 
 const style: any = {
@@ -36,15 +41,16 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, {}> {
-
-  public state = {
-    time: 5,
-    checked: ["none"],
-  };
+export default class SwitchListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
+
+    this.state = {
+      time: 5,
+      checked: ["none"],
+    };
+
     if (this.props.configName === "notificationBeforeClass") {
       const configTime = config.get("notificationBeforeClass");
       if (config.get("notificationBeforeClass") > 0) {
