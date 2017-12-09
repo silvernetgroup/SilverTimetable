@@ -9,8 +9,8 @@ import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
-import Drawer from "./appComponents/Drawer";
-import AppBar from "./appComponents/AppBar";
+import Drawer from "./appNavigationComponents/Drawer";
+import AppBar from "./appNavigationComponents/Toolbar";
 
 // Config
 import * as config from "react-global-configuration";
