@@ -16,25 +16,12 @@ import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 import LeftDrawer from "./Drawer";
 
 const styles: any = (theme) => ({
-  root: {
-    marginTop: theme.spacing.unit * 3,
-    width: "100%",
-    height: "70px",
-  },
   flex: {
     flex: 1,
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
-  },
-  statusBar: {
-    "top": 0,
-    "height": "24px",
-    "width": "100%",
-    "background-color": "#303F9F",
-    "right": 0,
-    "z-index": 1100,
   },
 });
 

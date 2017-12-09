@@ -16,7 +16,7 @@ const groups: string[] = ["1", "2", "3", "4", "5", "6", "ISI1"]; // todo: pobier
 export default class SettingsPage extends React.Component {
   public render(): JSX.Element {
     return (
-      <div>
+      <div style={{marginTop: "69px"}}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
           <SelectListItem name="Kierunek" enabled={true} options={faculties} configName="fieldOfStudy"/>
           <SelectListItem name="Semestr" enabled={true} options={semesters} configName="semester"/>

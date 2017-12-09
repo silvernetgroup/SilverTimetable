@@ -40,19 +40,17 @@ export default class App extends React.Component {
 
     public render(): JSX.Element {
         return (
-            <div>
-                <Router>
-                    <div className="app-container" style={{marginTop: "69px"}}>
-                        <Switch>
-                            <Route exact path="/" component={MainPage} />
-                            <Route path="/settings" component={SettingsPage} />
-                            <Route path="/filtering" component={FilteringPage} />
-                            <Route path="/floor" render={() => <FloorPage />} />
-                        </Switch>
-                        <AppBar />
-                    </div>
-                </Router>
-            </div>
+            <Router>
+                <div className="app-container" style={{WebkitOverflowScrolling: "touch"}}>
+                    <Switch>
+                        <Route exact path="/" component={MainPage} />
+                        <Route path="/settings" component={SettingsPage} />
+                        <Route path="/filtering" component={FilteringPage} />
+                        <Route path="/floor" render={() => <FloorPage />} />
+                    </Switch>
+                    <AppBar />
+                </div>
+            </Router>
         );
     }
 }

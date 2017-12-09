@@ -504,7 +504,7 @@ export default class MainPage extends React.Component {
         };
 
         return (
-            <div className="main-page-container">
+            <div className="main-page-container" style={{marginTop: "69px"}}>
                 <Timetable
                     data={data}
                     filters={filters}
