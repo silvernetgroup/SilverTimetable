@@ -46,11 +46,12 @@ export default class Timetable extends React.Component<IProps, IState> {
                         fullWidth
                         {...{} as any}
                     >
-                        <Tab label="Pn" />
-                        <Tab label="Wt" />
-                        <Tab label="Śr" />
-                        <Tab label="Czw" />
-                        <Tab label="Pt" />
+                        {/*Temp minWidth implementation, will be cleaned-up when other tasks completion*/}
+                        <Tab label="Pn" style={{minWidth: 50}}/>
+                        <Tab label="Wt" style={{minWidth: 50}}/>
+                        <Tab label="Śr" style={{minWidth: 50}}/>
+                        <Tab label="Czw" style={{minWidth: 50}}/>
+                        <Tab label="Pt" style={{minWidth: 50}}/>
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
