@@ -8,10 +8,7 @@ function onDeviceReady() {
 	const push = PushNotification.init({
 		android: {
 			senderID: "948434874310"
-		},
-		browser: {
-			pushServiceURL: 'http://push.api.phonegap.com/v1/push'
-		},
+		},		
 		ios: {
 			alert: "true",
 			badge: "true",
@@ -24,8 +21,6 @@ function onDeviceReady() {
 	var client = new WindowsAzure.MobileServiceClient("https://silvertimetable.azurewebsites.net");
 
 	push.on('registration', (data) => {
-		console.log("regID: " + data.registrationId);
-
 		// Get the native platform of the device.
 		var platform = device.platform;
 		// Get the handle returned during registration.
@@ -58,16 +53,16 @@ function onDeviceReady() {
 		// data.sound,
 		// data.image,
 		// data.additionalData
-		console.log('notification event');
+		console.log('Notification event');
 		navigator.notification.alert(
-			data.message,         // message
+			"Udostępniono nowy plan zajęć!", // message
 			null,                 // callback
-			data.title,           // title
+			"Aktualizacja",           // title
 			'Ok'                  // buttonName
 		);
 	});
 
 	push.on('error', (e) => {
-		// e.message
+		console.log(e);
 	});	
 }
