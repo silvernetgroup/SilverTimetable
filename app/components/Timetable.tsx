@@ -34,8 +34,9 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        return (
-            <div className="timetable-container">
+        if (this.props.filters.mode === "Stacjonarne") {
+            return (
+                <div className="timetable-container">
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                     <Tabs
                         value={this.state.selectedDay}
@@ -43,7 +44,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                         scrollable
                         fullWidth
                         {...{} as any}
-                    >
+                        >
                         <Tab label="Pn" />
                         <Tab label="Wt" />
                         <Tab label="Śr" />
@@ -52,8 +53,26 @@ export default class Timetable extends React.Component<IProps, IState> {
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
-            </div>
-        );
+            </div> );
+        } else {
+            return (
+                <div className="timetable-container">
+                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                    <Tabs
+                        value={this.state.selectedDay}
+                        onChange={this.handleDayChange}
+                        scrollable
+                        fullWidth
+                        {...{} as any}
+                        >
+                        <Tab label="Pt" />
+                        <Tab label="So" />
+                        <Tab label="Nd" />
+                    </Tabs>
+                </AppBar>
+                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
+            </div> );
+        }
     }
 
     private filterIndexes(data: ITimetable, filters: ITimetableFilters): {

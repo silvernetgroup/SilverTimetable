@@ -180,6 +180,76 @@ export default class MainPage extends React.Component {
                                         },
                                     ],
                                 },
+                                {
+                                    name: "Niestacjonarne",
+                                    semesters: [
+                                        {
+                                            number: 1,
+                                            days: [
+                                                {
+                                                    name: "Piątek",
+                                                    events: [
+                                                        {
+                                                            groups: ["1", "2", "3", "4"],
+                                                            name: "Wstęp do programowania",
+                                                            lecturer: "Maciej Pankiewicz",
+                                                            type: "wykład",
+                                                            room: "Aula IV",
+                                                            startTime: Moment.utc("8:45", "HH:mm"),
+                                                            duration: 90,
+                                                        },
+                                                        {
+                                                            groups: ["1", "2"],
+                                                            name: "Podstawy fizyki",
+                                                            lecturer: "Andrzej Zembrzuski",
+                                                            type: "wykład",
+                                                            room: "Aula IV",
+                                                            startTime: Moment.utc("10:30", "HH:mm"),
+                                                            duration: 90,
+                                                        },
+                                                        {
+                                                            groups: ["3", "4"],
+                                                            name: "Matematyka dyskretna",
+                                                            lecturer: "Arkadiusz Orlowski",
+                                                            type: "ćwiczenia",
+                                                            room: "3/40",
+                                                            startTime: Moment.utc("15:30", "HH:mm"),
+                                                            duration: 90,
+                                                        },
+                                                    ],
+                                                },
+                                                {
+                                                    name: "Sobota",
+                                                    events: [
+                                                        {
+                                                            groups: ["1", "2", "3", "4"],
+                                                            name: "Wstęp do programowania",
+                                                            lecturer: "Maciej Pankiewicz",
+                                                            type: "wykład",
+                                                            room: "Aula IV",
+                                                            startTime: Moment.utc("8:45", "HH:mm"),
+                                                            duration: 90,
+                                                        },
+                                                    ],
+                                                },
+                                                {
+                                                    name: "Niedziela",
+                                                    events: [
+                                                        {
+                                                            groups: ["3", "4"],
+                                                            name: "Matematyka dyskretna",
+                                                            lecturer: "Arkadiusz Orlowski",
+                                                            type: "ćwiczenia",
+                                                            room: "3/40",
+                                                            startTime: Moment.utc("15:30", "HH:mm"),
+                                                            duration: 90,
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
                             ],
                         },
                     ],
@@ -190,7 +260,7 @@ export default class MainPage extends React.Component {
         const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
             degree: "I - inżynierskie",
-            mode: "Stacjonarne",
+            mode: "Niestacjonarne",
             semester: 1,
         };
 
