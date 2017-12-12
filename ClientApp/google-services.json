@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:948434874310:android:400ed3002cf020bc",
+        "mobilesdk_app_id": "1:948434874310:android:cbeb673ad649f80a",
         "android_client_info": {
-          "package_name": "com.silvertimetable.android"
+          "package_name": "com.silvernet.timetable"
         }
       },
       "oauth_client": [

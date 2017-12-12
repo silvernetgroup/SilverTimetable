@@ -26,7 +26,10 @@
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-dialogs": "^1.3.4",
     "cordova-plugin-inappbrowser": "^1.7.2",
+    "cordova-plugin-ms-azure-mobile-apps": "^2.0.0",
     "cordova-plugin-statusbar": "^2.3.0",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "cordova-sqlite-storage": "^1.4.8",
     "material-ui": "^1.0.0-beta.21",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.19.1",
@@ -35,7 +38,7 @@
     "react-dom": "^16.1.1",
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",    
+    "react-router-dom": "^4.2.2",
     "typescript": "^2.6.1"
   },
   "cordova": {
@@ -49,7 +52,9 @@
       "cordova-plugin-device": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-ms-azure-mobile-apps": {},
+      "cordova-plugin-whitelist": {}
     },
     "platforms": [
       "android"
