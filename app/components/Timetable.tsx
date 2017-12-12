@@ -1,5 +1,6 @@
 import AppBar from "material-ui/AppBar";
 import Tabs, { Tab } from "material-ui/Tabs";
+import * as Moment from "moment";
 import * as React from "react";
 import ITimetable from "../models/ITimetable";
 import ITimetableEvent from "../models/ITimetableEvent";
@@ -31,9 +32,38 @@ export default class Timetable extends React.Component<IProps, IState> {
             selectedDay: props.defaultDay || 0,
             selectedGroup: props.defaultGroup || Array.from(groupNamesSet).sort()[0],
         };
+
+        this.props.data.fieldsOfStudy.forEach( (a) => {
+            a.degrees.forEach( (b) => {
+                b.modes.forEach( (c) => {
+                     c.semesters.forEach( (d) => {
+                         d.days.forEach( (e) => {
+                             e.events.forEach( (f) => {
+                                 const date: string = f.startTime.toString();
+                                 f.startTime = Moment.utc(date, "HH:mm");
+                             });
+                         });
+                     });
+                });
+            });
+         });
     }
 
     public render(): JSX.Element {
+        this.props.data.fieldsOfStudy.forEach( (a) => {
+            a.degrees.forEach( (b) => {
+                b.modes.forEach( (c) => {
+                     c.semesters.forEach( (d) => {
+                         d.days.forEach( (e) => {
+                             e.events.forEach( (f) => {
+                                 const date: string = f.startTime.toString();
+                                 f.startTime = Moment.utc(date, "HH:mm");
+                             });
+                         });
+                     });
+                });
+            });
+         });
         return (
             <div className="timetable-container">
                 <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>

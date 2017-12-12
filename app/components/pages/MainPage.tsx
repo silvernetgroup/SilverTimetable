@@ -1,3 +1,4 @@
+import axios from "axios";
 import * as Moment from "moment";
 import * as React from "react";
 import ITimetable from "../../models/ITimetable";
@@ -6,494 +7,46 @@ import ITimetableFilters from "../../models/ITimetableFilters";
 import LecturersPages from "../LecturersPages";
 import Timetable from "../Timetable";
 
-export default class MainPage extends React.Component {
+interface IProps {
+    data: ITimetable;
+}
+
+interface IState {
+    schedule: ITimetable;
+}
+
+export default class MainPage extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            schedule: this.props.data,
+        };
+    }
+
+    public componentWillMount() {
+        this.getData();
+    }
+
+    public getData = () => {
+        // tslint:disable-next-line:max-line-length
+        axios.get("https://gist.githubusercontent.com/michaelspace/b998f5d5a29e0124bf9c5701a5a1c19e/raw/fb86b48e5ed154c4ce1d6458f9d1c29458e479ad/plan.json")
+            .then( (response) => {
+                this.setState({schedule: response.data});
+                console.log("SUCCESS");
+            })
+            .catch( (error) => {
+               console.log("FAILED TO FETCH DATA ", error);
+            });
+    }
 
     public render(): JSX.Element {
+        //const {schedule}: any = this.state;
 
-        const data: ITimetable = {
-            creationDate: new Date("02.11.2017"),
-            fieldsOfStudy: [
-                {
-                    name: "Informatyka",
-                    degrees: [
-                        {
-                            name: "I - inżynierskie",
-                            modes: [
-                                {
-                                    name: "Stacjonarne",
-                                    semesters: [
-                                        {
-                                            number: 1,
-                                            days: [
-                                                {
-                                                    name: "Poniedzialek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/40",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["3", "4"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Wtorek",
-                                                    events: [
-                                                        {
-                                                            groups: ["3", "4", "ISI1"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Środa",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/40",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Czwartek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Piątek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                                {
-                                    name: "Niestacjonarne",
-                                    semesters: [
-                                        {
-                                            number: 1,
-                                            turnus: "A",
-                                            days: [
-                                                {
-                                                    name: "Poniedzialek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/40",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["3", "4"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Wtorek",
-                                                    events: [
-                                                        {
-                                                            groups: ["3", "4", "ISI1"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Środa",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/40",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Czwartek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Piątek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                        {
-                                            number: 1,
-                                            turnus: "B",
-                                            days: [
-                                                {
-                                                    name: "Poniedzialek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Wtorek",
-                                                    events: [
-                                                        {
-                                                            groups: ["3", "4", "ISI1"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Środa",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Czwartek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Piątek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    name: "Informatyka i ekonometria",
-                    degrees: [
-                        {
-                            name: "I - inżynierskie",
-                            modes: [
-                                {
-                                    name: "Stacjonarne",
-                                    semesters: [
-                                        {
-                                            number: 1,
-                                            days: [
-                                                {
-                                                    name: "Poniedziałek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        };
+        const data: ITimetable = this.state.schedule;
+
+       // console.log("pies");
+       // console.log(this.state.schedule && data.creationDate);
+       // console.log("pies");
 
         const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
@@ -502,17 +55,17 @@ export default class MainPage extends React.Component {
             semester: 1,
             turnus: "B",
         };
-
         return (
             <div className="main-page-container">
                 <h1 style={{ margin: 0 }}>Plan zajęć</h1>
+                {this.state.schedule &&
                 <Timetable
                     data={data}
                     filters={filters}
                     // defaultDay={3}
                     // defaultGroup="3"
                     onEventBlockClick={(event) => this.handleEventBlockClick(event)}
-                />
+                />}
             </div>
         );
     }
