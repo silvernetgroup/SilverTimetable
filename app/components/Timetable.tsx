@@ -159,7 +159,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-        dayIndex: number, group: string): JSX.Element[] {
+                              dayIndex: number, group: string): JSX.Element[] {
 
         const {
                 fieldOfStudyIndex,
