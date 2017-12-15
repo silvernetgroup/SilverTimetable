@@ -388,18 +388,17 @@ export default class MainPage extends React.Component {
         const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
             degree: "I - inżynierskie",
-            mode: "Niestacjonarne",
+            mode: "Stacjonarne",
             semester: 1,
-            turnus: "B",
+            // turnus: "B",
         };
 
         return (
-            <div className="main-page-container">
-                <h1 style={{ margin: 0 }}>Plan zajęć</h1>
+            <div className="main-page-container" style={{marginTop: "69px"}}>
                 <Timetable
                     data={data}
                     filters={filters}
-                    // defaultDay={3}
+                    defaultDay={this.currentDay(filters)}
                     // defaultGroup="3"
                     onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                 />
@@ -409,5 +408,31 @@ export default class MainPage extends React.Component {
 
     private handleEventBlockClick = (event: ITimetableEvent): void => {
         LecturersPages.openLecturersPage(event);
+    }
+
+    private currentDay(filters) {
+        const today: Date = new Date();
+        let day: number = today.getDay();
+        const mode  = filters.mode;
+
+        switch (mode) {
+            case "Stacjonarne":
+                if (day === 0 || day === 6) {
+                    day = 1;
+                }
+                day = day - 1;
+                break;
+
+            case "Niestacjonarne":
+                if (day >= 1 && day <= 5) {
+                    day = 0;
+                } else if (day === 6) {
+                    day = 1;
+                } else if (day === 0) {
+                    day = 2;
+                }
+                break;
+        }
+        return day;
     }
 }

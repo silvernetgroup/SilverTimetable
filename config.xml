@@ -15,8 +15,9 @@
         <resource-file src="google-services.json" target="google-services.json" />
     </platform>
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#0096A6" />
-    <engine name="android" spec="^6.4.0" />
+    <preference name="StatusBarBackgroundColor" value="#3f51b5" />
+    <engine name="ios" spec="^4.5.4" />
+    <engine name="android" spec="^6.3.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>

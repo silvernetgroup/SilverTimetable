@@ -22,8 +22,9 @@
     "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.2.1",
     "android-versions": "^1.2.1",
-    "cordova-android": "^6.4.0",
+    "cordova-android": "^6.3.0",
     "cordova-android-support-gradle-release": "^1.1.5",
+    "cordova-ios": "^4.5.4",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-dialogs": "^1.3.4",
     "cordova-plugin-inappbrowser": "^1.7.2",
@@ -37,8 +38,7 @@
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "style-loader": "^0.19.1",
-    "typeface-roboto": "0.0.43"
+    "typescript": "^2.6.1"
   },
   "cordova": {
     "plugins": {
@@ -54,6 +54,7 @@
       "cordova-plugin-statusbar": {}
     },
     "platforms": [
+      "ios",
       "android"
     ]
   }

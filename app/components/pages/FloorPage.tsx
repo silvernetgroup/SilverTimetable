@@ -24,6 +24,7 @@ export default class FloorPage extends React.Component<{}, IState> {
     public render(): JSX.Element {
         const style: any = {
             textAlign: "center",
+            marginTop: "69px",
         };
         const pointerStyle: any = {
             position: "absolute",
