@@ -75,7 +75,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         let semesterIndex: number;
 
-        if (turnus !== undefined) {
+        if (turnus !== undefined && mode === "Niestacjonarne") {
             semesterIndex = data
                 .fieldsOfStudy[fieldOfStudyIndex]
                 .degrees[degreeIndex]
