@@ -10,7 +10,7 @@ import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
 import Drawer from "./appNavigationComponents/Drawer";
-import AppBar from "./appNavigationComponents/Toolbar";
+import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
 
 // Config
 import * as config from "react-global-configuration";
@@ -30,9 +30,9 @@ export default class App extends React.Component {
         function onDeviceReady() {
             StatusBar.styleLightContent();
             StatusBar.overlaysWebView(false); // config one doesn't work (on iOS)
-            if (device.platform == "Android") {
+            if (device.platform === "Android") {
                 StatusBar.backgroundColorByHexString("#303F9F");
-            } else if (device.platform == "iOS") {
+            } else if (device.platform === "iOS") {
                 StatusBar.backgroundColorByHexString("#3f51b5");
             }
         }
@@ -48,7 +48,7 @@ export default class App extends React.Component {
                         <Route path="/filtering" component={FilteringPage} />
                         <Route path="/floor" render={() => <FloorPage />} />
                     </Switch>
-                    <AppBar />
+                    <NavigationToolbar />
                 </div>
             </Router>
         );
