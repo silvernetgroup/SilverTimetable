@@ -8,7 +8,11 @@ import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
-// config
+// AppBar/Navigation
+import Drawer from "./appNavigationComponents/LeftDrawer";
+import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
+
+// Config
 import * as config from "react-global-configuration";
 import configuration from "../Config";
 
@@ -22,27 +26,29 @@ export default class App extends React.Component {
     constructor(props: any) {
         super(props);
         config.set(configuration, { freeze: false });
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            StatusBar.styleLightContent();
+            StatusBar.overlaysWebView(false); // config one doesn't work (on iOS)
+            if (device.platform === "Android") {
+                StatusBar.backgroundColorByHexString("#303F9F");
+            } else if (device.platform === "iOS") {
+                StatusBar.backgroundColorByHexString("#3f51b5");
+            }
+        }
     }
 
     public render(): JSX.Element {
         return (
             <Router>
-                <div className="app-container">
-                    <nav>
-                        <ul>
-                            <li><Link to="/" replace>[Strona główna]</Link></li>
-                            <li><Link to="/settings" replace>[Ustawienia]</Link></li>
-                            <li><Link to="/filtering" replace>[Filtrowanie]</Link></li>
-                            <li><Link to="/floor" replace>[Schemat piętra]</Link></li>
-                        </ul>
-                    </nav>
-                    <hr />
+                <div className="app-container" style={{WebkitOverflowScrolling: "touch"}}>
                     <Switch>
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
                         <Route path="/floor" render={() => <FloorPage />} />
                     </Switch>
+                    <NavigationToolbar />
                 </div>
             </Router>
         );
