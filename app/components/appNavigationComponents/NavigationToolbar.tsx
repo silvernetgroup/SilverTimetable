@@ -13,7 +13,7 @@ import Hamburger from "material-ui-icons/Menu";
 
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
-import LeftDrawer from "./Drawer";
+import LeftDrawer from "./LeftDrawer";
 
 const styles: any = (theme) => ({
   flex: {

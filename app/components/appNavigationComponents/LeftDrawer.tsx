@@ -49,9 +49,9 @@ export default class LeftDrawer extends React.Component<{}, IState> {
                   </Typography>
                 </div>
               </div>
-              <LinkListItem name="Plan" iconName="Time" linkPage="/" />
-              <LinkListItem name="Ustawienia" iconName="Time" linkPage="/settings" />
-              <LinkListItem name="Schemat piętra" iconName="Time" linkPage="/floor" />
+              <LinkListItem name="Plan" iconName="Event" linkPage="/" />
+              <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" />
+              <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" />
             </List>
           </div>
         );

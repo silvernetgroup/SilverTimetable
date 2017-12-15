@@ -9,7 +9,7 @@ import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
-import Drawer from "./appNavigationComponents/Drawer";
+import Drawer from "./appNavigationComponents/LeftDrawer";
 import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
 
 // Config
