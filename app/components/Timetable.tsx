@@ -36,25 +36,33 @@ export default class Timetable extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         return (
             <div className="timetable-container">
-            <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
-                <Tabs
-                    value={this.state.selectedDay}
-                    onChange={this.handleDayChange}
-                    scrollable
-                    fullWidth
-                    {...{} as any}
+                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                    <Tabs
+                        value={this.state.selectedDay}
+                        onChange={this.handleDayChange}
+                        scrollable
+                        fullWidth
+                        {...{} as any}
                     >
-                    {this.props.filters.mode === "Stacjonarne" && <Tab label="Pn" />}
-                    {this.props.filters.mode === "Stacjonarne" && <Tab label="Wt" />}
-                    {this.props.filters.mode === "Stacjonarne" && <Tab label="Śr" />}
-                    {this.props.filters.mode === "Stacjonarne" && <Tab label="Czw" />}
-                    <Tab label="Pt" />
-                    {this.props.filters.mode === "Niestacjonarne" && <Tab label="So" />}
-                    {this.props.filters.mode === "Niestacjonarne" && <Tab label="Nd" />}
-                </Tabs>
-            </AppBar>
-            {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
-        </div> );
+                        {this.props.filters.mode === "Stacjonarne" &&
+                            <React.Fragment>
+                                <Tab label="Pn" />
+                                <Tab label="Wt" />
+                                <Tab label="Śr" />
+                                <Tab label="Czw" />
+                                <Tab label="Pt" />
+                            </React.Fragment>
+                        }
+                        {this.props.filters.mode === "Niestacjonarne" &&
+                            <React.Fragment>
+                                <Tab label="So" />
+                                <Tab label="Nd" />
+                            </React.Fragment>
+                        }
+                    </Tabs>
+                </AppBar>
+                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
+            </div>);
     }
 
     private filterIndexes(data: ITimetable, filters: ITimetableFilters): {
@@ -103,7 +111,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     private generateGroupNamesSet(data: ITimetable, filters: ITimetableFilters): Set<string> {
 
         const {
-            fieldOfStudyIndex,
+                                fieldOfStudyIndex,
             degreeIndex,
             modeIndex,
             semesterIndex,
@@ -159,10 +167,10 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-                              dayIndex: number, group: string): JSX.Element[] {
+        dayIndex: number, group: string): JSX.Element[] {
 
         const {
-                fieldOfStudyIndex,
+                                    fieldOfStudyIndex,
             degreeIndex,
             modeIndex,
             semesterIndex,
