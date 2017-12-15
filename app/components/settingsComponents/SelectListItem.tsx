@@ -11,10 +11,10 @@ interface IProps {
   name: string;
   options: string[];
   enabled: boolean;
+  configName: string;
 }
-
 interface IState {
-  option: 0;
+  option: number;
 }
 
 const style: any = {
@@ -27,6 +27,13 @@ const padding: any = {
 };
 
 export default class SelectListItem extends React.Component<IProps, IState> {
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+        option: this.props.options.indexOf(config.get(this.props.configName)),
+    };
+  }
 
   public render(): JSX.Element {
     return (
@@ -42,19 +49,9 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   // select controller
   private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
-    switch (this.props.name) {
-      case "Wydział":
-        config.set({ facultyFilter: event.target.value });
-        break;
-      case "Semestr":
-        config.set({ semesterFilter: event.target.value });
-        break;
-      case "Grupa":
-        config.set({ groupFilter: event.target.value });
-        break;
-      default:
-        break;
-    }
+    const temp = config.get();
+    temp[this.props.configName] = this.props.options[event.target.value];
+    config.set(temp);
   }
 
   private drawSelect(): JSX.Element {
@@ -83,5 +80,4 @@ export default class SelectListItem extends React.Component<IProps, IState> {
       );
     }
   }
-
 }
