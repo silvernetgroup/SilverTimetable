@@ -44,19 +44,31 @@ export default class Timetable extends React.Component<IProps, IState> {
                         onChange={this.handleDayChange}
                         scrollable
                         fullWidth
-                        {...{} as any}
                     >
-                        {/*Temp minWidth implementation, will be cleaned-up when other tasks completion*/}
-                        <Tab label="Pn" style={{minWidth: 50}}/>
-                        <Tab label="Wt" style={{minWidth: 50}}/>
-                        <Tab label="Śr" style={{minWidth: 50}}/>
-                        <Tab label="Czw" style={{minWidth: 50}}/>
-                        <Tab label="Pt" style={{minWidth: 50}}/>
+                        {this.renderDayTabs(this.props.filters.mode)}
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
             </div>
         );
+    }
+
+    private renderDayTabs(mode: string): JSX.Element[] {
+        if (mode === "Stacjonarne") {
+            return [
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn"/>,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt"/>,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr"/>,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz"/>,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
+            ];
+        } else {
+            return [
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
+                <Tab label="So" style={{ minWidth: 50 }} key="So"/>,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie"/>,
+            ];
+        }
     }
 
     private filterIndexes(data: ITimetable, filters: ITimetableFilters): {
@@ -141,23 +153,23 @@ export default class Timetable extends React.Component<IProps, IState> {
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
                 {config.get("showGroupChange") === true &&
-                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
-                    <Tabs
-                        value={this.state.selectedGroup}
-                        onChange={this.handleGroupChange}
-                        fullWidth
-                        scrollable
-                        {...{} as any}
-                    >
-                        {
-                            Array.from(groupNamesSet).sort().map((group) => {
-                                return (
-                                    <Tab label={group} key={group} value={group} />
-                                );
-                            })
-                        }
-                    </Tabs>
-                </AppBar>
+                    <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                        <Tabs
+                            value={this.state.selectedGroup}
+                            onChange={this.handleGroupChange}
+                            fullWidth
+                            scrollable
+                            {...{} as any}
+                        >
+                            {
+                                Array.from(groupNamesSet).sort().map((group) => {
+                                    return (
+                                        <Tab label={group} key={group} value={group} />
+                                    );
+                                })
+                            }
+                        </Tabs>
+                    </AppBar>
                 }
                 {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
@@ -172,7 +184,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                               dayIndex: number, group: string): JSX.Element[] {
 
         const {
-                fieldOfStudyIndex,
+            fieldOfStudyIndex,
             degreeIndex,
             modeIndex,
             semesterIndex,

@@ -188,7 +188,7 @@ export default class MainPage extends React.Component {
                                             turnus: "A",
                                             days: [
                                                 {
-                                                    name: "Poniedzialek",
+                                                    name: "Piątek",
                                                     events: [
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -206,83 +206,10 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/40",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
                                                             duration: 90,
                                                         },
                                                         {
                                                             groups: ["3", "4"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Wtorek",
-                                                    events: [
-                                                        {
-                                                            groups: ["3", "4", "ISI1"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "ćwiczenia",
-                                                            room: "3/83",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["5", "6"],
-                                                            name: "Podstawy analizy matematycznej",
-                                                            lecturer: "Jarosław Bojarski",
-                                                            type: "ćwiczenia",
-                                                            room: "1/78",
-                                                            startTime: Moment.utc("15:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Środa",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Matematyka dyskretna",
-                                                            lecturer: "Arkadiusz Orlowski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2"],
                                                             name: "Matematyka dyskretna",
                                                             lecturer: "Arkadiusz Orlowski",
                                                             type: "ćwiczenia",
@@ -293,10 +220,10 @@ export default class MainPage extends React.Component {
                                                     ],
                                                 },
                                                 {
-                                                    name: "Czwartek",
+                                                    name: "Sobota",
                                                     events: [
                                                         {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
+                                                            groups: ["1", "2", "3", "4"],
                                                             name: "Wstęp do programowania",
                                                             lecturer: "Maciej Pankiewicz",
                                                             type: "wykład",
@@ -316,7 +243,7 @@ export default class MainPage extends React.Component {
                                                     ],
                                                 },
                                                 {
-                                                    name: "Piątek",
+                                                    name: "Niedziela",
                                                     events: [
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -345,7 +272,7 @@ export default class MainPage extends React.Component {
                                             turnus: "B",
                                             days: [
                                                 {
-                                                    name: "Poniedzialek",
+                                                    name: "Piątek",
                                                     events: [
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -377,7 +304,7 @@ export default class MainPage extends React.Component {
                                                     ],
                                                 },
                                                 {
-                                                    name: "Wtorek",
+                                                    name: "Sobota",
                                                     events: [
                                                         {
                                                             groups: ["3", "4", "ISI1"],
@@ -400,7 +327,7 @@ export default class MainPage extends React.Component {
                                                     ],
                                                 },
                                                 {
-                                                    name: "Środa",
+                                                    name: "Niedziela",
                                                     events: [
                                                         {
                                                             groups: ["1", "2", "3", "4", "5", "6"],
@@ -409,43 +336,6 @@ export default class MainPage extends React.Component {
                                                             type: "wykład",
                                                             room: "Aula IV",
                                                             startTime: Moment.utc("14:00", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Czwartek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Wstęp do programowania",
-                                                            lecturer: "Maciej Pankiewicz",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("8:45", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
-                                                            duration: 90,
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    name: "Piątek",
-                                                    events: [
-                                                        {
-                                                            groups: ["1", "2", "3", "4", "5", "6"],
-                                                            name: "Podstawy fizyki",
-                                                            lecturer: "Andrzej Zembrzuski",
-                                                            type: "wykład",
-                                                            room: "Aula IV",
-                                                            startTime: Moment.utc("10:30", "HH:mm"),
                                                             duration: 90,
                                                         },
                                                     ],
