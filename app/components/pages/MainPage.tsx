@@ -124,9 +124,9 @@ export default class MainPage extends React.Component<IProps, IState> {
         const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
             degree: "I - inżynierskie",
-            mode: "Niestacjonarne",
+            mode: "Stacjonarne",
             semester: 1,
-            turnus: "B",
+            // turnus: "B",
         };
 
         if (!this.state.IsLoaded && !this.state.IsError) {
@@ -153,5 +153,31 @@ export default class MainPage extends React.Component<IProps, IState> {
 
     private handleEventBlockClick = (event: ITimetableEvent): void => {
         LecturersPages.openLecturersPage(event);
+    }
+
+    private currentDay(filters) {
+        const today: Date = new Date();
+        let day: number = today.getDay();
+        const mode  = filters.mode;
+
+        switch (mode) {
+            case "Stacjonarne":
+                if (day === 0 || day === 6) {
+                    day = 1;
+                }
+                day = day - 1;
+                break;
+
+            case "Niestacjonarne":
+                if (day >= 1 && day <= 5) {
+                    day = 0;
+                } else if (day === 6) {
+                    day = 1;
+                } else if (day === 0) {
+                    day = 2;
+                }
+                break;
+        }
+        return day;
     }
 }

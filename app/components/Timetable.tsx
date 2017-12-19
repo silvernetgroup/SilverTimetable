@@ -8,6 +8,9 @@ import ITimetableFilters from "../models/ITimetableFilters";
 import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 
+// Config
+import * as config from "react-global-configuration";
+
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
@@ -27,10 +30,9 @@ export default class Timetable extends React.Component<IProps, IState> {
         super(props);
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
-
         this.state = {
             selectedDay: props.defaultDay || 0,
-            selectedGroup: props.defaultGroup || Array.from(groupNamesSet).sort()[0],
+            selectedGroup: config.get("group"),
         };
 
         this.props.data.fieldsOfStudy.forEach( (a) => {
@@ -66,24 +68,37 @@ export default class Timetable extends React.Component<IProps, IState> {
          });
         return (
             <div className="timetable-container">
-                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                <AppBar style={{ position: "relative", color: "white" }}>
                     <Tabs
                         value={this.state.selectedDay}
                         onChange={this.handleDayChange}
                         scrollable
                         fullWidth
-                        {...{} as any}
                     >
-                        <Tab label="Pn" />
-                        <Tab label="Wt" />
-                        <Tab label="Śr" />
-                        <Tab label="Czw" />
-                        <Tab label="Pt" />
+                        {this.renderDayTabs(this.props.filters.mode)}
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
             </div>
         );
+    }
+
+    private renderDayTabs(mode: string): JSX.Element[] {
+        if (mode === "Stacjonarne") {
+            return [
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn"/>,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt"/>,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr"/>,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz"/>,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
+            ];
+        } else {
+            return [
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
+                <Tab label="So" style={{ minWidth: 50 }} key="So"/>,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie"/>,
+            ];
+        }
     }
 
     private filterIndexes(data: ITimetable, filters: ITimetableFilters): {
@@ -105,7 +120,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         let semesterIndex: number;
 
-        if (turnus !== undefined) {
+        if (turnus !== undefined && mode === "Niestacjonarne") {
             semesterIndex = data
                 .fieldsOfStudy[fieldOfStudyIndex]
                 .degrees[degreeIndex]
@@ -155,30 +170,38 @@ export default class Timetable extends React.Component<IProps, IState> {
         return new Set(groupNames);
     }
 
+    private saveCurrentGroup() {
+        const temp = config.get();
+        temp.group = this.state.selectedGroup;
+        config.set(temp);
+    }
+
     private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(data, filters);
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
-                <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
-                    <Tabs
-                        value={this.state.selectedGroup}
-                        onChange={this.handleGroupChange}
-                        fullWidth
-                        scrollable
-                        {...{} as any}
-                    >
-                        {
-                            Array.from(groupNamesSet).sort().map((group) => {
-                                return (
-                                    <Tab label={group} key={group} value={group} />
-                                );
-                            })
-                        }
-                    </Tabs>
-                </AppBar>
-
+                {config.get("showGroupChange") === true &&
+                    <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
+                        <Tabs
+                            value={this.state.selectedGroup}
+                            onChange={this.handleGroupChange}
+                            fullWidth
+                            scrollable
+                            {...{} as any}
+                        >
+                            {
+                                Array.from(groupNamesSet).sort().map((group) => {
+                                    return (
+                                        <Tab label={group} key={group} value={group} />
+                                    );
+                                })
+                            }
+                        </Tabs>
+                    </AppBar>
+                }
+                {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
                     {this.renderEventBlocks(data, filters, selectedDayIndex, this.state.selectedGroup)}
                 </div>
@@ -188,10 +211,10 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-        dayIndex: number, group: string): JSX.Element[] {
+                              dayIndex: number, group: string): JSX.Element[] {
 
         const {
-                fieldOfStudyIndex,
+            fieldOfStudyIndex,
             degreeIndex,
             modeIndex,
             semesterIndex,

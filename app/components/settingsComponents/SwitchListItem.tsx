@@ -16,13 +16,13 @@ import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
 import Select from "material-ui/Select";
 
-// settings Components
+// Icons
 import IconHelper from "./IconHelper";
 
 interface IProps {
   name: string;
   iconName: string;
-  defValue: boolean;
+  configName: string;
 }
 
 interface IState {
@@ -45,7 +45,22 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    if (this.props.defValue === true) {
+
+    this.state = {
+      time: 5,
+      checked: ["none"],
+    };
+
+    if (this.props.configName === "notificationBeforeClass") {
+      const configTime = config.get("notificationBeforeClass");
+      if (config.get("notificationBeforeClass") > 0) {
+        this.state = {
+          checked: [this.props.iconName],
+          time: configTime,
+        };
+        notifyOn = true;
+      }
+    } else if (config.get(this.props.configName) === true) {
       this.state = {
         checked: [this.props.iconName],
         time: 5,
@@ -86,41 +101,31 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     }
 
     // global settings controller
+    const temp = config.get();
     switch (this.props.iconName) {
       case "Time":
         notifyOn = !notifyOn;
         if (notifyOn) {
-          config.set({ notificationBeforeClass: this.state.time });
+          temp.notificationBeforeClass = this.state.time;
         } else {
-          config.set({ notificationBeforeClass: 0 });
+          temp.notificationBeforeClass = 0;
         }
         break;
       case "Notifications":
-        if (currentIndex === -1) {
-          config.set({ notificationNewVersion: true });
-        } else {
-          config.set({ notificationNewVersion: false });
-        }
+        temp.notificationNewVersion = currentIndex === -1;
         break;
 
       case "Download":
-        if (currentIndex === -1) {
-          config.set({ offline: true });
-        } else {
-          config.set({ offline: false });
-        }
+        temp.offline = currentIndex === -1;
         break;
 
       case "Top":
-        if (currentIndex === -1) {
-          config.set({ showGroupChange: true });
-        } else {
-          config.set({ showGroupChange: false });
-        }
+        temp.showGroupChange = currentIndex === -1;
 
       default:
         break;
     }
+    config.set(temp);
 
     this.setState({
       checked: newChecked,
@@ -130,7 +135,9 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
   // select controller
   private handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
-    config.set({ notificationBeforeClass: event.target.value });
+    const temp = config.get();
+    temp.notificationBeforeClass = event.target.value;
+    config.set(temp);
   }
 
   private renderInputField(): JSX.Element {
