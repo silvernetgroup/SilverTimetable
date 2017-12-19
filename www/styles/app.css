@@ -69,3 +69,19 @@ body, html, .app-container{
 .additionalFt-event-block{
     color: #000000;
 }
+
+.CrcProgress{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.ErrorPage{
+    background-color: #FFFFFF;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+}
