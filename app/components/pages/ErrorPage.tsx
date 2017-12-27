@@ -2,8 +2,6 @@ import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import * as React from "react";
 
-// TODO: Mozliwosc odswiezenia / automatycze odswiezanie jesli uzyska polaczenie
-
 const ErrorPage = () => (
     <div className="ErrorPage">
       <Paper elevation={4}>
