@@ -8,7 +8,7 @@ interface IProps {
     lecturer: string;
     type: string;
     room: string;
-    duration: number;
+    endTime: Moment.Moment;
     comment?: string;
     startTime: Moment.Moment;
     onClick(event: ITimetableEvent): void;
@@ -18,7 +18,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
 
     public render(): JSX.Element {
 
-        const { startTime, duration } = this.props;
+        const { startTime, endTime } = this.props;
         const style: any = {
             height: 80,
             backgroundColor: "#FFFFFF",
@@ -39,7 +39,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
                 <div className="props-event-block">
                     <span>
                         {this.props.type} {startTime.format("HH:mm")}
-                        - {startTime.clone().add(duration, "minutes").format("HH:mm")}
+                        - {endTime.format("HH:mm")}
                         <br />
                         <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
                     </span>

@@ -13,14 +13,14 @@ import * as config from "react-global-configuration";
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
-    defaultDay?: number;
+    defaultDay?: string;
     defaultGroup?: string;
     onEventBlockClick(event: ITimetableEvent): void;
 }
 
 interface IState {
-    selectedDay: number;
-    selectedGroup: string;
+    selectedDay: string;
+    selectedGroup: number;
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
@@ -30,7 +30,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(props.data, props.filters);
         this.state = {
-            selectedDay: props.defaultDay || 0,
+            selectedDay: props.defaultDay || "PN",
             selectedGroup: config.get("group"),
         };
     }
@@ -56,85 +56,34 @@ export default class Timetable extends React.Component<IProps, IState> {
     private renderDayTabs(mode: string): JSX.Element[] {
         if (mode === "Stacjonarne") {
             return [
-                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn"/>,
-                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt"/>,
-                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr"/>,
-                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz"/>,
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" />,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" />,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" />,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
             ];
         } else {
             return [
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt"/>,
-                <Tab label="So" style={{ minWidth: 50 }} key="So"/>,
-                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie"/>,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
+                <Tab label="So" style={{ minWidth: 50 }} key="So" />,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" />,
             ];
         }
-    }
-
-    private filterIndexes(data: ITimetable, filters: ITimetableFilters): {
-        fieldOfStudyIndex: number,
-        degreeIndex: number,
-        modeIndex: number,
-        semesterIndex: number,
-    } {
-
-        const { fieldOfStudy, degree, mode, semester, turnus } = filters;
-
-        const fieldOfStudyIndex: number = data.fieldsOfStudy.findIndex((f) => f.name === fieldOfStudy);
-        const degreeIndex: number = data.fieldsOfStudy[fieldOfStudyIndex].degrees.findIndex((d) => d.name === degree);
-        const modeIndex: number = data
-            .fieldsOfStudy[fieldOfStudyIndex]
-            .degrees[degreeIndex]
-            .modes
-            .findIndex((m) => m.name === mode);
-
-        let semesterIndex: number;
-
-        if (turnus !== undefined && mode === "Niestacjonarne") {
-            semesterIndex = data
-                .fieldsOfStudy[fieldOfStudyIndex]
-                .degrees[degreeIndex]
-                .modes[modeIndex]
-                .semesters.findIndex((s) => s.number === semester && s.turnus === turnus);
-        } else {
-            semesterIndex = data
-                .fieldsOfStudy[fieldOfStudyIndex]
-                .degrees[degreeIndex]
-                .modes[modeIndex]
-                .semesters.findIndex((s) => s.number === semester);
-        }
-
-        return (
-            {
-                fieldOfStudyIndex,
-                degreeIndex,
-                modeIndex,
-                semesterIndex,
-            }
-        );
     }
 
     private generateGroupNamesSet(data: ITimetable, filters: ITimetableFilters): Set<string> {
 
-        const {
-            fieldOfStudyIndex,
-            degreeIndex,
-            modeIndex,
-            semesterIndex,
-        } = this.filterIndexes(data, filters);
-
         const groupNames: string[] = [];
 
-        data
-            .fieldsOfStudy[fieldOfStudyIndex]
-            .degrees[degreeIndex]
-            .modes[modeIndex]
-            .semesters[semesterIndex]
-            .days
-            .forEach((day) => {
-                day.events.forEach((event) => {
-                    groupNames.push(...event.groups);
-                });
+        data.events.filter((obj) =>
+            obj.degree === filters.degree
+            && obj.department === filters.department
+            && obj.fieldOfStudy === filters.fieldOfStudy
+            && obj.mode === filters.mode
+            && obj.semester === filters.semester
+            && obj.specialization === filters.specialization)
+            .forEach((event) => {
+                groupNames.push(event.specialization || event.group.toString());
             });
 
         return new Set(groupNames);
@@ -146,7 +95,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         config.set(temp);
     }
 
-    private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDayIndex: number): JSX.Element {
+    private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDay: string): JSX.Element {
 
         const groupNamesSet: Set<string> = this.generateGroupNamesSet(data, filters);
 
@@ -173,7 +122,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                 }
                 {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
-                    {this.renderEventBlocks(data, filters, selectedDayIndex, this.state.selectedGroup)}
+                    {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
                 </div>
             </div >
 
@@ -181,31 +130,26 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-                              dayIndex: number, group: string): JSX.Element[] {
-
-        const {
-            fieldOfStudyIndex,
-            degreeIndex,
-            modeIndex,
-            semesterIndex,
-        } = this.filterIndexes(data, filters);
+                              dayOfWeek: string, group: number): JSX.Element[] {
 
         return data
-            .fieldsOfStudy[fieldOfStudyIndex]
-            .degrees[degreeIndex]
-            .modes[modeIndex]
-            .semesters[semesterIndex]
-            .days[dayIndex]
             .events
-            .filter((obj) => obj.groups.indexOf(group) !== -1)
+            .filter((obj) => obj.group === group
+                && obj.dayOfWeek === dayOfWeek
+                && obj.degree === filters.degree
+                && obj.department === filters.department
+                && obj.fieldOfStudy === filters.fieldOfStudy
+                && obj.mode === filters.mode
+                && obj.semester === filters.semester
+                && obj.specialization === filters.specialization || !filters.specialization)
             .map((event, index, array) => {
                 let duration;
                 if (index + 1 < array.length) {
                     const nextEventStartTime = array[index + 1].startTime.get("minutes")
                         + array[index + 1].startTime.get("hours") * 60;
-                    const currentEventStartTime = event.startTime.get("minutes")
+                    const currentEventEndTime = event.endTime.get("minutes")
                         + event.startTime.get("hours") * 60;
-                    duration = nextEventStartTime - currentEventStartTime - event.duration;
+                    duration = nextEventStartTime - currentEventEndTime;
                 } else {
                     duration = 0;
                 }
@@ -222,7 +166,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                                 lecturer={event.lecturer}
                                 type={event.type}
                                 room={event.room}
-                                duration={event.duration}
+                                endTime={event.endTime}
                                 startTime={event.startTime}
                                 onClick={() => this.props.onEventBlockClick(event)} />
                             <BreakBlock
@@ -245,7 +189,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     lecturer={event.lecturer}
                                     type={event.type}
                                     room={event.room}
-                                    duration={event.duration}
+                                    endTime={event.endTime}
                                     startTime={event.startTime}
                                     onClick={() => this.props.onEventBlockClick(event)} />
                                 <BreakBlock
@@ -262,7 +206,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     lecturer={event.lecturer}
                                     type={event.type}
                                     room={event.room}
-                                    duration={event.duration}
+                                    endTime={event.endTime}
                                     startTime={event.startTime}
                                     onClick={() => this.props.onEventBlockClick(event)} />
                                 <BreakBlock
@@ -279,7 +223,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                                     lecturer={event.lecturer}
                                     type={event.type}
                                     room={event.room}
-                                    duration={event.duration}
+                                    endTime={event.endTime}
                                     startTime={event.startTime}
                                     onClick={() => this.props.onEventBlockClick(event)} />
                                 <BreakBlock
