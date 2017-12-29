@@ -498,13 +498,14 @@ export default class MainPage extends React.Component {
         temp.timetable = data;
         config.set(temp);
 
-        const filters: ITimetableFilters = {
-            fieldOfStudy: "Informatyka",
-            degree: "inż",
-            mode: "Stacjonarne",
-            semester: 1,
-            department: "WZIM",
-        };
+        // const filters: ITimetableFilters = {
+        //     fieldOfStudy: "Informatyka",
+        //     degree: "inż",
+        //     mode: "Stacjonarne",
+        //     semester: 1,
+        //     department: "WZIM",
+        // };
+        const filters = config.get("filters");
 
         return (
             <div className="main-page-container" style={{ marginTop: "69px" }}>

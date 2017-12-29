@@ -1,15 +1,20 @@
 // tslint:disable:object-literal-sort-keys
 
 const config: any = {
-  fieldOfStudy: null,
-  degree: null,
-  mode: null,
-  semester: null,
-  group: null,
+  filters: {
+    department: null,
+    fieldOfStudy: null,
+    degree: null,
+    mode: null,
+    semester: null,
+    group: null,
+    specialization: null,
+  },
   notificationNewVersion: true,
   notificationBeforeClass: 0,
   offline: true,
   showGroupChange: true,
+  timetable: null,
 };
 
 export default config;

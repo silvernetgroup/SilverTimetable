@@ -4,6 +4,5 @@ export default interface ITimetableFilters {
     mode: string;
     semester: number;
     group?: number;
-    specialization?: string;
     department: string;
 }

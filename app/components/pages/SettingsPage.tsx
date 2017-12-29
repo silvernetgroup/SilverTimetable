@@ -48,16 +48,16 @@ export default class SettingsPage extends React.Component<{}, IState> {
         fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department"], data),
         degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy"], data),
         semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree"], data),
-        mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "semester"], data),
-        group: this.shouldBeEnabled("group", ["department", "fieldOfStudy", "degree", "mode"], data),
+        mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree"], data),
+        group: this.shouldBeEnabled("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
       },
       listValues: {
         department: this.getAvailableOptions("department", [], data),
         fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department"], data),
         degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy"], data),
         semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree"], data),
-        mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "semester"], data),
-        group: this.getAvailableOptions("group", ["department", "fieldOfStudy", "degree", "mode"], data),
+        mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree"], data),
+        group: this.getAvailableOptions("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
       },
     };
   }
@@ -126,18 +126,20 @@ export default class SettingsPage extends React.Component<{}, IState> {
       return [];
     }
     const resultsSet: Set<string> = new Set<string>();
+    const filters = config.get("filters");
+
     data
       .events
       .filter((event) => filterKeys
-        .every((key) => event[key] === config.get(key)))
+        .every((key) => event[key] === filters[key]))
       .forEach((event) => resultsSet.add(optionName === "group"
-        ? event.group + (event.specialization ? " - " + event.specialization : "")
+        ? event.specialization || event.group.toString()
         : event[optionName]));
     return [...resultsSet];
   }
 
   private shouldBeEnabled(optionName: string, filterKeys: string[], data: ITimetable): boolean {
-    if (!data || filterKeys.some((value) => !config.get(value))) {
+    if (!data || filterKeys.some((value) => !config.get("filters")[value])) {
       return false;
     }
     return true;
