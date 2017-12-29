@@ -12,6 +12,7 @@ interface IProps {
   options: string[];
   enabled: boolean;
   configName: string;
+  onChange?: any;
 }
 interface IState {
   option: number;
@@ -31,7 +32,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-        option: this.props.options.indexOf(config.get(this.props.configName)),
+      option: this.props.options.indexOf(config.get(this.props.configName)),
     };
   }
 
@@ -52,6 +53,9 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     const temp = config.get();
     temp[this.props.configName] = this.props.options[event.target.value];
     config.set(temp);
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
   }
 
   private drawSelect(): JSX.Element {

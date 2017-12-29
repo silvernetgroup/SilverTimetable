@@ -5,6 +5,7 @@ import ITimetableEvent from "../../models/ITimetableEvent";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import LecturersPages from "../LecturersPages";
 import Timetable from "../Timetable";
+import * as config from "react-global-configuration";
 
 export default class MainPage extends React.Component {
 
@@ -493,9 +494,13 @@ export default class MainPage extends React.Component {
             ],
         };
 
+        const temp = config.get();
+        temp.timetable = data;
+        config.set(temp);
+
         const filters: ITimetableFilters = {
             fieldOfStudy: "Informatyka",
-            degree: "I - inżynierskie",
+            degree: "inż",
             mode: "Stacjonarne",
             semester: 1,
             department: "WZIM",
@@ -518,11 +523,10 @@ export default class MainPage extends React.Component {
         LecturersPages.openLecturersPage(event);
     }
 
-    private currentDay(filters: ITimetableFilters): string {
+    private currentDay(filters: ITimetableFilters): number {
         const today: Date = new Date();
         let dayNumber: number = today.getDay();
         const mode = filters.mode;
-        let dayName: string;
 
         switch (mode) {
             case "Stacjonarne":
@@ -543,30 +547,6 @@ export default class MainPage extends React.Component {
                 break;
         }
 
-        switch (dayNumber) { // dac tu slownik
-            case 1:
-                dayName = "PN";
-                break;
-            case 1:
-                dayName = "WT";
-                break;
-            case 1:
-                dayName = "ŚR";
-                break;
-            case 1:
-                dayName = "CZw";
-                break;
-            case 1:
-                dayName = "PT";
-                break;
-            case 1:
-                dayName = "SO";
-                break;
-            case 1:
-                dayName = "NIE";
-                break;
-        }
-
-        return dayName;
+        return dayNumber;
     }
 }
