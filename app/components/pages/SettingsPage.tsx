@@ -130,7 +130,9 @@ export default class SettingsPage extends React.Component<{}, IState> {
       .events
       .filter((event) => filterKeys
         .every((key) => event[key] === config.get(key)))
-      .forEach((event) => resultsSet.add(event[optionName]));
+      .forEach((event) => resultsSet.add(optionName === "group"
+        ? event.group + (event.specialization ? " - " + event.specialization : "")
+        : event[optionName]));
     return [...resultsSet];
   }
 
