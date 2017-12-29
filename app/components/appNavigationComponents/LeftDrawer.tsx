@@ -47,6 +47,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
               <Typography gutterBottom style={{ color: "white" }}>
                 {config.get("filters").semester &&
                   <>{config.get("filters").mode}, semestr {config.get("filters").semester}</>
+                  // react fragment - w razie problemow zaktualizuj vscode
                 }
               </Typography>
             </div>
