@@ -42,10 +42,12 @@ export default class LeftDrawer extends React.Component<{}, IState> {
           <div style={{ height: 160, backgroundColor: "#3f51b5", top: 0, display: "flex", marginBottom: 16 }}>
             <div style={{ display: "inline-block", alignSelf: "flex-end", marginLeft: 16, marginBottom: 6 }}>
               <Typography type="headline" gutterBottom style={{ color: "white", marginBottom: 0 }}>
-                {config.get("filters").fieldOfStudy}
+                {config.get("filters").degree &&
+                  config.get("filters").fieldOfStudy + " (" + config.get("filters").degree + ")"
+                }
               </Typography>
               <Typography gutterBottom style={{ color: "white" }}>
-                {config.get("filters").semester &&
+                {config.get("filters").mode &&
                   <>{config.get("filters").mode}, semestr {config.get("filters").semester}</>
                   // react fragment - w razie problemow zaktualizuj vscode
                 }
@@ -58,6 +60,12 @@ export default class LeftDrawer extends React.Component<{}, IState> {
         </List>
       </div>
     );
+
+    const footerStyle: any = {
+      position: "absolute",
+      bottom: 0,
+      left: 10,
+    };
     return (
       <div>
         <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}>
@@ -71,6 +79,9 @@ export default class LeftDrawer extends React.Component<{}, IState> {
             onKeyDown={this.toggleDrawer(false)}
           >
             {sideList}
+            {config.get("timetable") &&
+              <p style={footerStyle}>Wersja planu zajęć: <br /> {config.get("timetable").date.replace("T", " ")} </p>
+            }
           </div>
         </Drawer>
       </div>
