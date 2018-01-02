@@ -35,10 +35,10 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-        const groupNumbersNames = this.generateGroupNames(props.data, props.filters);
+        const groupNames = this.generateGroupNames(props.data, props.filters);
         this.state = {
             selectedDay: props.defaultDay || 0,
-            selectedGroup: config.get("filters").group || Object.keys(groupNumbersNames)[0],
+            selectedGroup: config.get("filters").group || groupNames[0],
         };
     }
 
@@ -171,7 +171,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                     && obj.semester === filters.semester
                     && obj.academicYear === filters.academicYear);
 
-        result.sort((a, b) => a.startTime.isBefore(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
+        result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
 
         const elements: JSX.Element[] = result.length
             ? [(<BreakBlock isStart startTime={result[0].startTime} key={0} />)]
