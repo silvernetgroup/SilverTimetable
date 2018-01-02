@@ -39,7 +39,7 @@ function ButtonAppBar(props: any): JSX.Element {
           <Switch>
             <Route exact path="/" render={(props) => (
               <>
-              <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZiM</Typography>
+              <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
               <IconButton>
                 <Refresh color="contrast"/>
               </IconButton>
