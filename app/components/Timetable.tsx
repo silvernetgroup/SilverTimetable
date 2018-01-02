@@ -168,13 +168,14 @@ export default class Timetable extends React.Component<IProps, IState> {
                     && obj.department === filters.department
                     && obj.fieldOfStudy === filters.fieldOfStudy
                     && obj.mode === filters.mode
-                    && obj.semester === filters.semester);
+                    && obj.semester === filters.semester
+                    && obj.academicYear === filters.academicYear);
 
-        // posortuj result po czasie rozpoczecia
+        result.sort((a, b) => a.startTime.isBefore(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie byłu posortowane
 
         const elements: JSX.Element[] = result.length
-        ? [(<BreakBlock isStart startTime={result[0].startTime} key={0}/>)]
-        : [];
+            ? [(<BreakBlock isStart startTime={result[0].startTime} key={0} />)]
+            : [];
 
         result.forEach((event, index) => elements.push(
             <React.Fragment key={index + 1}>
@@ -189,7 +190,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         ));
 
         if (result.length) {
-            elements.push(<BreakBlock isEnd key={result.length + 1}/>);
+            elements.push(<BreakBlock isEnd key={result.length + 1} />);
         }
 
         return elements;

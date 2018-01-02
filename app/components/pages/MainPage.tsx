@@ -32,7 +32,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Maciej Pankiewicz",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -52,7 +52,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Andrzej Zembrzuski",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -72,7 +72,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Arkadiusz Orłowski",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -93,7 +93,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Andrzej Zembrzuski",
                     type: "ćwiczenia",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -113,7 +113,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Arkadiusz Orłowski",
                     type: "ćwiczenia",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -134,7 +134,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Jakub Pach",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -155,7 +155,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Alina Jóźwikowska",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -176,7 +176,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Marcin Bator",
                     type: "laboratorium",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -197,7 +197,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Alina Jóźwikowska",
                     type: "ćwiczenia",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -218,7 +218,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Sebastian Jarzębowski",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -239,7 +239,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Piotr Stachura",
                     type: "ćwiczenia",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -260,7 +260,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Piotr Stachura",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -281,7 +281,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Imed El Fray ",
                     type: "wykład",
                     remarks: "Zajęcia przez 9 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -302,7 +302,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Imed El Fray ",
                     type: "laboratorium",
                     remarks: "Zajęcia przez 9 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -323,7 +323,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Anna Wachowiak",
                     type: "wykład",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -344,7 +344,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Ryszard Kozera",
                     type: "laboratorium",
                     remarks: "Zajęcia przez 8 tygodni w semestrze i ostatnie zajęcia 45 minut",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -365,7 +365,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Jacek Zygmut Zawistowski",
                     type: "",
                     remarks: "",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -386,7 +386,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Jacek Zygmut Zawistowski",
                     type: "wykład",
                     remarks: "Zajecia przez 12 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -407,7 +407,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Jarosław Kurek",
                     type: "laboratorium",
                     remarks: "Zajęcia przez 12 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -428,7 +428,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Bartosz Swiderski",
                     type: "wykład",
                     remarks: "Zajęcia przez 10 tygodni w semestrze",
-                    isFaculty: true,
+                    isFaculty: true, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -449,7 +449,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Leszek Chmielewski ",
                     type: "laboratorium",
                     remarks: "Zajęcia przez 9 tygodni w semestrze",
-                    isFaculty: true,
+                    isFaculty: true, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -470,7 +470,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Michał Kruk",
                     type: "laboratorium",
                     remarks: "Zajęcia przez 10 tygodni w semestrze",
-                    isFaculty: true,
+                    isFaculty: true, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -491,7 +491,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Ryszard Kozera",
                     type: "wykład",
                     remarks: "Zajęcia przez 7 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
                 {
                     department: "WZIM",
@@ -512,7 +512,7 @@ export default class MainPage extends React.Component {
                     lecturer: "Ryszard Kozera",
                     type: "wykład",
                     remarks: "Zajęcia przez 8 tygodni w semestrze",
-                    isFaculty: false,
+                    isFaculty: false, academicYear: "2017/2018",
                 },
             ],
         };

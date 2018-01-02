@@ -9,11 +9,6 @@ import SelectListItem from "../settingsComponents/SelectListItem";
 import SwitchListItem from "../settingsComponents/SwitchListItem";
 import ITimetable from "../../models/ITimetable";
 
-// const faculties: string[] = ["Informatyka", "Informatyka i ekonometria"];
-// const semesters: string[] = ["1", "3", "5", "7"]; // todo: pobierac to z planu
-// const modes: string[] = ["Stacjonarne", "Niestacjonarne"];
-// const groups: string[] = ["1", "2", "3", "4", "5", "6", "ISI1"]; // todo: pobierac to z planu
-
 interface IState {
   listsEnabled: ISelectListsState;
   listValues: ISelectListValues;
@@ -26,6 +21,7 @@ interface ISelectListsState {
   semester: boolean;
   mode: boolean;
   group: boolean;
+  academicYear: boolean;
 }
 
 interface ISelectListValues {
@@ -35,6 +31,7 @@ interface ISelectListValues {
   semester: string[];
   mode: string[];
   group: string[];
+  academicYear: string[];
 }
 
 export default class SettingsPage extends React.Component<{}, IState> {
@@ -43,22 +40,8 @@ export default class SettingsPage extends React.Component<{}, IState> {
     super(props);
     const data = config.get("timetable");
     this.state = {
-      listsEnabled: {
-        department: this.shouldBeEnabled("department", [], data),
-        fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department"], data),
-        degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy"], data),
-        semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree"], data),
-        mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree"], data),
-        group: this.shouldBeEnabled("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
-      },
-      listValues: {
-        department: this.getAvailableOptions("department", [], data),
-        fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department"], data),
-        degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy"], data),
-        semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree"], data),
-        mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree"], data),
-        group: this.getAvailableOptions("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
-      },
+      listsEnabled: this.getSelectListsState(data),
+      listValues: this.getSelectListsValues(data),
     };
   }
   public render(): JSX.Element {
@@ -66,6 +49,13 @@ export default class SettingsPage extends React.Component<{}, IState> {
     return (
       <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
+          <SelectListItem
+            name="Rok akademicki"
+            enabled={this.state.listsEnabled.academicYear}
+            options={this.state.listValues.academicYear}
+            configName="academicYear"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
           <SelectListItem
             name="Wydział"
             enabled={this.state.listsEnabled.department}
@@ -145,25 +135,37 @@ export default class SettingsPage extends React.Component<{}, IState> {
     return true;
   }
 
+  private getSelectListsState(data: ITimetable): ISelectListsState {
+    return {
+      academicYear: this.shouldBeEnabled("academicYear", [], data),
+      department: this.shouldBeEnabled("department", ["academicYear"], data),
+      fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department", "academicYear"], data),
+      degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy", "academicYear"], data),
+      semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      group: this.shouldBeEnabled("group",
+        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
+    };
+  }
+
+  private getSelectListsValues(data: ITimetable): ISelectListValues {
+    return {
+      academicYear: this.getAvailableOptions("academicYear", [], data),
+      department: this.getAvailableOptions("department", ["academicYear"], data),
+      fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data),
+      degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data),
+      semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      group: this.getAvailableOptions("group",
+        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
+    };
+  }
+
   private setStateOfSelectLists(data: ITimetable) {
 
-    const enabled = {
-      department: this.shouldBeEnabled("department", [], data),
-      fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department"], data),
-      degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy"], data),
-      semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree"], data),
-      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree"], data),
-      group: this.shouldBeEnabled("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
-    };
+    const enabled = this.getSelectListsState(data);
 
-    const values = {
-      department: this.getAvailableOptions("department", [], data),
-      fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department"], data),
-      degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy"], data),
-      semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree"], data),
-      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree"], data),
-      group: this.getAvailableOptions("group", ["department", "fieldOfStudy", "degree", "mode", "semester"], data),
-    };
+    const values = this.getSelectListsValues(data);
 
     this.setState({
       listsEnabled: enabled,

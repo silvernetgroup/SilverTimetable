@@ -5,4 +5,5 @@ export default interface ITimetableFilters {
     semester: number;
     group?: number;
     department: string;
+    academicYear: string;
 }
