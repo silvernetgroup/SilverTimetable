@@ -179,12 +179,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         result.forEach((event, index) => elements.push(
             <React.Fragment key={index + 1}>
                 <EventBlock
-                    name={event.name}
-                    lecturer={event.lecturer}
-                    type={event.type}
-                    room={event.room}
-                    endTime={event.endTime}
-                    startTime={event.startTime}
+                    {...event}
                     onClick={() => this.props.onEventBlockClick(event)}
                 />
                 {index + 1 < result.length &&

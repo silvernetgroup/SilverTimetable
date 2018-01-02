@@ -18,4 +18,5 @@ export default interface ITimetableEvent {
     lecturer: string;
     type: string;
     remarks?: string;
+    isFaculty: boolean;
 }
