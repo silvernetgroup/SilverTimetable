@@ -171,7 +171,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                     && obj.semester === filters.semester
                     && obj.academicYear === filters.academicYear);
 
-        result.sort((a, b) => a.startTime.isBefore(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie byłu posortowane
+        result.sort((a, b) => a.startTime.isBefore(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
 
         const elements: JSX.Element[] = result.length
             ? [(<BreakBlock isStart startTime={result[0].startTime} key={0} />)]
