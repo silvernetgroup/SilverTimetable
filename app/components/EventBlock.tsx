@@ -9,8 +9,9 @@ interface IProps {
     type: string;
     room: string;
     endTime: Moment.Moment;
-    comment?: string;
+    remarks?: string;
     startTime: Moment.Moment;
+    isFaculty: boolean;
     onClick(event: ITimetableEvent): void;
 }
 
@@ -34,7 +35,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
                 {...{} as any}
             >
                 <div className="lectureName-event-block">
-                    {this.props.name}
+                    {this.props.name + (this.props.isFaculty ? " (F)" : "")}
                 </div>
                 <div className="props-event-block">
                     <span>
