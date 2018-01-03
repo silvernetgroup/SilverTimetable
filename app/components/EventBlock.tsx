@@ -21,7 +21,6 @@ export default class EventBlock extends React.Component<IProps, {}> {
 
         const { startTime, endTime } = this.props;
         const style: any = {
-            height: 80,
             backgroundColor: "#FFFFFF",
             padding: 10,
             margin: 10,
