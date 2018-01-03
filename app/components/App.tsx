@@ -15,6 +15,7 @@ import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
 // Config
 import * as config from "react-global-configuration";
 import configuration from "../Config";
+import FileManager from "./FileManager";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -35,6 +36,7 @@ export default class App extends React.Component {
             } else if (device.platform === "iOS") {
                 StatusBar.backgroundColorByHexString("#3f51b5");
             }
+            FileManager.setupFiles(false);
         }
     }
 
@@ -51,6 +53,7 @@ export default class App extends React.Component {
                     <NavigationToolbar />
                 </div>
             </Router>
+
         );
     }
 }

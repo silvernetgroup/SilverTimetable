@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as config from "react-global-configuration";
+import FileManager from "../FileManager";
 
 // material UI Select
 import { FormControl, FormHelperText } from "material-ui/Form";
@@ -10,11 +11,11 @@ import Select from "material-ui/Select";
 interface IProps {
   name: string;
   options: string[];
-  enabled: boolean;
   configName: string;
 }
 interface IState {
   option: number;
+  enabled: boolean;
 }
 
 const style: any = {
@@ -30,8 +31,14 @@ export default class SelectListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
+    let ifEnabled = true;
+    if (this.props.name === "Turnus" && config.get("mode") === "Niestacjonarne") {
+        ifEnabled = false;
+    }
+
     this.state = {
         option: this.props.options.indexOf(config.get(this.props.configName)),
+        enabled: ifEnabled,
     };
   }
 
@@ -52,10 +59,11 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     const temp = config.get();
     temp[this.props.configName] = this.props.options[event.target.value];
     config.set(temp);
+    FileManager.setupFiles(true);
   }
 
   private drawSelect(): JSX.Element {
-    if (this.props.enabled) {
+    if (this.state.enabled) {
       return (
         <Select
           value={this.state.option}

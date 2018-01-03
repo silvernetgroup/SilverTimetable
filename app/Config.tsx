@@ -5,6 +5,7 @@ const config: any = {
   degree: "I - inżynierskie",
   mode: "Stacjonarne",
   semester: "1",
+  turnus: "A",
   group: "1",
   notificationNewVersion: true,
   notificationBeforeClass: 0,
