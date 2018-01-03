@@ -64,7 +64,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     const footerStyle: any = {
       position: "absolute",
       bottom: 0,
-      left: 10,
+      width: "100%",
     };
     return (
       <div>
@@ -80,7 +80,13 @@ export default class LeftDrawer extends React.Component<{}, IState> {
           >
             {sideList}
             {config.get("timetable") &&
-              <p style={footerStyle}>Wersja planu zajęć: <br /> {config.get("timetable").date.replace("T", " ")} </p>
+              <div style={footerStyle}>
+                <Divider />
+                <Typography type="body1" style={{marginLeft: 16, marginTop: 16, marginBottom: 16,
+                  color: "rgba(0, 0, 0, 0.56)"}}>
+                  Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ")}
+                </Typography>
+              </div>
             }
           </div>
         </Drawer>

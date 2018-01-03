@@ -41,7 +41,7 @@ function ButtonAppBar(props: any): JSX.Element {
               <>
               <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
               <IconButton>
-                <Refresh color="contrast"/>
+                <Refresh color="white"/>
               </IconButton>
               </>
             )} />

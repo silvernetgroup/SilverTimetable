@@ -27,7 +27,7 @@ export default class FileManager {
             console.log("Failed file write: " + e.toString());
         };
 
-        fileWriter.write(dataObj);
+        fileWriter.write(dataObj, true);
     });
 }
 
@@ -35,13 +35,12 @@ export default class FileManager {
     fileEntry.file(function (file) {
         const reader = new FileReader();
         reader.onloadend = function() {
-            
             if (this.result === "") {
                 console.log("Wczytuje domyślne");
                 config.set(configuration, { freeze: false });
             } else {
-                config.set(JSON.parse(this.result), { freeze: false });
                 console.log("Wczytuje z pliku: " + this.result);
+                config.set(JSON.parse(this.result), { freeze: false });
             }
         };
         reader.readAsText(file);
