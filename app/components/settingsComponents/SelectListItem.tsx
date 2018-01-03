@@ -73,7 +73,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   }
 
   private drawSelect(): JSX.Element {
-    if (this.state.enabled) {
+    if (this.props.enabled) {
       return (
         <Select
           value={this.state.option}
