@@ -1,12 +1,23 @@
 import * as Moment from "moment";
 
 export default interface ITimetableEvent {
-    groups: string[];
+    department: string;
+    fieldOfStudy: string;
+    mode: string;
+    year: number;
+    semester: number;
+    group: number;
+    facultyGroup?: string;
+    specialization?: string;
+    degree: string;
     name: string;
+    dayOfWeek: string;
+    startTime: Moment.Moment;
+    endTime: Moment.Moment;
+    room: string;
     lecturer: string;
     type: string;
-    room: string;
-    startTime: Moment.Moment;
-    duration: number;
-    comment?: string;
+    remarks?: string;
+    isFaculty: boolean;
+    academicYear: string;
 }

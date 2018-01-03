@@ -7,37 +7,169 @@ import List, { ListSubheader } from "material-ui/List";
 // settings Components
 import SelectListItem from "../settingsComponents/SelectListItem";
 import SwitchListItem from "../settingsComponents/SwitchListItem";
-import Button from "material-ui/Button";
+import ITimetable from "../../models/ITimetable";
 
-const faculties: string[] = ["Informatyka", "Informatyka i ekonometria"];
-const semesters: string[] = ["1", "3", "5", "7"]; // todo: pobierac to z planu
-const modes: string[] = ["Stacjonarne", "Niestacjonarne"];
-const turnuses: string[] = ["A", "B"];
-const groups: string[] = ["1", "2", "3", "4", "5", "6", "ISI1"]; // todo: pobierac to z planu
+interface IState {
+  listsEnabled: ISelectListsState;
+  listValues: ISelectListValues;
+}
 
-export default class SettingsPage extends React.Component {
+interface ISelectListsState {
+  department: boolean;
+  fieldOfStudy: boolean;
+  degree: boolean;
+  semester: boolean;
+  mode: boolean;
+  group: boolean;
+  academicYear: boolean;
+}
 
+interface ISelectListValues {
+  department: string[];
+  fieldOfStudy: string[];
+  degree: string[];
+  semester: string[];
+  mode: string[];
+  group: string[];
+  academicYear: string[];
+}
+
+export default class SettingsPage extends React.Component<{}, IState> {
+
+  constructor(props) {
+    super(props);
+    const data = config.get("timetable");
+    this.state = {
+      listsEnabled: this.getSelectListsState(data),
+      listValues: this.getSelectListsValues(data),
+    };
+  }
   public render(): JSX.Element {
+    const data: ITimetable = config.get("timetable");
     return (
-      <div style={{marginTop: "69px"}}>
+      <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
-          <SelectListItem name="Kierunek" options={faculties} configName="fieldOfStudy"/>
-          <SelectListItem name="Semestr" options={semesters} configName="semester"/>
-          <SelectListItem name="Tryb" options={modes} configName="mode"/>
-          {false &&
-            <SelectListItem name="Turnus" options={turnuses} configName="turnus"/>
-          }
-          <SelectListItem name="Grupa" options={groups} configName="group"/>
+          <SelectListItem
+            name="Rok akademicki"
+            enabled={this.state.listsEnabled.academicYear}
+            options={this.state.listValues.academicYear}
+            configName="academicYear"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Wydział"
+            enabled={this.state.listsEnabled.department}
+            options={this.state.listValues.department}
+            configName="department"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Kierunek"
+            enabled={this.state.listsEnabled.fieldOfStudy}
+            options={this.state.listValues.fieldOfStudy}
+            configName="fieldOfStudy"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Stopień"
+            enabled={this.state.listsEnabled.degree}
+            options={this.state.listValues.degree}
+            configName="degree"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Semestr"
+            enabled={this.state.listsEnabled.semester}
+            options={this.state.listValues.semester}
+            configName="semester"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Tryb"
+            enabled={this.state.listsEnabled.mode}
+            options={this.state.listValues.mode}
+            configName="mode"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
+          <SelectListItem
+            name="Grupa"
+            enabled={this.state.listsEnabled.group}
+            options={this.state.listValues.group}
+            configName="group"
+            onChange={() => this.setStateOfSelectLists(data)}
+          />
         </List>
-        <List subheader={<ListSubheader>Powiadomienia</ListSubheader>}>
+        {/* <List subheader={<ListSubheader>Powiadomienia</ListSubheader>}>
           <SwitchListItem name="Nowa wersja planu" iconName="Notifications" configName="notificationNewVersion" />
           <SwitchListItem name="Przed zajęciami" iconName="Time" configName="notificationBeforeClass" />
-        </List>
+        </List> */}
         <List subheader={<ListSubheader>Inne</ListSubheader>}>
           <SwitchListItem name="Szybka zmiana grupy " iconName="Top" configName="showGroupChange" />
           <SwitchListItem name="Zapisuj na urządzeniu" iconName="Download" configName="offline" />
         </List>
       </div>
     );
+  }
+
+  private getAvailableOptions(optionName: string, filterKeys: string[], data: ITimetable): string[] {
+    if (!this.shouldBeEnabled(optionName, filterKeys, data)) {
+      return [];
+    }
+    const resultsSet: Set<string> = new Set<string>();
+    const filters = config.get("filters");
+
+    data
+      .events
+      .filter((event) => filterKeys
+        .every((key) => event[key] === filters[key]))
+      .forEach((event) => resultsSet.add(optionName === "group"
+        ? event.specialization || event.group.toString()
+        : event[optionName]));
+    return [...resultsSet];
+  }
+
+  private shouldBeEnabled(optionName: string, filterKeys: string[], data: ITimetable): boolean {
+    if (!data || filterKeys.some((value) => !config.get("filters")[value])) {
+      return false;
+    }
+    return true;
+  }
+
+  private getSelectListsState(data: ITimetable): ISelectListsState {
+    return {
+      academicYear: this.shouldBeEnabled("academicYear", [], data),
+      department: this.shouldBeEnabled("department", ["academicYear"], data),
+      fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department", "academicYear"], data),
+      degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy", "academicYear"], data),
+      semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      group: this.shouldBeEnabled("group",
+        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
+    };
+  }
+
+  private getSelectListsValues(data: ITimetable): ISelectListValues {
+    return {
+      academicYear: this.getAvailableOptions("academicYear", [], data),
+      department: this.getAvailableOptions("department", ["academicYear"], data),
+      fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data),
+      degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data),
+      semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      group: this.getAvailableOptions("group",
+        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
+    };
+  }
+
+  private setStateOfSelectLists(data: ITimetable) {
+
+    const enabled = this.getSelectListsState(data);
+
+    const values = this.getSelectListsValues(data);
+
+    this.setState({
+      listsEnabled: enabled,
+      listValues: values,
+    });
   }
 }

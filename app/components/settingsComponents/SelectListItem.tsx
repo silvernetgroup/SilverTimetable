@@ -11,11 +11,12 @@ import Select from "material-ui/Select";
 interface IProps {
   name: string;
   options: string[];
+  enabled: boolean;
   configName: string;
+  onChange?: any;
 }
 interface IState {
-  option: number;
-  enabled: boolean;
+  option: any;
 }
 
 const style: any = {
@@ -31,15 +32,21 @@ export default class SelectListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    let ifEnabled = true;
-    if (this.props.name === "Turnus" && config.get("mode") === "Niestacjonarne") {
-        ifEnabled = false;
+    let option = config.get("filters")[this.props.configName];
+    if (props.configName === "group" && option) {
+      option = option.toString();
     }
 
     this.state = {
-        option: this.props.options.indexOf(config.get(this.props.configName)),
-        enabled: ifEnabled,
+      option: this.props.options.indexOf(option),
     };
+  }
+
+  public componentDidUpdate() {
+    const temp = config.get();
+    temp.filters[this.props.configName] = this.props.options[this.state.option];
+    config.set(temp);
+    // console.log("set " + this.props.configName + " to " + this.props.options[this.state.option]);
   }
 
   public render(): JSX.Element {
@@ -54,11 +61,14 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   }
 
   // select controller
-  private handleChange = (name) => (event) => {
-    this.setState({ [name]: event.target.value });
+  private handleChange = (event) => {
+    this.setState({ option: event.target.value });
     const temp = config.get();
-    temp[this.props.configName] = this.props.options[event.target.value];
+    temp.filters[this.props.configName] = this.props.options[event.target.value];
     config.set(temp);
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
     FileManager.setupFiles(true);
   }
 
@@ -67,7 +77,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
       return (
         <Select
           value={this.state.option}
-          onChange={this.handleChange("option")}
+          onChange={(event) => this.handleChange(event)}
           input={<Input />}
         >
           {this.props.options.map((item, index) => (
@@ -79,7 +89,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
       return (
         <Select
           value={this.state.option}
-          onChange={this.handleChange("option")}
+          onChange={(event) => this.handleChange(event)}
           input={<Input />}
           disabled
         >

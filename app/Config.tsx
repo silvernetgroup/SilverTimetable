@@ -1,16 +1,20 @@
 // tslint:disable:object-literal-sort-keys
 
 const config: any = {
-  fieldOfStudy: "Informatyka",
-  degree: "I - inżynierskie",
-  mode: "Stacjonarne",
-  semester: "1",
-  turnus: "A",
-  group: "1",
+  filters: {
+    department: null,
+    fieldOfStudy: null,
+    degree: null,
+    mode: null,
+    semester: null,
+    group: null,
+    specialization: null,
+  },
   notificationNewVersion: true,
   notificationBeforeClass: 0,
   offline: true,
   showGroupChange: true,
+  timetable: null,
 };
 
 export default config;

@@ -32,47 +32,61 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     super(props);
     this.state = {
       left: false,
-  };
-}
+    };
+  }
 
   public render() {
-        const sideList = (
-          <div style={{width: 250}}>
-            <List style={{paddingTop: 0}}>
-              <div style={{height: 160, backgroundColor: "#3f51b5", top: 0, display: "flex", marginBottom: 16}}>
-                <div style={{display: "inline-block", alignSelf: "flex-end", marginLeft: 16, marginBottom: 6}}>
-                  <Typography type="headline" gutterBottom style={{color: "white", marginBottom: 0}}>
-                    {config.get("fieldOfStudy")}
-                  </Typography>
-                  <Typography gutterBottom style={{color: "white"}}>
-                    {config.get("mode")}, semestr {config.get("semester")}
-                  </Typography>
-                </div>
-              </div>
-              <LinkListItem name="Plan" iconName="Event" linkPage="/" />
-              <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" />
-              <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" />
-            </List>
+    const sideList = (
+      <div style={{ width: 250 }}>
+        <List style={{ paddingTop: 0 }}>
+          <div style={{ height: 160, backgroundColor: "#3f51b5", top: 0, display: "flex", marginBottom: 16 }}>
+            <div style={{ display: "inline-block", alignSelf: "flex-end", marginLeft: 16, marginBottom: 6 }}>
+              <Typography type="headline" gutterBottom style={{ color: "white", marginBottom: 0 }}>
+                {config.get("filters").degree &&
+                  config.get("filters").fieldOfStudy + " (" + config.get("filters").degree + ")"
+                }
+              </Typography>
+              <Typography gutterBottom style={{ color: "white" }}>
+                {config.get("filters").mode &&
+                  <>{config.get("filters").mode}, semestr {config.get("filters").semester}</>
+                  // react fragment - w razie problemow zaktualizuj vscode
+                }
+              </Typography>
+            </div>
           </div>
-        );
-        return (
-          <div>
-            <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{marginLeft: -12, marginRight: 20}}>
-                  <Hamburger />
-            </IconButton>
-            <Drawer open={this.state.left} onRequestClose={this.toggleDrawer(false)}>
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={this.toggleDrawer(false)}
-                onKeyDown={this.toggleDrawer(false)}
-              >
-                {sideList}
-              </div>
-            </Drawer>
+          <LinkListItem name="Plan" iconName="Event" linkPage="/" />
+          <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" />
+          <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" />
+        </List>
+      </div>
+    );
+
+    const footerStyle: any = {
+      position: "absolute",
+      bottom: 0,
+      left: 10,
+    };
+    return (
+      <div>
+        <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}>
+          <Hamburger />
+        </IconButton>
+        <Drawer open={this.state.left} onRequestClose={this.toggleDrawer(false)}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer(false)}
+            onKeyDown={this.toggleDrawer(false)}
+          >
+            {sideList}
+            {config.get("timetable") &&
+              <p style={footerStyle}>Wersja planu zajęć: <br /> {config.get("timetable").date.replace("T", " ")} </p>
+            }
           </div>
-        );
-      }
+        </Drawer>
+      </div>
+    );
+  }
 
   private toggleDrawer = (open) => () => {
     this.setState({
