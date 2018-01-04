@@ -20,6 +20,7 @@ interface IProps {
   name: string;
   iconName: string;
   linkPage?: string;
+  color?: string;
   onClick?(event: ITimetableEvent): void;
 }
 
@@ -32,12 +33,13 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-const linkStyle: any = {
-  color: "#4F4F4F",
-  textDecoration: "none",
-};
-
 export default class SwitchListItem extends React.Component<IProps, {}> {
+
+  public static defaultProps: IProps = {
+    name: "error",
+    iconName: "Settings",
+    color: "#4F4F4F",
+};
 
   public render(): JSX.Element {
     if (this.props.linkPage === null) {
@@ -47,6 +49,7 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
               button
               onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
               {...{} as any}
+              style={{color: this.props.color}}
             >
               <ListItemIcon>
                 <IconHelper iconName={this.props.iconName} />
@@ -59,10 +62,10 @@ export default class SwitchListItem extends React.Component<IProps, {}> {
       return (
         <div>
           <NavLink to={this.props.linkPage}
-          style={linkStyle}>
-            <ListItem button >
+          style={{textDecoration: "none", color: this.props.color}}>
+            <ListItem button>
               <ListItemIcon>
-                <IconHelper iconName={this.props.iconName} />
+                <IconHelper iconName={this.props.iconName}/>
               </ListItemIcon>
               <ListItemText primary={this.props.name} />
             </ListItem>

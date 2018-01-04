@@ -66,8 +66,16 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
             {this.renderRemarks()}
           </div>
           <Divider />
-          <LinkListItem name="Strona wykładowcy" iconName="Website" linkPage={null} onClick={this.props.onClick}/>
-          <LinkListItem name={"Lokalizacja sali " + this.props.room} iconName="Map" linkPage="/floor" onClick={null}/>
+          <div style={{color: "black", marginTop: 6}}>
+            <LinkListItem
+              name="Strona wykładowcy"
+              iconName="Website"
+              linkPage={null}
+              onClick={this.props.onClick}
+              color="black"
+            />
+            {this.renderRoom()}
+          </div>
         </List>
       </div>
     );
@@ -99,7 +107,33 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
   private toggleDrawer = (open) => () => {
     this.setState({
       bottom: open,
-    })
+    });
+  }
+
+  private renderRoom() {
+    let location = "/floor";
+    let text = "";
+    if (this.props.room.substring(0, 2) === "3/") {
+      text = "Budynek 34, sala " + this.props.room;
+    } else if (this.props.room.substring(0, 2) === "Au" || this.props.room.substring(0, 2) === "au") {
+      text = "Budynek 34, " + this.lowercaseFirstLetter(this.props.room);
+    } else {
+      text = "Brak planu budynku, " + this.lowercaseFirstLetter(this.props.room);
+      location = "/";
+    }
+    return (
+      <LinkListItem
+        name={text}
+        iconName="Map"
+        linkPage={location}
+        onClick={null}
+        color="black"
+      />
+    );
+  }
+
+  private lowercaseFirstLetter(text) {
+    return text.charAt(0).toLowerCase() + text.slice(1);
   }
 
   private renderRemarks() {
