@@ -8,6 +8,7 @@ import CircularProgress from "../CircularProgress";
 import LecturersPages from "../LecturersPages";
 import ErrorPage from "../Pages/ErrorPage";
 import Timetable from "../Timetable";
+import * as config from "react-global-configuration";
 
     /*
         TESTOWY HELP DO Trzymania planu w pamięci lokalnej:
@@ -155,29 +156,30 @@ export default class MainPage extends React.Component<IProps, IState> {
         LecturersPages.openLecturersPage(event);
     }
 
-    private currentDay(filters) {
+    private currentDay(filters: ITimetableFilters): number {
         const today: Date = new Date();
-        let day: number = today.getDay();
-        const mode  = filters.mode;
+        let dayNumber: number = today.getDay();
+        const mode = filters.mode;
 
         switch (mode) {
             case "Stacjonarne":
-                if (day === 0 || day === 6) {
-                    day = 1;
+                if (dayNumber === 0 || dayNumber === 6) {
+                    dayNumber = 1;
                 }
-                day = day - 1;
+                dayNumber = dayNumber - 1;
                 break;
 
             case "Niestacjonarne":
-                if (day >= 1 && day <= 5) {
-                    day = 0;
-                } else if (day === 6) {
-                    day = 1;
-                } else if (day === 0) {
-                    day = 2;
+                if (dayNumber >= 1 && dayNumber <= 5) {
+                    dayNumber = 0;
+                } else if (dayNumber === 6) {
+                    dayNumber = 1;
+                } else if (dayNumber === 0) {
+                    dayNumber = 2;
                 }
                 break;
         }
-        return day;
+
+        return dayNumber;
     }
 }

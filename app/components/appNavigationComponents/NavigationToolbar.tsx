@@ -8,8 +8,7 @@ import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
 
 // Icons
-import ArrowBack from "material-ui-icons/ArrowBack";
-import Hamburger from "material-ui-icons/Menu";
+import Refresh from "material-ui-icons/Refresh";
 
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
@@ -33,24 +32,29 @@ const testPadding: any = {
 function ButtonAppBar(props: any): JSX.Element {
   const { classes } = props;
   return (
-      <div className={classes.root}>
-        <AppBar style={testPadding}>
-          <Toolbar>
-            <LeftDrawer/>
-              <Switch>
-                <Route exact path="/" render={(props) => (
-                  <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZiM</Typography>
-                )}/>
-                <Route exact path="/settings" render={(props) => (
-                  <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
-                )}/>
-                <Route exact path="/floor" render={(props) => (
-                  <Typography type="title" color="inherit" className={classes.flex}>Plan piętra</Typography>
-                )}/>
-              </Switch>
-          </Toolbar>
-        </AppBar>
-      </div>
+    <div className={classes.root}>
+      <AppBar style={testPadding}>
+        <Toolbar>
+          <LeftDrawer />
+          <Switch>
+            <Route exact path="/" render={(props) => (
+              <>
+              <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
+              <IconButton>
+                <Refresh color="contrast"/>
+              </IconButton>
+              </>
+            )} />
+            <Route exact path="/settings" render={(props) => (
+              <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
+            )} />
+            <Route exact path="/floor" render={(props) => (
+              <Typography type="title" color="inherit" className={classes.flex}>Plan piętra</Typography>
+            )} />
+          </Switch>
+        </Toolbar>
+      </AppBar>
+    </div>
   );
 }
 

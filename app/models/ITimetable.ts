@@ -1,6 +1,6 @@
-import IFieldOfStudy from "./IFieldOfStudy";
+import ITimetableEvent from "./ITimetableEvent";
 
 export default interface ITimetable {
-    creationDate: string;
-    fieldsOfStudy: IFieldOfStudy[];
+    date: string;
+    events: ITimetableEvent[];
 }
