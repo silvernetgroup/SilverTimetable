@@ -8,6 +8,7 @@ import Top from "material-ui-icons/VerticalAlignTop";
 import Settings from "material-ui-icons/Settings";
 import Map from "material-ui-icons/Map";
 import Event from "material-ui-icons/Event";
+import Info from "material-ui-icons/Info";
 
 interface IProps {
     iconName: string;
@@ -29,6 +30,8 @@ function SetIcon(props: string): JSX.Element {
         return <Map />;
     } else if (props === "Event") {
         return <Event />;
+    } else if (props === "Info") {
+        return <Info />;
     }
 }
 

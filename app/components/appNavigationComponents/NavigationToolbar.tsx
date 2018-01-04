@@ -49,7 +49,10 @@ function ButtonAppBar(props: any): JSX.Element {
               <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
             )} />
             <Route exact path="/floor" render={(props) => (
-              <Typography type="title" color="inherit" className={classes.flex}>Plan piętra</Typography>
+              <Typography type="title" color="inherit" className={classes.flex}>Schemat piętra</Typography>
+            )} />
+            <Route exact path="/about" render={(props) => (
+              <Typography type="title" color="inherit" className={classes.flex}>O aplikacji</Typography>
             )} />
           </Switch>
         </Toolbar>

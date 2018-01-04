@@ -7,6 +7,7 @@ import FilteringPage from "./Pages/FilteringPage";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
+import AboutPage from "./Pages/AboutPage";
 
 // AppBar/Navigation
 import Drawer from "./appNavigationComponents/LeftDrawer";
@@ -47,6 +48,7 @@ export default class App extends React.Component {
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/filtering" component={FilteringPage} />
                         <Route path="/floor" render={() => <FloorPage />} />
+                        <Route path="/about" component={AboutPage} />
                     </Switch>
                     <NavigationToolbar />
                 </div>
