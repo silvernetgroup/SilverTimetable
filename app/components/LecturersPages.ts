@@ -7,7 +7,7 @@ declare let cordova: any;
 export default class LecturersPages {
 
     public static openLecturersPage(event: ITimetableEvent) {
-        const name: string = event.lecturer.toLowerCase()
+        const name: string = event.lecturers[0].toLowerCase()
             .replace(" ", "_")
             .replace("ą", "a")
             .replace("ć", "c")

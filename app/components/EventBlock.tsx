@@ -5,9 +5,10 @@ import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
     name: string;
-    lecturer: string;
+    lecturers: string[];
     type: string;
     room: string;
+    building: string;
     endTime: Moment.Moment;
     remarks?: string;
     startTime: Moment.Moment;
@@ -42,7 +43,8 @@ export default class EventBlock extends React.Component<IProps, {}> {
                         {this.props.type} {startTime.format("HH:mm ")}
                         - {endTime.format("HH:mm")}
                         <br />
-                        <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
+                        <span className="additionalFt-event-block">{this.props.room}</span>
+                        - {this.props.lecturers.join(", ")}
                     </span>
                 </div>
             </Paper>
