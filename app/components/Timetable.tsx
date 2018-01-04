@@ -33,7 +33,6 @@ interface IGroupNumberNamePair {
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
-
     constructor(props: IProps) {
         super(props);
         const groupNames = this.generateGroupNames(props.data, props.filters);
@@ -41,20 +40,11 @@ export default class Timetable extends React.Component<IProps, IState> {
             selectedDay: props.defaultDay || 0,
             selectedGroup: config.get("filters").group || groupNames[0],
         };
-
-        this.props.data.fieldsOfStudy.forEach( (a) => {
-            a.degrees.forEach( (b) => {
-                b.modes.forEach( (c) => {
-                     c.semesters.forEach( (d) => {
-                         d.days.forEach( (e) => {
-                             e.events.forEach( (f) => {
-                                 const date: string = f.startTime.toString();
-                                 f.startTime = Moment.utc(date, "HH:mm");
-                             });
-                         });
-                     });
-                });
-            });
+        this.props.data.events.forEach( (a) => {
+            const startTime: string = a.startTime.toString();
+            const endTime: string = a.endTime.toString();
+            a.startTime = Moment.utc(startTime, "HH:mm");
+            a.endTime = Moment.utc(endTime, "HH:mm");
          });
     }
 

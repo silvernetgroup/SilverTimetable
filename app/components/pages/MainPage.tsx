@@ -73,7 +73,7 @@ export default class MainPage extends React.Component<IProps, IState> {
         //       jest: zwracamy true;
         // tego if'a trzeba potem wywalic
         if (window.localStorage.getItem("kanapka") !== null) {
-            return false;
+            return true;
         } else {
             return false;
         }
@@ -81,7 +81,7 @@ export default class MainPage extends React.Component<IProps, IState> {
     public isNetwork = (): boolean => {
             // TODO: tutaj sprawdamy czy jest polaczenie z internetem;
           // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-network-information/
-        return false;
+        return true;
           /* if (true) {
           return true;
         } else {
@@ -100,7 +100,7 @@ export default class MainPage extends React.Component<IProps, IState> {
     // Ta metoda pobiera plan, zapisuje go w pamieci i dopiero potem wyswietla
     public getData = () => {
         // tslint:disable-next-line:max-line-length
-        axios.get("https://gist.githubusercontent.com/michaelspace/b998f5d5a29e0124bf9c5701a5a1c19e/raw/fb86b48e5ed154c4ce1d6458f9d1c29458e479ad/plan.json")
+        axios.get("http://silvertimetable.azurewebsites.net/api/timetable")
             .then((response) => {
                 this.setState({
                     schedule: response.data,
@@ -122,13 +122,18 @@ export default class MainPage extends React.Component<IProps, IState> {
 
         const data: ITimetable = this.state.schedule;
 
-        const filters: ITimetableFilters = {
-            fieldOfStudy: "Informatyka",
-            degree: "I - inżynierskie",
-            mode: "Stacjonarne",
-            semester: 1,
-            // turnus: "B",
-        };
+        const temp = config.get();
+        temp.timetable = data;
+        config.set(temp);
+
+        // const filters: ITimetableFilters = {
+        //     fieldOfStudy: "Informatyka",
+        //     degree: "inż",
+        //     mode: "Stacjonarne",
+        //     semester: 1,
+        //     department: "WZIM",
+        // };
+        const filters = config.get("filters");
 
         if (!this.state.IsLoaded && !this.state.IsError) {
             return (<CircularProgress />);
@@ -136,13 +141,12 @@ export default class MainPage extends React.Component<IProps, IState> {
             return (<ErrorPage />);
         } else {
             return (
-                <div className="main-page-container">
-                    <h1 style={{ margin: 0 }}>Plan zajęć</h1>
+                <div className="main-page-container" style={{ marginTop: "69px" }}>
                     {this.state.schedule &&
                         <Timetable
                             data={data}
                             filters={filters}
-                            // defaultDay={3}
+                            defaultDay={this.currentDay(filters)}
                             // defaultGroup="3"
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                         />
