@@ -84,7 +84,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
                 <Divider />
                 <Typography type="body1" style={{marginLeft: 16, marginTop: 16, marginBottom: 16,
                   color: "rgba(0, 0, 0, 0.56)"}}>
-                  Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ")}
+                  Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ").slice(0, -3)}
                 </Typography>
               </div>
             }

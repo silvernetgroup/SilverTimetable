@@ -34,14 +34,14 @@ function ButtonAppBar(props: any): JSX.Element {
   return (
     <div className={classes.root}>
       <AppBar style={testPadding}>
-        <Toolbar>
+        <Toolbar style={{paddingRight: 6}}>
           <LeftDrawer />
           <Switch>
             <Route exact path="/" render={(props) => (
               <>
               <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
               <IconButton>
-                <Refresh color="contrast"/>
+                <Refresh style={{color: "white"}}/>
               </IconButton>
               </>
             )} />

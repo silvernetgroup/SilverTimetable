@@ -2,6 +2,7 @@ import * as Colors from "material-ui/colors";
 import createMuiTheme from "material-ui/styles/createMuiTheme";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
+import initReactFastclick from "react-fastclick";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 import FilteringPage from "./Pages/FilteringPage";
 import FloorPage from "./Pages/FloorPage";
@@ -26,6 +27,9 @@ const theme: any = createMuiTheme({
 export default class App extends React.Component {
     constructor(props: any) {
         super(props);
+        // mobile touch delay fix
+        initReactFastclick();
+        // config
         config.set(configuration, { freeze: false });
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
