@@ -71,7 +71,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
         <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}>
           <Hamburger />
         </IconButton>
-        <Drawer open={this.state.left} onRequestClose={this.toggleDrawer(false)}>
+        <Drawer open={this.state.left} onClose={this.toggleDrawer(false)}>
           <div
             tabIndex={0}
             role="button"
