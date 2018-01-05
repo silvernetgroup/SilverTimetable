@@ -76,7 +76,7 @@ body, html, .app-container{
 
 .header-event-block {
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
 }
 
 .additionalFt-event-block{

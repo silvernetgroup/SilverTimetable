@@ -87,7 +87,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     };
     return (
       <div>
-        <IconButton onClick={this.toggleDrawer(true)} style={{color: "#787878", width: 34, marginTop: -16}}>
+        <IconButton onClick={this.toggleDrawer(true)} style={{color: "#787878", width: 34, height: 24, marginTop: 6}}>
           <IconHelper iconName="More"/>
         </IconButton>
         <Drawer anchor="bottom" open={this.state.bottom} onClose={this.toggleDrawer(false)}>
