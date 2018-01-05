@@ -11,6 +11,7 @@ import Timetable from "../Timetable";
 import * as config from "react-global-configuration";
 import TimetableServices from "../TimetableServices";
 import FileManager from "../FileManager";
+import configuration from "../../Config";
 
 interface IProps {
     data: ITimetable;
@@ -21,48 +22,63 @@ interface IState {
     IsLoaded: boolean;
     IsError: boolean;
 }
-    constructor(props) {
-        super(props);
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            FileManager.setupFiles(false, (exist, value) => {
-                console.log("doniczkav2.0 " + exist + "WYNIK: " + value);
-            });
-        }
-    }
-
-    public render(): JSX.Element {
-
 export default class MainPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+        const onDeviceReady = () => {
+            console.log(this);
+            FileManager.setupFiles(false, (exist, value) => this.AppLifeCycle(exist, value));
+                // console.log("doniczkav2.0 " + exist + "WYNIK: " + value);
+        };
+        document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
             schedule: this.props.data,
             IsLoaded: false,
             IsError: false,
         };
-        // localStorage.removeItem("kanapka");
     }
-    // LIFECYCLE APLIKACJI NA URUCHOMIENIU
-    public componentWillMount() {
+    public AppLifeCycle(exist, value) {
         // CZY W PAMIECI ? - TAK:
-        if (TimetableServices.isScheduleStoraged()) {
+        if (exist) {
+            console.log("budyn");
+            console.log(value);
+            config.set(JSON.parse(value), { freeze: false });
             this.setState({
-                // TODO: wczytac plan z pamieci:
-                schedule: JSON.parse(window.localStorage.getItem("kanapka")),
+                // TODO: wczytac plan z pamieci (plan moze byc null) !!!
+                schedule: value.timetable,
                 IsLoaded: false,
                 IsError: false,
             });
-            const date: string = this.state.schedule && this.state.schedule.date;
             if (TimetableServices.isNetwork()) {
-                if (TimetableServices.isNewerSchedule(date)) {
-                    this.getData();
+                if (TimetableServices.isNewerSchedule()) {
+                    TimetableServices.getData((response) => {
+                        this.setState({
+                            schedule: response.data,
+                            IsLoaded: true,
+                        });
+                        if (this.state.schedule !== undefined) {
+                            // const kurczak = JSON.stringify(this.state.schedule);
+                            FileManager.saveTimetableStorageConfig(this.state.schedule);
+                        }
+                        console.log("SUCCESS 1");
+                    });
                 }
             }
         // CZY W PAMIECI ? - NIE:
         } else {
+            config.set(configuration, { freeze: false });
             if (TimetableServices.isNetwork()) {
-                this.getData();
+                TimetableServices.getData((response) => {
+                    this.setState({
+                        schedule: response.data,
+                        IsLoaded: true,
+                    });
+                    if (this.state.schedule !== undefined) {
+                        const kurczak = JSON.stringify(this.state.schedule);
+                        FileManager.saveTimetableStorageConfig(this.state.schedule);
+                    }
+                    console.log("SUCCESS 2");
+                });
             } else {
                 this.setState({
                     IsLoaded: false,
@@ -72,27 +88,7 @@ export default class MainPage extends React.Component<IProps, IState> {
         }
     }
 
-    // Metoda pobierająca plan (domyslny format: json)
-    public getData = () => {
-        axios.get("http://silvertimetable.azurewebsites.net/api/timetable")
-            .then((response) => {
-                this.setState({
-                    schedule: response.data,
-                    IsLoaded: true,
-                });
-                // TODO: Wywolac metoda ktora zapisze plan w pamieci urzadzenia
-                if (this.state.schedule !== undefined) {
-                    // json sparsowany na stringa (moze sie przydac do zapisu)
-                    const kurczak = JSON.stringify(this.state.schedule);
-                    localStorage.setItem("kanapka", kurczak);
-                }
-                console.log("SUCCESS");
-            })
-            .catch((error) => {
-                console.log("FAILED TO FETCH DATA ", error);
-            });
-    }
-        public render(): JSX.Element {
+   public render(): JSX.Element {
 
         const data: ITimetable = this.state.schedule;
 

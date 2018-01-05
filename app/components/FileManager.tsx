@@ -29,10 +29,11 @@ export default class FileManager {
         });
     }
 
-    public static saveTimetableToConfig(timetable: ITimetable) {
+    public static saveTimetableStorageConfig(timetable) {
         const temp = config.get();
         temp.timetable = timetable;
         config.set(temp);
+        this.setupFiles(true, null);
     }
 
     public static readFile(fileEntry, afterDone) {

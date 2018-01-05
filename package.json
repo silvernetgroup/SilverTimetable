@@ -56,7 +56,7 @@
       "cordova-plugin-device": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-file": {}
     },
