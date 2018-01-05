@@ -13,6 +13,7 @@ import IconButton from "material-ui/IconButton";
 import LinkListItem from "./appNavigationComponents/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
+import { blue, purple } from "material-ui/colors";
 
 import IconHelper from "./settingsComponents/IconHelper";
 
@@ -27,9 +28,10 @@ const styles = {
 
 interface IProps {
   name: string;
-  lecturer: string;
+  lecturers: string[];
   type: string;
   room: string;
+  building: string;
   endTime: Moment.Moment;
   remarks?: string;
   startTime: Moment.Moment;
@@ -56,13 +58,11 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
       <div>
         <List>
           <div style={{marginBottom: 16, marginLeft: 16, marginRight: 16, marginTop: 6 }}>
-            <Typography type="headline" gutterBottom>{this.props.name}</Typography>
+            <Typography type="headline">{this.props.name}</Typography>
             <Typography type="subheading" gutterBottom style={{color: "#787878"}}>
+            {this.uppercaseFirstLetter(this.props.type) + " "}
             {startTime.format("HH:mm ")} - {endTime.format("HH:mm")}</Typography>
-            <Chip
-              avatar={<Avatar>{this.props.lecturer.match(/\b(\w)/g).join("")}</Avatar>}
-              label={this.props.lecturer}
-            />
+            {this.renderLecturers()}
             {this.renderRemarks()}
           </div>
           <Divider />
@@ -90,7 +90,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
         <IconButton onClick={this.toggleDrawer(true)} style={{color: "#787878", width: 34, marginTop: -16}}>
           <IconHelper iconName="More"/>
         </IconButton>
-        <Drawer anchor="bottom" open={this.state.bottom} onRequestClose={this.toggleDrawer(false)}>
+        <Drawer anchor="bottom" open={this.state.bottom} onClose={this.toggleDrawer(false)}>
           <div
             tabIndex={0}
             role="button"
@@ -112,15 +112,17 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
 
   private renderRoom() {
     let location = "/floor";
-    let text = "";
-    if (this.props.room.substring(0, 2) === "3/") {
-      text = "Budynek 34, sala " + this.props.room;
-    } else if (this.props.room.substring(0, 2) === "Au" || this.props.room.substring(0, 2) === "au") {
-      text = "Budynek 34, " + this.lowercaseFirstLetter(this.props.room);
+    let text = "Budynek " + this.props.building + ", ";
+
+    if (this.props.room.substring(0, 2) === "Au" || this.props.room.substring(0, 2) === "au") {
+      text += this.lowercaseFirstLetter(this.props.room);
     } else {
-      text = "Brak planu budynku, " + this.lowercaseFirstLetter(this.props.room);
+      text += "sala " + this.props.room;
+    }
+    if (this.props.building !== "34") {
       location = "/";
     }
+
     return (
       <LinkListItem
         name={text}
@@ -136,16 +138,46 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     return text.charAt(0).toLowerCase() + text.slice(1);
   }
 
+  private uppercaseFirstLetter(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
   private renderRemarks() {
     if (this.props.remarks != null) {
       return (
-        <div style={{marginTop: 16}}>
+        <div style={{marginTop: 12}}>
           <Typography gutterBottom>{this.props.remarks}</Typography>
         </div>
       );
     } else {
       return (<div/>);
     }
+  }
+
+  private renderLecturers() {
+    const rows = [];
+    for (const item of this.props.lecturers) {
+      rows.push(this.renderOneLecturer(item));
+    }
+    return (
+      <div style={{marginTop: 10}}>
+      {rows}
+      </div>
+    );
+  }
+
+  private renderOneLecturer(name) {
+    const style = {
+      marginBottom: 6,
+      marginRight: 6,
+    };
+    return (
+      <Chip
+        avatar={<Avatar>{name.match(/\b(\w)/g).join("")}</Avatar>}
+        label={name}
+        style={style}
+      />
+    );
   }
 
 }
