@@ -8,6 +8,7 @@ import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
+import PullRefresh from "react-pullrefresh";
 
 // Config
 import * as config from "react-global-configuration";
@@ -138,9 +139,11 @@ export default class Timetable extends React.Component<IProps, IState> {
                     </AppBar>
                 }
                 {this.saveCurrentGroup()}
+                <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
                 <div className="event-blocks-container">
                     {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
                 </div>
+                </PullRefresh>
             </div >
 
         );
@@ -202,5 +205,12 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     private handleGroupChange = (event: any, value: string) => {
         this.setState({ selectedGroup: value });
+    }
+
+    private async refreshTimeTable() {
+        console.log("refresh start");
+        const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
+        await sleep(3000);
+        console.log("refresh end");
     }
 }
