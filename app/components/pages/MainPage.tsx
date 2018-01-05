@@ -9,13 +9,7 @@ import LecturersPages from "../LecturersPages";
 import ErrorPage from "../Pages/ErrorPage";
 import Timetable from "../Timetable";
 import * as config from "react-global-configuration";
-
-    /*
-        TESTOWY HELP DO Trzymania planu w pamięci lokalnej:
-        localStorage.removeItem("lastname");
-        localStorage.setItem("lastname", "Smith");
-        localStorage.getItem("lastname");
-    */
+import TimetableServices from "../TimetableServices";
 
 interface IProps {
     data: ITimetable;
@@ -35,29 +29,27 @@ export default class MainPage extends React.Component<IProps, IState> {
             IsLoaded: false,
             IsError: false,
         };
+        // localStorage.removeItem("kanapka");
     }
-
+    // LIFECYCLE APLIKACJI NA URUCHOMIENIU
     public componentWillMount() {
-        // CZY W PAMIECI ? - TAK
-        if (this.isScheduleStoraged()) {
-            // TODO: Jesli plan w pamieci to tutaj sie wczyta z pamieci
-            //       wyswietlaniem zajmie sie component lifecycle i if'y w renderze
+        // CZY W PAMIECI ? - TAK:
+        if (TimetableServices.isScheduleStoraged()) {
             this.setState({
+                // TODO: wczytac plan z pamieci:
                 schedule: JSON.parse(window.localStorage.getItem("kanapka")),
                 IsLoaded: false,
                 IsError: false,
             });
-            // Jesli jest polaczenie z internetem to sprawdz czy jest nowa wersja planu
-            // jesli nie ma polaczenia to nic nie rob
-            if (this.isNetwork()) {
-                // Pobiera tutaj nowy plan
-                if (this.isNewerSchedule()) {
+            const date: string = this.state.schedule && this.state.schedule.date;
+            if (TimetableServices.isNetwork()) {
+                if (TimetableServices.isNewerSchedule(date)) {
                     this.getData();
                 }
             }
-        // CZY W PAMIECI ? - NIE
+        // CZY W PAMIECI ? - NIE:
         } else {
-            if (this.isNetwork()) {
+            if (TimetableServices.isNetwork()) {
                 this.getData();
             } else {
                 this.setState({
@@ -67,47 +59,18 @@ export default class MainPage extends React.Component<IProps, IState> {
             }
         }
     }
-    // -------------------------------------------------------
-    public isScheduleStoraged = (): boolean => {
-        // TODO: tutaj sprawdzamy czy plan jest w pamieci;
-        //       jest: zwracamy true;
-        // tego if'a trzeba potem wywalic
-        if (window.localStorage.getItem("kanapka") !== null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public isNetwork = (): boolean => {
-            // TODO: tutaj sprawdamy czy jest polaczenie z internetem;
-          // https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-network-information/
-        return true;
-          /* if (true) {
-          return true;
-        } else {
-            return false;
-        }*/
-    }
-    public isNewerSchedule = (): boolean => {
-        // TODO: czy jest nowa wersja planu
-        return true;
-        /*if (true) {
-            return true;
-          } else {
-              return false;
-          }*/
-    }
-    // Ta metoda pobiera plan, zapisuje go w pamieci i dopiero potem wyswietla
+
+    // Metoda pobierająca plan (domyslny format: json)
     public getData = () => {
-        // tslint:disable-next-line:max-line-length
         axios.get("http://silvertimetable.azurewebsites.net/api/timetable")
             .then((response) => {
                 this.setState({
                     schedule: response.data,
                     IsLoaded: true,
                 });
-                // TODO: Zapisuje tutaj plan w pamieci urzadzenia
+                // TODO: Wywolac metoda ktora zapisze plan w pamieci urzadzenia
                 if (this.state.schedule !== undefined) {
+                    // json sparsowany na stringa (moze sie przydac do zapisu)
                     const kurczak = JSON.stringify(this.state.schedule);
                     localStorage.setItem("kanapka", kurczak);
                 }
@@ -117,7 +80,6 @@ export default class MainPage extends React.Component<IProps, IState> {
                 console.log("FAILED TO FETCH DATA ", error);
             });
     }
-    // -------------------------------------------------------
         public render(): JSX.Element {
 
         const data: ITimetable = this.state.schedule;
@@ -126,13 +88,6 @@ export default class MainPage extends React.Component<IProps, IState> {
         temp.timetable = data;
         config.set(temp);
 
-        // const filters: ITimetableFilters = {
-        //     fieldOfStudy: "Informatyka",
-        //     degree: "inż",
-        //     mode: "Stacjonarne",
-        //     semester: 1,
-        //     department: "WZIM",
-        // };
         const filters = config.get("filters");
 
         if (!this.state.IsLoaded && !this.state.IsError) {
@@ -147,7 +102,6 @@ export default class MainPage extends React.Component<IProps, IState> {
                             data={data}
                             filters={filters}
                             defaultDay={this.currentDay(filters)}
-                            // defaultGroup="3"
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                         />
                     }
