@@ -37,6 +37,7 @@
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-global-configuration": "^1.2.0",
+    "react-pullrefresh": "^2.0.0-alpha.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "typescript": "^2.6.1"
