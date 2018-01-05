@@ -139,11 +139,11 @@ export default class Timetable extends React.Component<IProps, IState> {
                     </AppBar>
                 }
                 {this.saveCurrentGroup()}
-                <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
                 <div className="event-blocks-container">
+                <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
                     {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
-                </div>
                 </PullRefresh>
+                </div>
             </div >
 
         );
