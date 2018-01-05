@@ -6,8 +6,19 @@ import ITimetableFilters from "../../models/ITimetableFilters";
 import LecturersPages from "../LecturersPages";
 import Timetable from "../Timetable";
 import * as config from "react-global-configuration";
+import FileManager from "../FileManager";
 
 export default class MainPage extends React.Component {
+
+    constructor(props) {
+        super(props);
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            FileManager.setupFiles(false, (exist, value) => {
+                console.log("doniczkav2.0 " + exist + "WYNIK: " + value);
+            });
+        }
+    }
 
     public render(): JSX.Element {
 

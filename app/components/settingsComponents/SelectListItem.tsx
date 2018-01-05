@@ -69,7 +69,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     if (this.props.onChange) {
       this.props.onChange();
     }
-    FileManager.setupFiles(true);
+    FileManager.setupFiles(true, null);
   }
 
   private drawSelect(): JSX.Element {

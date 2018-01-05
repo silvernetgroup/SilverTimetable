@@ -127,7 +127,7 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
         break;
     }
     config.set(temp);
-    FileManager.setupFiles(true);
+    FileManager.setupFiles(true, null);
 
     this.setState({
       checked: newChecked,
@@ -140,7 +140,7 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     const temp = config.get();
     temp.notificationBeforeClass = event.target.value;
     config.set(temp);
-    FileManager.setupFiles(true);
+    FileManager.setupFiles(true, null);
   }
 
   private renderInputField(): JSX.Element {

@@ -2,15 +2,16 @@ import * as React from "react";
 import * as config from "react-global-configuration";
 import configuration from "../Config";
 
+import ITimetable from "../models/ITimetable";
+
 export default class FileManager {
-    public static setupFiles(save) {
+    public static setupFiles(save, afterDone) {
         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, (fs) => {
             fs.root.getFile("newPersistentFile.txt", { create: true, exclusive: false }, (fileEntry) => {
-                console.log("Loaded config file: " + fileEntry.isFile.toString());
                 if (save === true) {
                     FileManager.writeFile(fileEntry, config.serialize());
                 } else {
-                    FileManager.readFile(fileEntry);
+                    FileManager.readFile(fileEntry, afterDone);
                 }
             });
         });
@@ -20,27 +21,30 @@ export default class FileManager {
         fileEntry.createWriter((fileWriter) => {
             fileWriter.onwriteend = () => {
                 console.log("Successful file write...");
-                FileManager.readFile(fileEntry);
             };
-
             fileWriter.onerror = (e) => {
                 console.log("Failed file write: " + e.toString());
             };
-
             fileWriter.write(dataObj, true);
         });
     }
 
-    public static readFile(fileEntry) {
+    public static saveTimetableToConfig(timetable: ITimetable) {
+        const temp = config.get();
+        temp.timetable = timetable;
+        config.set(temp);
+    }
+
+    public static readFile(fileEntry, afterDone) {
         fileEntry.file((file) => {
             const reader = new FileReader();
             reader.onloadend = function()  {
                 if (this.result === "") {
-                    console.log("Wczytuje domyślne");
-                    config.set(configuration, { freeze: false });
+                    afterDone(false, this.result);
+                    // config.set(configuration, { freeze: false });
                 } else {
-                    console.log("Wczytuje z pliku: " + this.result);
-                    config.set(JSON.parse(this.result), { freeze: false });
+                    afterDone(true, this.result);
+                    // config.set(JSON.parse(this.result), { freeze: false });
                 }
             };
             reader.readAsText(file);
