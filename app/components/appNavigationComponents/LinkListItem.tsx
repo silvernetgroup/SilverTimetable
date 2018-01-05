@@ -31,7 +31,7 @@ const padding: any = {
 };
 
 const linkStyle: any = {
-  color: "#333333",
+  color: "#4F4F4F",
   textDecoration: "none",
 };
 

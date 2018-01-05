@@ -10,6 +10,7 @@ import ErrorPage from "../Pages/ErrorPage";
 import Timetable from "../Timetable";
 import * as config from "react-global-configuration";
 import TimetableServices from "../TimetableServices";
+import FileManager from "../FileManager";
 
 interface IProps {
     data: ITimetable;
@@ -20,6 +21,17 @@ interface IState {
     IsLoaded: boolean;
     IsError: boolean;
 }
+    constructor(props) {
+        super(props);
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            FileManager.setupFiles(false, (exist, value) => {
+                console.log("doniczkav2.0 " + exist + "WYNIK: " + value);
+            });
+        }
+    }
+
+    public render(): JSX.Element {
 
 export default class MainPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {

@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as config from "react-global-configuration";
+import FileManager from "../FileManager";
 
 // material UI
 import {
@@ -126,6 +127,7 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
         break;
     }
     config.set(temp);
+    FileManager.setupFiles(true, null);
 
     this.setState({
       checked: newChecked,
@@ -138,6 +140,7 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     const temp = config.get();
     temp.notificationBeforeClass = event.target.value;
     config.set(temp);
+    FileManager.setupFiles(true, null);
   }
 
   private renderInputField(): JSX.Element {

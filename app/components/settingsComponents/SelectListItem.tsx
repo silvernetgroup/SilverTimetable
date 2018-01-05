@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as config from "react-global-configuration";
+import FileManager from "../FileManager";
 
 // material UI Select
 import { FormControl, FormHelperText } from "material-ui/Form";
@@ -68,6 +69,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     if (this.props.onChange) {
       this.props.onChange();
     }
+    FileManager.setupFiles(true, null);
   }
 
   private drawSelect(): JSX.Element {
