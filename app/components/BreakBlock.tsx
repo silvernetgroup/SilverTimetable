@@ -3,10 +3,11 @@ import * as React from "react";
 import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
-    isStart: boolean;
-    isEnd: boolean;
-    duration: number;
+    isStart?: boolean;
+    isEnd?: boolean;
+    duration?: number;
     startTime?: Moment.Moment;
+    key?: number;
 }
 
 export default class BreakBlock extends React.Component<IProps> {
@@ -25,6 +26,8 @@ export default class BreakBlock extends React.Component<IProps> {
             text = "Start " + this.props.startTime.format("HH:mm");
         } else if (this.props.isEnd) {
             text = "Koniec 🎉";
+        } else if (this.props.duration < 0) {
+            text = "Zajęcia w tym samym czasie";
         } else {
             const tmp = Moment.utc(Moment.duration(this.props.duration, "minutes").asMilliseconds());
             if (tmp.hours() !== 0) {
@@ -39,7 +42,9 @@ export default class BreakBlock extends React.Component<IProps> {
             if (tmp.hours() === 0 && tmp.minutes() === 0) {
                 text = "brak";
             }
-            text += " przerwy";
+            if (this.props.duration >= 0) {
+                text += " przerwy";
+            }
         }
 
         if (this.props.isStart) {

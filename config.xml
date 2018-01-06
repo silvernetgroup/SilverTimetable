@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.silvertimetable.android" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.silvernet.silvertimetable" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>SilverTimetable</name>
     <description>
         WZiIM timetable app
@@ -17,7 +17,7 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
     <engine name="ios" spec="^4.5.4" />
-    <engine name="android" spec="^6.3.0" />
+    <engine name="android" spec="^6.4.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
@@ -27,5 +27,5 @@
     <plugin name="cordova-plugin-device" spec="^1.1.7" />
     <plugin name="cordova-plugin-dialogs" spec="^1.3.4" />
     <plugin name="cordova-plugin-inappbrowser" spec="^1.7.2" />
-    <plugin name="cordova-plugin-statusbar" spec="^2.3.0" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
 </widget>

@@ -6,12 +6,14 @@ import EventBlockMenu from "./EventBlockMenu";
 
 interface IProps {
     name: string;
-    lecturer: string;
+    lecturers: string[];
     type: string;
     room: string;
-    duration: number;
-    comment?: string;
+    building: string;
+    endTime: Moment.Moment;
+    remarks?: string;
     startTime: Moment.Moment;
+    isFaculty: boolean;
     onClick(event: ITimetableEvent): void;
 }
 
@@ -19,7 +21,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
 
     public render(): JSX.Element {
 
-        const { startTime, duration } = this.props;
+        const { startTime, endTime } = this.props;
         const style: any = {
             height: 80,
             backgroundColor: "#FFFFFF",
@@ -40,14 +42,15 @@ export default class EventBlock extends React.Component<IProps, {}> {
                     // info=""
                 />
                 <div className="lectureName-event-block">
-                    {this.props.name}
+                    {this.props.name + (this.props.isFaculty ? " (F)" : "")}
                 </div>
                 <div className="props-event-block">
                     <span>
-                        {this.props.type} {startTime.format("HH:mm")}
-                        - {startTime.clone().add(duration, "minutes").format("HH:mm")}
+                        {this.props.type} {startTime.format("HH:mm ")}
+                        - {endTime.format("HH:mm")}
                         <br />
-                        <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
+                        <span className="additionalFt-event-block">{this.props.room}</span>
+                        - {this.props.lecturers.join(", ")}
                     </span>
                 </div>
             </Paper>
