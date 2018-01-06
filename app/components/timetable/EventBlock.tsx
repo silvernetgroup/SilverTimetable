@@ -1,9 +1,7 @@
 import Paper from "material-ui/Paper";
 import * as Moment from "moment";
 import * as React from "react";
-import ITimetableEvent from "../models/ITimetableEvent";
-import IconHelper from "./settingsComponents/IconHelper";
-import IconButton from "material-ui/IconButton";
+import ITimetableEvent from "../../models/ITimetableEvent";
 import BlockMore from "./EventBlockMore";
 
 interface IProps {
@@ -21,7 +19,7 @@ interface IProps {
 
 export default class EventBlock extends React.Component<IProps, {}> {
 
-    public render(): JSX.Element { 
+    public render(): JSX.Element {
         const { startTime, endTime } = this.props;
         const style: any = {
             backgroundColor: "#FFFFFF",
@@ -48,7 +46,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
                         {startTime.format("HH:mm ")}
                         - {endTime.format("HH:mm")}
                         <br />
-                        <span className="additionalFt-event-block">{this.props.room}</span>
+                        <span className="additionalFt-event-block">{this.props.room + " "}</span>
                         - {this.props.lecturers.join(", ")}
                     </span>
                 </div>

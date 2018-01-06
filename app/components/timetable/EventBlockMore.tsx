@@ -1,24 +1,18 @@
 import * as React from "react";
 import config from "react-global-configuration";
 import * as Moment from "moment";
-import ITimetableEvent from "../models/ITimetableEvent";
+import ITimetableEvent from "../../models/ITimetableEvent";
 
-import Button from "material-ui/Button";
 import Divider from "material-ui/Divider";
 import Drawer from "material-ui/Drawer";
 import Typography from "material-ui/Typography";
 import List from "material-ui/List";
-import { withStyles } from "material-ui/styles";
 import IconButton from "material-ui/IconButton";
-import LinkListItem from "./appNavigationComponents/LinkListItem";
+import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
-import { blue, purple } from "material-ui/colors";
 
-import IconHelper from "./settingsComponents/IconHelper";
-
-// Router
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import IconHelper from "../settings/IconHelper";
 
 const styles = {
   list: {
@@ -57,16 +51,16 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     const sideList = (
       <div>
         <List>
-          <div style={{marginBottom: 16, marginLeft: 16, marginRight: 16, marginTop: 6 }}>
+          <div style={{ marginBottom: 16, marginLeft: 16, marginRight: 16, marginTop: 6 }}>
             <Typography type="headline">{this.props.name}</Typography>
-            <Typography type="subheading" gutterBottom style={{color: "#787878"}}>
-            {this.uppercaseFirstLetter(this.props.type) + " "}
-            {startTime.format("HH:mm ")} - {endTime.format("HH:mm")}</Typography>
+            <Typography type="subheading" gutterBottom style={{ color: "#787878" }}>
+              {this.uppercaseFirstLetter(this.props.type) + " "}
+              {startTime.format("HH:mm ")} - {endTime.format("HH:mm")}</Typography>
             {this.renderLecturers()}
             {this.renderRemarks()}
           </div>
           <Divider />
-          <div style={{color: "black", marginTop: 6}}>
+          <div style={{ color: "black", marginTop: 6 }}>
             <LinkListItem
               name="Strona wykładowcy"
               iconName="Website"
@@ -87,8 +81,8 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     };
     return (
       <div>
-        <IconButton onClick={this.toggleDrawer(true)} style={{color: "#787878", width: 34, height: 24, marginTop: 6}}>
-          <IconHelper iconName="More"/>
+        <IconButton onClick={this.toggleDrawer(true)} style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}>
+          <IconHelper iconName="More" />
         </IconButton>
         <Drawer anchor="bottom" open={this.state.bottom} onClose={this.toggleDrawer(false)}>
           <div
@@ -134,39 +128,41 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     );
   }
 
-  private lowercaseFirstLetter(text) {
+  private lowercaseFirstLetter(text): string {
     return text.charAt(0).toLowerCase() + text.slice(1);
   }
 
-  private uppercaseFirstLetter(text) {
+  private uppercaseFirstLetter(text): string {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
-  private renderRemarks() {
+  private renderRemarks(): JSX.Element {
     if (this.props.remarks != null) {
       return (
-        <div style={{marginTop: 12}}>
+        <div style={{ marginTop: 12 }}>
           <Typography gutterBottom>{this.props.remarks}</Typography>
         </div>
       );
     } else {
-      return (<div/>);
+      return (<div />);
     }
   }
 
-  private renderLecturers() {
+  private renderLecturers(): JSX.Element {
     const rows = [];
+    let key: number = 0;
     for (const item of this.props.lecturers) {
-      rows.push(this.renderOneLecturer(item));
+      key++;
+      rows.push(this.renderOneLecturer(item, key));
     }
     return (
-      <div style={{marginTop: 10}}>
-      {rows}
+      <div style={{ marginTop: 10 }}>
+        {rows}
       </div>
     );
   }
 
-  private renderOneLecturer(name) {
+  private renderOneLecturer(name, key) {
     const style = {
       marginBottom: 6,
       marginRight: 6,
@@ -176,6 +172,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
         avatar={<Avatar>{name.match(/\b(\w)/g).join("")}</Avatar>}
         label={name}
         style={style}
+        key={key}
       />
     );
   }

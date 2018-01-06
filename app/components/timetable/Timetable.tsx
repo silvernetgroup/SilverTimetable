@@ -1,18 +1,16 @@
 import AppBar from "material-ui/AppBar";
 import Tabs, { Tab } from "material-ui/Tabs";
-import * as Moment from "moment";
 import * as React from "react";
-import ITimetable from "../models/ITimetable";
-import ITimetableEvent from "../models/ITimetableEvent";
-import ITimetableFilters from "../models/ITimetableFilters";
+import ITimetable from "../../models/ITimetable";
+import ITimetableEvent from "../../models/ITimetableEvent";
+import ITimetableFilters from "../../models/ITimetableFilters";
 import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
 
 // Config
-import * as config from "react-global-configuration";
-import { Fragment } from "react";
+import config from "react-global-configuration";
 
 interface IProps {
     data: ITimetable;

@@ -1,20 +1,18 @@
 import * as React from "react";
-import * as config from "react-global-configuration";
+import config from "react-global-configuration";
 import ITimetableEvent from "../../models/ITimetableEvent";
 
-import { HashRouter as Router, NavLink, Link, Route, Switch, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // material UI
 import {
   ListItem,
   ListItemIcon,
-  ListItemSecondaryAction,
   ListItemText,
 } from "material-ui/List";
-import Button from "material-ui/Button";
 
 // settings Components
-import IconHelper from "../settingsComponents/IconHelper";
+import IconHelper from "../settings/IconHelper";
 
 interface IProps {
   name: string;

@@ -1,16 +1,14 @@
 import * as React from "react";
-
 import { withStyles } from "material-ui/styles";
 import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
-import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
 
 // Icons
 import Refresh from "material-ui-icons/Refresh";
 
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import LeftDrawer from "./LeftDrawer";
 

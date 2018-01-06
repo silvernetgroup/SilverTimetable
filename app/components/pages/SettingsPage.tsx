@@ -1,12 +1,12 @@
 import * as React from "react";
-import * as config from "react-global-configuration";
+import config from "react-global-configuration";
 
 // material UI
 import List, { ListSubheader } from "material-ui/List";
 
 // settings Components
-import SelectListItem from "../settingsComponents/SelectListItem";
-import SwitchListItem from "../settingsComponents/SwitchListItem";
+import SelectListItem from "../settings/SelectListItem";
+import SwitchListItem from "../settings/SwitchListItem";
 import ITimetable from "../../models/ITimetable";
 
 interface IState {
