@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as Moment from "moment";
 import * as React from "react";
 import ITimetable from "../../models/ITimetable";
@@ -11,14 +10,16 @@ import Timetable from "../Timetable";
 import * as config from "react-global-configuration";
 import TimetableServices from "../TimetableServices";
 import FileManager from "../FileManager";
-import configuration from "../../Config";
+import configuration from "../../DefaultConfiguration";
+import IConfiguration from "../../models/IConfiguration";
+import DefaultConfiguration from "../../DefaultConfiguration";
 
 interface IProps {
     data: ITimetable;
 }
 
 interface IState {
-    schedule: ITimetable;
+    timetableData: ITimetable;
     IsLoaded: boolean;
     IsError: boolean;
 }
@@ -26,75 +27,74 @@ export default class MainPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         const onDeviceReady = () => {
-            console.log(this);
-            FileManager.setupFiles(false, (exist, value) => this.AppLifeCycle(exist, value));
-                // console.log("doniczkav2.0 " + exist + "WYNIK: " + value);
+            TimetableServices.initialize().then(() => this.Initialize().then((result) => this.setState(result)));
         };
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
-            schedule: this.props.data,
+            timetableData: this.props.data,
             IsLoaded: false,
             IsError: false,
         };
     }
-    public AppLifeCycle(exist, value) {
-        // CZY W PAMIECI ? - TAK:
-        if (exist) {
-            console.log("budyn");
-            console.log(value);
-            config.set(JSON.parse(value), { freeze: false });
-            this.setState({
-                // TODO: wczytac plan z pamieci (plan moze byc null) !!!
-                schedule: value.timetable,
-                IsLoaded: false,
+    public async Initialize(): Promise<IState> {
+
+        const sessionConfigTimetable: ITimetable = config.get("timetable");
+        if (sessionConfigTimetable) {
+            console.log("config w sesji");
+            return {
+                timetableData: sessionConfigTimetable,
                 IsError: false,
-            });
-            if (TimetableServices.isNetwork()) {
-                if (TimetableServices.isNewerSchedule()) {
-                    TimetableServices.getData((response) => {
-                        this.setState({
-                            schedule: response.data,
-                            IsLoaded: true,
-                        });
-                        if (this.state.schedule !== undefined) {
-                            // const kurczak = JSON.stringify(this.state.schedule);
-                            FileManager.saveTimetableStorageConfig(this.state.schedule);
-                        }
-                        console.log("SUCCESS 1");
-                    });
-                }
+                IsLoaded: true,
+            };
+        }
+
+        const result: IState = {
+            timetableData: null,
+            IsError: false,
+            IsLoaded: false,
+        };
+
+        let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
+
+        if (TimetableServices.isNetworkAvailable()) {
+            console.log("jest internet");
+            if (TimetableServices.isNewerTimetable()) {
+                console.log("jest nowszy plan, ściągam");
+                result.timetableData = await TimetableServices.getTimetable();
+                await TimetableServices.writeTimetableFile(result.timetableData);
             }
-        // CZY W PAMIECI ? - NIE:
+
         } else {
-            config.set(configuration, { freeze: false });
-            if (TimetableServices.isNetwork()) {
-                TimetableServices.getData((response) => {
-                    this.setState({
-                        schedule: response.data,
-                        IsLoaded: true,
-                    });
-                    if (this.state.schedule !== undefined) {
-                        const kurczak = JSON.stringify(this.state.schedule);
-                        FileManager.saveTimetableStorageConfig(this.state.schedule);
-                    }
-                    console.log("SUCCESS 2");
-                });
+            console.log("nie ma internetu lub plan jest aktualny");
+            const timetableData = await TimetableServices.readTimetableFile();
+            if (timetableData) {
+                console.log("jest plan w pamieci, ładuję");
+                result.timetableData = timetableData;
             } else {
-                this.setState({
-                    IsLoaded: false,
-                    IsError: true,
-                });
+                console.log("nie ma internetu i planu w pamieci");
+                result.IsError = true;
+                return result;
             }
         }
+
+        if (!configurationData) {
+            console.log("nie ma pliku konfiguracyjnego, tworzę domyslny");
+            configurationData = { ...DefaultConfiguration };
+            await TimetableServices.writeConfigurationFile(configuration);
+        } else {
+            console.log("jest konfiguracja w pamięci");
+        }
+
+        config.set({ ...configurationData, timetable: result.timetableData });
+
+        result.IsLoaded = true;
+
+        return result;
     }
 
-   public render(): JSX.Element {
+    public render(): JSX.Element {
 
-        const data: ITimetable = this.state.schedule;
-
-        const temp = config.get();
-        temp.timetable = data;
-        config.set(temp);
+        const data: ITimetable = this.state.timetableData;
 
         const filters = config.get("filters");
 
@@ -105,7 +105,7 @@ export default class MainPage extends React.Component<IProps, IState> {
         } else {
             return (
                 <div className="main-page-container" style={{ marginTop: "69px" }}>
-                    {this.state.schedule &&
+                    {this.state.timetableData &&
                         <Timetable
                             data={data}
                             filters={filters}

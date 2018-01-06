@@ -1,6 +1,5 @@
 import * as Colors from "material-ui/colors";
 import createMuiTheme from "material-ui/styles/createMuiTheme";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
 import initReactFastclick from "react-fastclick";
 import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
@@ -10,13 +9,11 @@ import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
-import Drawer from "./appNavigationComponents/LeftDrawer";
 import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
 
 // Config
 import * as config from "react-global-configuration";
-import configuration from "../Config";
-import FileManager from "./FileManager";
+import configuration from "../DefaultConfiguration";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -28,7 +25,7 @@ export default class App extends React.Component {
     constructor(props: any) {
         super(props);
         // mobile touch delay fix
-        initReactFastclick();
+        // initReactFastclick();
         // config
         config.set(configuration, { freeze: false });
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -56,7 +53,6 @@ export default class App extends React.Component {
                     <NavigationToolbar />
                 </div>
             </Router>
-
         );
     }
 }
