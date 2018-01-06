@@ -1,6 +1,5 @@
 import * as React from "react";
-import * as config from "react-global-configuration";
-import FileManager from "../FileManager";
+import config from "react-global-configuration";
 
 // material UI
 import {
@@ -11,16 +10,10 @@ import {
 } from "material-ui/List";
 import Switch from "material-ui/Switch";
 
-// material UI Select
-import { FormControl, FormHelperText } from "material-ui/Form";
-import Input, { InputLabel } from "material-ui/Input";
-import { MenuItem } from "material-ui/Menu";
-import Select from "material-ui/Select";
-
 // Icons
 import IconHelper from "./IconHelper";
 import IConfiguration from "../../models/IConfiguration";
-import TimetableServices from "../TimetableServices";
+import TimetableServices from "../../services/TimetableServices";
 
 interface IProps {
   name: string;

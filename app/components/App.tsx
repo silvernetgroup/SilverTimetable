@@ -1,18 +1,16 @@
 import * as Colors from "material-ui/colors";
 import createMuiTheme from "material-ui/styles/createMuiTheme";
 import * as React from "react";
-import initReactFastclick from "react-fastclick";
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
-import FilteringPage from "./Pages/FilteringPage";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
-import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
+import NavigationToolbar from "./navigation/NavigationToolbar";
 
 // Config
-import * as config from "react-global-configuration";
+import config from "react-global-configuration";
 import configuration from "../DefaultConfiguration";
 
 const theme: any = createMuiTheme({
@@ -43,12 +41,11 @@ export default class App extends React.Component {
     public render(): JSX.Element {
         return (
             <Router>
-                <div className="app-container" style={{WebkitOverflowScrolling: "touch"}}>
+                <div className="app-container" style={{ WebkitOverflowScrolling: "touch" }}>
                     <Switch>
                         <Route exact path="/" component={MainPage} />
                         <Route path="/settings" component={SettingsPage} />
-                        <Route path="/filtering" component={FilteringPage} />
-                        <Route path="/floor" render={() => <FloorPage />} />
+                        <Route path="/floor" component={FloorPage} />
                     </Switch>
                     <NavigationToolbar />
                 </div>

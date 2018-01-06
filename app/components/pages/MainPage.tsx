@@ -1,18 +1,15 @@
-import * as Moment from "moment";
 import * as React from "react";
 import ITimetable from "../../models/ITimetable";
 import ITimetableEvent from "../../models/ITimetableEvent";
 import ITimetableFilters from "../../models/ITimetableFilters";
-import CircularProgress from "../CircularProgress";
-import LecturersPages from "../LecturersPages";
+import CircularProgress from "material-ui/Progress/CircularProgress";
+import LecturersPages from "../../services/LecturersPages";
 import ErrorPage from "../Pages/ErrorPage";
-import Timetable from "../Timetable";
-import * as config from "react-global-configuration";
-import TimetableServices from "../TimetableServices";
-import FileManager from "../FileManager";
-import configuration from "../../DefaultConfiguration";
+import Timetable from "../timetable/Timetable";
+import config from "react-global-configuration";
+import TimetableServices from "../../services/TimetableServices";
+import defaultConfig from "../../DefaultConfiguration";
 import IConfiguration from "../../models/IConfiguration";
-import DefaultConfiguration from "../../DefaultConfiguration";
 
 interface IProps {
     data: ITimetable;
@@ -55,18 +52,17 @@ export default class MainPage extends React.Component<IProps, IState> {
         };
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
+        const timetableData: ITimetable = await TimetableServices.readTimetableFile();
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
-            if (TimetableServices.isNewerTimetable()) {
-                console.log("jest nowszy plan, ściągam");
+            if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date)) {
+                console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 result.timetableData = await TimetableServices.getTimetable();
                 await TimetableServices.writeTimetableFile(result.timetableData);
             }
-
         } else {
             console.log("nie ma internetu lub plan jest aktualny");
-            const timetableData = await TimetableServices.readTimetableFile();
             if (timetableData) {
                 console.log("jest plan w pamieci, ładuję");
                 result.timetableData = timetableData;
@@ -79,8 +75,8 @@ export default class MainPage extends React.Component<IProps, IState> {
 
         if (!configurationData) {
             console.log("nie ma pliku konfiguracyjnego, tworzę domyslny");
-            configurationData = { ...DefaultConfiguration };
-            await TimetableServices.writeConfigurationFile(configuration);
+            configurationData = { ...defaultConfig };
+            await TimetableServices.writeConfigurationFile(configurationData);
         } else {
             console.log("jest konfiguracja w pamięci");
         }
@@ -99,7 +95,11 @@ export default class MainPage extends React.Component<IProps, IState> {
         const filters = config.get("filters");
 
         if (!this.state.IsLoaded && !this.state.IsError) {
-            return (<CircularProgress />);
+            return (
+                <div className="CrcProgress">
+                    <CircularProgress color="accent" size={60} thickness={7} />
+                </div>
+            );
         } else if (this.state.IsError) {
             return (<ErrorPage />);
         } else {
