@@ -2,6 +2,7 @@ import Paper from "material-ui/Paper";
 import * as Moment from "moment";
 import * as React from "react";
 import ITimetableEvent from "../models/ITimetableEvent";
+import EventBlockMenu from "./EventBlockMenu";
 
 interface IProps {
     name: string;
@@ -33,6 +34,11 @@ export default class EventBlock extends React.Component<IProps, {}> {
                 onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
                 {...{} as any}
             >
+                <EventBlockMenu
+                    name={this.props.name}
+                    info="Studentów prosimy o przyniesienie własnych krzeseł na zajęcia."
+                    // info=""
+                />
                 <div className="lectureName-event-block">
                     {this.props.name}
                 </div>
