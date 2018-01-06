@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as config from "react-global-configuration";
+import ITimetableEvent from "../../models/ITimetableEvent";
 
 import { HashRouter as Router, NavLink, Link, Route, Switch, Redirect } from "react-router-dom";
 
@@ -18,7 +19,9 @@ import IconHelper from "../settingsComponents/IconHelper";
 interface IProps {
   name: string;
   iconName: string;
-  linkPage: string;
+  linkPage?: string;
+  color?: string;
+  onClick?(event: ITimetableEvent): void;
 }
 
 const style: any = {
@@ -30,26 +33,45 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-const linkStyle: any = {
-  color: "#4F4F4F",
-  textDecoration: "none",
-};
-
 export default class SwitchListItem extends React.Component<IProps, {}> {
 
+  public static defaultProps: IProps = {
+    name: "error",
+    iconName: "Settings",
+    color: "#4F4F4F",
+};
+
   public render(): JSX.Element {
-    return (
-      <div>
-        <NavLink to={this.props.linkPage}
-        style={linkStyle}>
-          <ListItem button>
-            <ListItemIcon>
-              <IconHelper iconName={this.props.iconName} />
-            </ListItemIcon>
-            <ListItemText primary={this.props.name} />
-          </ListItem>
-        </NavLink>
-      </div>
-    );
+    if (this.props.linkPage === null) {
+      return (
+        <div>
+            <ListItem
+              button
+              onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
+              {...{} as any}
+              style={{color: this.props.color}}
+            >
+              <ListItemIcon>
+                <IconHelper iconName={this.props.iconName} />
+              </ListItemIcon>
+              <ListItemText primary={this.props.name} />
+            </ListItem>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <NavLink to={this.props.linkPage}
+          style={{textDecoration: "none", color: this.props.color}}>
+            <ListItem button>
+              <ListItemIcon>
+                <IconHelper iconName={this.props.iconName}/>
+              </ListItemIcon>
+              <ListItemText primary={this.props.name} />
+            </ListItem>
+          </NavLink>
+        </div>
+      );
+    }
   }
 }
