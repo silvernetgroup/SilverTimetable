@@ -21,7 +21,7 @@ export default class TimetableServices {
             return false;
         }
     }
-    public static isNewerTimetable = (): boolean => {
+    public static isNewerTimetable = (date): boolean => {
         return true;
     }
 

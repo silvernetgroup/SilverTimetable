@@ -52,18 +52,17 @@ export default class MainPage extends React.Component<IProps, IState> {
         };
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
+        const timetableData: ITimetable = await TimetableServices.readTimetableFile();
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
-            if (TimetableServices.isNewerTimetable()) {
-                console.log("jest nowszy plan, ściągam");
+            if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date)) {
+                console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 result.timetableData = await TimetableServices.getTimetable();
                 await TimetableServices.writeTimetableFile(result.timetableData);
             }
-
         } else {
             console.log("nie ma internetu lub plan jest aktualny");
-            const timetableData = await TimetableServices.readTimetableFile();
             if (timetableData) {
                 console.log("jest plan w pamieci, ładuję");
                 result.timetableData = timetableData;
