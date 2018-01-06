@@ -3,6 +3,7 @@ import ITimetable from "../models/ITimetable";
 import FileManager from "./FileManager";
 import IConfiguration from "../models/IConfiguration";
 import * as Moment from "moment";
+import ITimetableFilters from "../models/ITimetableFilters";
 
 export default class TimetableServices {
 
@@ -12,19 +13,9 @@ export default class TimetableServices {
             return false;
         }
         const networkState = navigator.connection.type;
-
-        /*  const states = {};
-          states[Connection.UNKNOWN]  = "Unknown connection";
-          states[Connection.ETHERNET] = "Ethernet connection";
-          states[Connection.WIFI]     = "WiFi connection";
-          states[Connection.CELL_2G]  = "Cell 2G connection";
-          states[Connection.CELL_3G]  = "Cell 3G connection";
-          states[Connection.CELL_4G]  = "Cell 4G connection";
-          states[Connection.CELL]     = "Cell generic connection";
-          states[Connection.NONE]     = "No network connection";*/
         console.log("Connection type: " + networkState);
 
-        if (networkState !== "unknow" && networkState !== "none") {
+        if (networkState !== "none") {
             return true;
         } else {
             return false;
@@ -43,7 +34,7 @@ export default class TimetableServices {
                 endTime: Moment.utc(event.endTime, "HH:mm"),
             };
         });
-        return {...response.data, events};
+        return { ...response.data, events };
     }
 
     public static async initialize() {
@@ -57,5 +48,25 @@ export default class TimetableServices {
     public static async readConfigurationFile(): Promise<IConfiguration> {
         return await FileManager.readFile(this.configFileName);
     }
-    private static configFileName: string = "Timetable.json";
+
+    public static async writeTimetableFile(data: ITimetable) {
+        await FileManager.writeFile(this.timetableFileName, data);
+    }
+
+    public static async readTimetableFile(): Promise<ITimetable> {
+        const result = await FileManager.readFile(this.timetableFileName);
+        if (!result) {
+            return null;
+        }
+        const events = result.events.map((event) => {
+            return {
+                ...event,
+                startTime: Moment.utc(event.startTime, "HH:mm"),
+                endTime: Moment.utc(event.endTime, "HH:mm"),
+            };
+        });
+        return { ...result, events };
+    }
+    private static configFileName: string = "config.json";
+    private static timetableFileName: string = "timetable.json";
 }

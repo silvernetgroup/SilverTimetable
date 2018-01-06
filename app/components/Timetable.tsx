@@ -40,13 +40,6 @@ export default class Timetable extends React.Component<IProps, IState> {
             selectedDay: props.defaultDay || 0,
             selectedGroup: config.get("filters").group || groupNames[0],
         };
-        this.props.data.events.forEach((a) => {
-            console.log(a);
-            // const startTime: string = a.startTime.toString();
-            // const endTime: string = a.endTime.toString();
-            // a.startTime = Moment.utc(startTime);
-            // a.endTime = Moment.utc(endTime);
-         });
     }
 
     public render(): JSX.Element {

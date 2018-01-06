@@ -26,9 +26,8 @@ interface IState {
 export default class MainPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        console.log("constructing mainpage");
         const onDeviceReady = () => {
-            TimetableServices.initialize().then(() => this.AppLifeCycle().then((result) => this.setState(result)));
+            TimetableServices.initialize().then(() => this.Initialize().then((result) => this.setState(result)));
         };
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
@@ -37,10 +36,11 @@ export default class MainPage extends React.Component<IProps, IState> {
             IsError: false,
         };
     }
-    public async AppLifeCycle(): Promise<IState> {
+    public async Initialize(): Promise<IState> {
 
         const sessionConfigTimetable: ITimetable = config.get("timetable");
         if (sessionConfigTimetable) {
+            console.log("config w sesji");
             return {
                 timetableData: sessionConfigTimetable,
                 IsError: false,
@@ -48,79 +48,46 @@ export default class MainPage extends React.Component<IProps, IState> {
             };
         }
 
-        let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
-
-        let result: IState = {
+        const result: IState = {
             timetableData: null,
             IsError: false,
             IsLoaded: false,
         };
 
-        if (configurationData) {
-            console.log("wczytano config z pliku");
+        let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
 
-            if (configurationData.timetable) {
-                console.log("jest plan w pamięci");
-                if (TimetableServices.isNewerTimetable()) {
-                    configurationData.timetable = await TimetableServices.getTimetable();
-                }
-                result = ({
-                    timetableData: configurationData.timetable,
-                    IsLoaded: true,
-                    IsError: false,
-                });
-            } else {
-                console.log("Nie ma planu w pamieci");
-                if (TimetableServices.isNetworkAvailable()) {
-                    console.log("jest internet");
-                    try {
-                        // console.log(configurationData);
-                        configurationData.timetable = await TimetableServices.getTimetable();
-
-                        console.log("Pobrano plan (bo nie bylo)");
-                        result = {
-                            timetableData: configurationData.timetable,
-                            IsLoaded: true,
-                            IsError: false,
-                        };
-                    } catch (error) {
-                        console.log(error);
-                        result.IsError = true;
-                    }
-                } else {
-                    console.log("nie ma internetu");
-                    result.IsError = true;
-                }
+        if (TimetableServices.isNetworkAvailable()) {
+            console.log("jest internet");
+            if (TimetableServices.isNewerTimetable()) {
+                console.log("jest nowszy plan, ściągam");
+                result.timetableData = await TimetableServices.getTimetable();
+                await TimetableServices.writeTimetableFile(result.timetableData);
             }
-        } else {
-            console.log("Nie ma pliku konfiguracyjnego");
-            console.log(DefaultConfiguration);
-            configurationData = { ...DefaultConfiguration };
-            if (TimetableServices.isNetworkAvailable()) {
-                console.log("jest internet");
-                try {
-                    configurationData.timetable = await TimetableServices.getTimetable();
 
-                    result = {
-                        timetableData: configurationData.timetable,
-                        IsLoaded: true,
-                        IsError: false,
-                    };
-                } catch (error) {
-                    console.log(error);
-                    result.IsError = true;
-                }
+        } else {
+            console.log("nie ma internetu lub plan jest aktualny");
+            const timetableData = await TimetableServices.readTimetableFile();
+            if (timetableData) {
+                console.log("jest plan w pamieci, ładuję");
+                result.timetableData = timetableData;
             } else {
-                console.log("Nie ma internetu");
+                console.log("nie ma internetu i planu w pamieci");
                 result.IsError = true;
+                return result;
             }
         }
 
-        config.set(configurationData, { freeze: false });
-        console.log("zapisuję: ");
-        // console.log(configurationData);
-        await TimetableServices.writeConfigurationFile(configurationData);
-        console.log("Zapisano plan do pliku");
+        if (!configurationData) {
+            console.log("nie ma pliku konfiguracyjnego, tworzę domyslny");
+            configurationData = { ...DefaultConfiguration };
+            await TimetableServices.writeConfigurationFile(configuration);
+        } else {
+            console.log("jest konfiguracja w pamięci");
+        }
+
+        config.set({ ...configurationData, timetable: result.timetableData });
+
+        result.IsLoaded = true;
 
         return result;
     }

@@ -12,7 +12,6 @@ const config: IConfiguration = {
   },
   notifyAboutUpdates: true,
   allowQuickGroupChange: true,
-  timetable: null,
 };
 
 export default config;
