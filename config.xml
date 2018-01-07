@@ -8,7 +8,8 @@
         KNI Silver.NET
     </author>
     <content src="index.html" />
-    <allow-navigation href="https://silvertimetable.azurewebsites.net" />
+    <allow-navigation href="https://silvertimetable.azurewebsites.net/api/timetable" />
+    <allow-navigation href="https://silvertimetable.azurewebsites.net/api/timetable/date" />
     <platform name="android">
         <resource-file src="google-services.json" target="google-services.json" />
     </platform>
