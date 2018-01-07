@@ -1,12 +1,12 @@
 import * as React from "react";
-import * as config from "react-global-configuration";
+import config from "react-global-configuration";
 
 // material UI
 import List, { ListSubheader } from "material-ui/List";
 
 // settings Components
-import SelectListItem from "../settingsComponents/SelectListItem";
-import SwitchListItem from "../settingsComponents/SwitchListItem";
+import SelectListItem from "../settings/SelectListItem";
+import SwitchListItem from "../settings/SwitchListItem";
 import ITimetable from "../../models/ITimetable";
 
 interface IState {
@@ -99,13 +99,8 @@ export default class SettingsPage extends React.Component<{}, IState> {
             onChange={() => this.setStateOfSelectLists(data)}
           />
         </List>
-        {/* <List subheader={<ListSubheader>Powiadomienia</ListSubheader>}>
-          <SwitchListItem name="Nowa wersja planu" iconName="Notifications" configName="notificationNewVersion" />
-          <SwitchListItem name="Przed zajęciami" iconName="Time" configName="notificationBeforeClass" />
-        </List> */}
         <List subheader={<ListSubheader>Inne</ListSubheader>}>
           <SwitchListItem name="Szybka zmiana grupy " iconName="Top" configName="showGroupChange" />
-          <SwitchListItem name="Zapisuj na urządzeniu" iconName="Download" configName="offline" />
         </List>
       </div>
     );

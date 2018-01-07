@@ -1,20 +1,13 @@
 import * as React from "react";
 import config from "react-global-configuration";
-
-import Button from "material-ui/Button";
 import Divider from "material-ui/Divider";
 import Drawer from "material-ui/Drawer";
 import Typography from "material-ui/Typography";
 import List from "material-ui/List";
-import { withStyles } from "material-ui/styles";
 import IconButton from "material-ui/IconButton";
 import LinkListItem from "./LinkListItem";
-
 // Icons
 import Hamburger from "material-ui-icons/Menu";
-
-// Router
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 const styles = {
   list: {
@@ -54,9 +47,9 @@ export default class LeftDrawer extends React.Component<{}, IState> {
               </Typography>
             </div>
           </div>
-          <LinkListItem name="Plan" iconName="Event" linkPage="/" />
-          <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" />
-          <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" />
+          <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={null} />
+          <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" onClick={null} />
+          <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" onClick={null} />
         </List>
       </div>
     );

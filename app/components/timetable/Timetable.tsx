@@ -1,17 +1,16 @@
 import AppBar from "material-ui/AppBar";
 import Tabs, { Tab } from "material-ui/Tabs";
 import * as React from "react";
-import ITimetable from "../models/ITimetable";
-import ITimetableEvent from "../models/ITimetableEvent";
-import ITimetableFilters from "../models/ITimetableFilters";
+import ITimetable from "../../models/ITimetable";
+import ITimetableEvent from "../../models/ITimetableEvent";
+import ITimetableFilters from "../../models/ITimetableFilters";
 import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
 
 // Config
-import * as config from "react-global-configuration";
-import { Fragment } from "react";
+import config from "react-global-configuration";
 
 interface IProps {
     data: ITimetable;
@@ -32,7 +31,6 @@ interface IGroupNumberNamePair {
 }
 
 export default class Timetable extends React.Component<IProps, IState> {
-
     constructor(props: IProps) {
         super(props);
         const groupNames = this.generateGroupNames(props.data, props.filters);
@@ -70,17 +68,17 @@ export default class Timetable extends React.Component<IProps, IState> {
     private renderDayTabs(mode: string): JSX.Element[] {
         if (mode === "Stacjonarne") {
             return [
-                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" />,
-                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" />,
-                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" />,
-                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" />,
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" value={1} />,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" value={2} />,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" value={3} />,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" value={4} />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" value={5} />,
             ];
         } else {
             return [
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
-                <Tab label="So" style={{ minWidth: 50 }} key="So" />,
-                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" value={5} />,
+                <Tab label="So" style={{ minWidth: 50 }} key="So" value={6} />,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" value={7} />,
             ];
         }
     }
@@ -114,7 +112,7 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
-                {config.get("showGroupChange") === true &&
+                {config.get("allowQuickGroupChange") === true &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
                             value={this.state.selectedGroup}
@@ -150,13 +148,13 @@ export default class Timetable extends React.Component<IProps, IState> {
                               dayOfWeek: number, group: string): JSX.Element[] {
 
         const dayNames: any = {
-            0: "PN",
-            1: "WT",
-            2: "ŚR",
-            3: "CZW",
-            4: "PT",
-            5: "SO",
-            6: "NIE",
+            1: "PN",
+            2: "WT",
+            3: "ŚR",
+            4: "CZW",
+            5: "PT",
+            6: "SO",
+            7: "NIE",
         };
 
         const result =

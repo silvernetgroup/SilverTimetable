@@ -1,13 +1,15 @@
 import Paper from "material-ui/Paper";
 import * as Moment from "moment";
 import * as React from "react";
-import ITimetableEvent from "../models/ITimetableEvent";
+import ITimetableEvent from "../../models/ITimetableEvent";
+import BlockMore from "./EventBlockMore";
 
 interface IProps {
     name: string;
-    lecturer: string;
+    lecturers: string[];
     type: string;
     room: string;
+    building: string;
     endTime: Moment.Moment;
     remarks?: string;
     startTime: Moment.Moment;
@@ -18,7 +20,6 @@ interface IProps {
 export default class EventBlock extends React.Component<IProps, {}> {
 
     public render(): JSX.Element {
-
         const { startTime, endTime } = this.props;
         const style: any = {
             backgroundColor: "#FFFFFF",
@@ -30,18 +31,23 @@ export default class EventBlock extends React.Component<IProps, {}> {
             <Paper
                 style={style}
                 elevation={1}
-                onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
+                /*onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}*/
                 {...{} as any}
             >
-                <div className="lectureName-event-block">
-                    {this.props.name + (this.props.isFaculty ? " (F)" : "")}
+                <div className="header-event-block">
+                    <div className="lectureName-event-block">
+                        {this.props.name}
+                    </div>
+                    <BlockMore {...this.props}/>
                 </div>
                 <div className="props-event-block">
                     <span>
-                        {this.props.type} {startTime.format("HH:mm ")}
+                        {(this.props.isFaculty ? "(F) " : "") + this.props.type + " "}
+                        {startTime.format("HH:mm ")}
                         - {endTime.format("HH:mm")}
                         <br />
-                        <span className="additionalFt-event-block">{this.props.room}</span> - {this.props.lecturer}
+                        <span className="additionalFt-event-block">{this.props.room + " "}</span>
+                        - {this.props.lecturers.join(", ")}
                     </span>
                 </div>
             </Paper>

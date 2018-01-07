@@ -14,7 +14,7 @@ module.exports = {
         filename: '[name]-bundle.js'
     },
     module: {
-        loaders: [
+        loaders: [            
             { test: /\.js$/, include: /app/, exclude: /node_modules/, loaders: ['babel-loader'] },
             { test: /(\.css)$/, loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
             { test: /\.jsx$/, include: /app/, loaders: ['babel-loader'] },

@@ -3,7 +3,14 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
-    "rules": {},
+    "jsRules": {
+        "ordered-imports": false
+    },
+    "rules": {
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "no-shadowed-variable": true,
+        "typedef": true
+    },
     "rulesDirectory": []
 }
