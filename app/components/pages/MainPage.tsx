@@ -11,24 +11,20 @@ import TimetableServices from "../../services/TimetableServices";
 import defaultConfig from "../../DefaultConfiguration";
 import IConfiguration from "../../models/IConfiguration";
 
-interface IProps {
-    data: ITimetable;
-}
-
 interface IState {
     timetableData: ITimetable;
     IsLoaded: boolean;
     IsError: boolean;
 }
-export default class MainPage extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
+export default class MainPage extends React.Component<{}, IState> {
+    constructor(props) {
         super(props);
         const onDeviceReady = () => {
             TimetableServices.initialize().then(() => this.Initialize().then((result) => this.setState(result)));
         };
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
-            timetableData: this.props.data,
+            timetableData: null,
             IsLoaded: false,
             IsError: false,
         };
@@ -58,8 +54,14 @@ export default class MainPage extends React.Component<IProps, IState> {
             console.log("jest internet");
             if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date)) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
-                result.timetableData = await TimetableServices.getTimetable();
-                await TimetableServices.writeTimetableFile(result.timetableData);
+                try {
+                    result.timetableData = await TimetableServices.getTimetable();
+                    await TimetableServices.writeTimetableFile(result.timetableData);
+                } catch{
+
+                    console.log("Błąd pobierania...");
+                    result.IsError = true;
+                }
             }
         } else {
             console.log("nie ma internetu lub plan jest aktualny");
@@ -92,7 +94,7 @@ export default class MainPage extends React.Component<IProps, IState> {
 
         const data: ITimetable = this.state.timetableData;
 
-        const filters = config.get("filters");
+        const filters: ITimetableFilters = config.get("filters");
 
         if (!this.state.IsLoaded && !this.state.IsError) {
             return (
@@ -109,7 +111,7 @@ export default class MainPage extends React.Component<IProps, IState> {
                         <Timetable
                             data={data}
                             filters={filters}
-                            defaultDay={this.currentDay(filters)}
+                            defaultDay={this.currentDay(filters.mode)}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                         />
                     }
@@ -118,30 +120,52 @@ export default class MainPage extends React.Component<IProps, IState> {
         }
     }
 
+    public async refresh() {
+        console.log("Odświerzam...");
+        this.setState({ ...this.state, IsLoaded: false });
+        if (TimetableServices.isNetworkAvailable()
+            && (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData))) {
+            console.log("Jest internet i nowsza wersja - pobieram...");
+            let timetable: ITimetable;
+            try {
+                timetable = await TimetableServices.getTimetable();
+                await TimetableServices.writeTimetableFile(timetable);
+            } catch {
+                console.log("Błąd pobierania");
+                timetable = this.state.timetableData;
+
+            }
+
+            this.setState({
+                ...this.state,
+                timetableData: timetable,
+                IsLoaded: true,
+            });
+
+        }
+        this.setState({ ...this.state, IsLoaded: true });
+    }
+
     private handleEventBlockClick = (event: ITimetableEvent): void => {
         LecturersPages.openLecturersPage(event);
     }
 
-    private currentDay(filters: ITimetableFilters): number {
+    private currentDay(mode: string): number {
         const today: Date = new Date();
         let dayNumber: number = today.getDay();
-        const mode = filters.mode;
 
         switch (mode) {
             case "Stacjonarne":
                 if (dayNumber === 0 || dayNumber === 6) {
                     dayNumber = 1;
                 }
-                dayNumber = dayNumber - 1;
                 break;
 
             case "Niestacjonarne":
-                if (dayNumber >= 1 && dayNumber <= 5) {
-                    dayNumber = 0;
-                } else if (dayNumber === 6) {
-                    dayNumber = 1;
+                if (dayNumber >= 1 && dayNumber <= 4) {
+                    dayNumber = 5;
                 } else if (dayNumber === 0) {
-                    dayNumber = 2;
+                    dayNumber = 7;
                 }
                 break;
         }

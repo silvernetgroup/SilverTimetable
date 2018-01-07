@@ -26,7 +26,7 @@ export default class TimetableServices {
     }
 
     public static async getTimetable(): Promise<ITimetable> {
-        const response = await axios.get("http://silvertimetable.azurewebsites.net/api/timetable");
+        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/timetable");
         const events = response.data.events.map((event) => {
             return {
                 ...event,

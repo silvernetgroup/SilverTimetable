@@ -20,6 +20,7 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
+    private mainPage: MainPage;
     constructor(props: any) {
         super(props);
         // mobile touch delay fix
@@ -43,11 +44,15 @@ export default class App extends React.Component {
             <Router>
                 <div className="app-container" style={{ WebkitOverflowScrolling: "touch" }}>
                     <Switch>
-                        <Route exact path="/" component={MainPage} />
+                        <Route
+                            exact
+                            path="/"
+                            render={(props) => <MainPage ref={(mainPage) => this.mainPage = mainPage} />}
+                        />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/floor" component={FloorPage} />
                     </Switch>
-                    <NavigationToolbar />
+                    <NavigationToolbar onRefreshClick={() => this.mainPage.refresh()} />
                 </div>
             </Router>
         );
