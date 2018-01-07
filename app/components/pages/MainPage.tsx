@@ -131,16 +131,13 @@ export default class MainPage extends React.Component<IProps, IState> {
                 if (dayNumber === 0 || dayNumber === 6) {
                     dayNumber = 1;
                 }
-                dayNumber = dayNumber - 1;
                 break;
 
             case "Niestacjonarne":
-                if (dayNumber >= 1 && dayNumber <= 5) {
-                    dayNumber = 0;
-                } else if (dayNumber === 6) {
-                    dayNumber = 1;
+                if (dayNumber >= 1 && dayNumber <= 4) {
+                    dayNumber = 5;
                 } else if (dayNumber === 0) {
-                    dayNumber = 2;
+                    dayNumber = 7;
                 }
                 break;
         }
