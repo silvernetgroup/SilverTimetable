@@ -38,8 +38,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
             >
                 <EventBlockMenu
                     name={this.props.name}
-                    info="Studentów prosimy o przyniesienie własnych krzeseł na zajęcia."
-                    // info=""
+                    remarks={this.props.remarks}
                 />
                 <div className="lectureName-event-block">
                     {this.props.name + (this.props.isFaculty ? " (F)" : "")}

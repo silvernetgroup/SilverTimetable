@@ -17,10 +17,16 @@ import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
     name: string;
-    info: string;
+    remarks: string;
 }
 
-export default class EventBlockMenu extends React.Component<IProps, {}> {
+interface IState {
+    anchorEl: any;
+    open: boolean;
+    infoOpen: boolean;
+}
+
+export default class EventBlockMenu extends React.Component<IProps, IState> {
     public state = {
         anchorEl: null,
         open: false,
@@ -73,7 +79,7 @@ export default class EventBlockMenu extends React.Component<IProps, {}> {
                     anchorEl={this.state.anchorEl}
                     open={this.state.open}
                 >
-                    {this.infoMenu(this.props.info)}
+                    {this.infoMenu(this.props.remarks)}
                     <MenuItem onClick={this.handleTmp}>
                         <ListItemIcon>
                             <IconHelper iconName="Map" />
@@ -95,11 +101,11 @@ export default class EventBlockMenu extends React.Component<IProps, {}> {
                     <DialogTitle>{this.props.name}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {this.props.info}
+                            {this.props.remarks}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button color="primary" onClick={this.handleCloseInfo}>kk</Button>
+                        <Button color="primary" onClick={this.handleCloseInfo}>OK</Button>
                     </DialogActions>
                 </Dialog>
             </div>
