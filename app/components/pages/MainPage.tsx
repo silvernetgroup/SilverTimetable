@@ -11,24 +11,20 @@ import TimetableServices from "../../services/TimetableServices";
 import defaultConfig from "../../DefaultConfiguration";
 import IConfiguration from "../../models/IConfiguration";
 
-interface IProps {
-    data: ITimetable;
-}
-
 interface IState {
     timetableData: ITimetable;
     IsLoaded: boolean;
     IsError: boolean;
 }
-export default class MainPage extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
+export default class MainPage extends React.Component<{}, IState> {
+    constructor(props) {
         super(props);
         const onDeviceReady = () => {
             TimetableServices.initialize().then(() => this.Initialize().then((result) => this.setState(result)));
         };
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
-            timetableData: this.props.data,
+            timetableData: null,
             IsLoaded: false,
             IsError: false,
         };
@@ -116,6 +112,23 @@ export default class MainPage extends React.Component<IProps, IState> {
                 </div>
             );
         }
+    }
+
+    public async refresh() {
+        console.log("Odświerzam...");
+        this.setState({ ...this.state, IsLoaded: false });
+        if (TimetableServices.isNetworkAvailable()
+            && TimetableServices.isNewerTimetable(this.state.timetableData.date)) {
+                console.log("Jest internet i nowsza wersja - pobieram...");
+                const timetable = await TimetableServices.getTimetable();
+                this.setState({
+                    ...this.state,
+                    timetableData: timetable,
+                    IsLoaded: true,
+                });
+
+        }
+        this.setState({ ...this.state, IsLoaded: true });
     }
 
     private handleEventBlockClick = (event: ITimetableEvent): void => {

@@ -32,21 +32,21 @@ function ButtonAppBar(props: any): JSX.Element {
   return (
     <div className={classes.root}>
       <AppBar style={testPadding}>
-        <Toolbar style={{paddingRight: 6}}>
+        <Toolbar style={{ paddingRight: 6 }}>
           <LeftDrawer />
           <Switch>
-            <Route exact path="/" render={(props) => (
+            <Route exact path="/" render={() => (
               <>
               <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
               <IconButton>
-                <Refresh style={{color: "white"}} />
+                <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
               </IconButton>
               </>
             )} />
-            <Route exact path="/settings" render={(props) => (
+            <Route exact path="/settings" render={() => (
               <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
             )} />
-            <Route exact path="/floor" render={(props) => (
+            <Route exact path="/floor" render={() => (
               <Typography type="title" color="inherit" className={classes.flex}>Plan piętra</Typography>
             )} />
           </Switch>
