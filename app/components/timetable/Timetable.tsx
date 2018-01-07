@@ -68,17 +68,17 @@ export default class Timetable extends React.Component<IProps, IState> {
     private renderDayTabs(mode: string): JSX.Element[] {
         if (mode === "Stacjonarne") {
             return [
-                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" />,
-                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" />,
-                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" />,
-                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" />,
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" value={0} />,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" value={1} />,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" value={2} />,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" value={3} />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" value={4} />,
             ];
         } else {
             return [
-                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" />,
-                <Tab label="So" style={{ minWidth: 50 }} key="So" />,
-                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" value={4} />,
+                <Tab label="So" style={{ minWidth: 50 }} key="So" value={5} />,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" value={6} />,
             ];
         }
     }

@@ -92,7 +92,7 @@ export default class MainPage extends React.Component<IProps, IState> {
 
         const data: ITimetable = this.state.timetableData;
 
-        const filters = config.get("filters");
+        const filters: ITimetableFilters = config.get("filters");
 
         if (!this.state.IsLoaded && !this.state.IsError) {
             return (
@@ -109,7 +109,7 @@ export default class MainPage extends React.Component<IProps, IState> {
                         <Timetable
                             data={data}
                             filters={filters}
-                            defaultDay={this.currentDay(filters)}
+                            defaultDay={this.currentDay(filters.mode)}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                         />
                     }
@@ -122,10 +122,9 @@ export default class MainPage extends React.Component<IProps, IState> {
         LecturersPages.openLecturersPage(event);
     }
 
-    private currentDay(filters: ITimetableFilters): number {
+    private currentDay(mode: string): number {
         const today: Date = new Date();
         let dayNumber: number = today.getDay();
-        const mode = filters.mode;
 
         switch (mode) {
             case "Stacjonarne":
