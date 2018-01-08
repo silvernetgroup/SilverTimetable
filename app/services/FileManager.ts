@@ -1,4 +1,5 @@
 import ITimetable from "../models/ITimetable";
+import config from "react-global-configuration";
 
 export default class FileManager {
 
@@ -8,16 +9,19 @@ export default class FileManager {
 
     public static async writeFile(fileName, dataObj): Promise<any> {
         const fileEntry = await this.getFileEntry(fileName, this.fileSystem);
-
         return new Promise((resolve, reject) => {
             fileEntry.createWriter((fileWriter) => {
                 fileWriter.onwriteend = () => {
-                    resolve();
+                    fileWriter.seek(0);
+                    fileWriter.onwriteend = () => {
+                        resolve();
+                    };
+                    fileWriter.write(new Blob([JSON.stringify(dataObj)], { type: "application/json" }));
                 };
                 fileWriter.onerror = (e) => {
                     reject(e);
                 };
-                fileWriter.write(new Blob([JSON.stringify(dataObj)], { type: "application/json" }));
+                fileWriter.truncate(0);
             });
         });
     }

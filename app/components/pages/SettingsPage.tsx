@@ -100,7 +100,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
           />
         </List>
         <List subheader={<ListSubheader>Inne</ListSubheader>}>
-          <SwitchListItem name="Szybka zmiana grupy " iconName="Top" configName="showGroupChange" />
+          <SwitchListItem name="Szybka zmiana grupy " iconName="Top" configName="allowQuickGroupChange" />
         </List>
       </div>
     );
