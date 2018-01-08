@@ -8,6 +8,7 @@ import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
+import Typography from "material-ui/Typography";
 
 // Config
 import * as config from "react-global-configuration";
@@ -45,9 +46,15 @@ export default class Timetable extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         if (!this.props.filters.semester) {
             return (
+                <div style={{width: 290, margin: "30% auto auto auto", textAlign: "center"}}>
+                <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
+                <Typography type="subheading" style={{marginBottom: 10}}>
+                    Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
+                </Typography>
                 <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
-                    <Button raised style={{ margin: "auto", marginTop: -36, top: "50%" }}>Wybierz grupę</Button>
+                    <Button raised>Ustaw filtry planu</Button>
                 </NavLink>
+                </div>
             );
         }
         return (
