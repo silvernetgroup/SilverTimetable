@@ -33,7 +33,7 @@ export default class EventBlock extends React.Component<IProps, {}> {
             <Paper
                 style={style}
                 elevation={1}
-                onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
+                // onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
                 {...{} as any}
             >
                 <EventBlockMenu
