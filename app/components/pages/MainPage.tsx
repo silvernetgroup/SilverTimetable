@@ -128,7 +128,7 @@ export default class MainPage extends React.Component<{}, IState> {
             console.log("Jest internet i nowsza wersja, lub nie ma w pamięci - pobieram...");
             let timetable: ITimetable;
             try {
-                timetable = await this.getTimetableWithRetries(5);
+                timetable = await this.getTimetableWithRetries(1000);
                 await TimetableServices.writeTimetableFile(timetable);
             } catch {
                 console.log("Błąd pobierania");
@@ -148,13 +148,17 @@ export default class MainPage extends React.Component<{}, IState> {
 
     private async getTimetableWithRetries(retriesCount: number): Promise<ITimetable> {
         let error;
+        let timetable: ITimetable;
         for (let i = 0; i < retriesCount; i++) {
             try {
                 console.log("trying to get the timetable...");
-                return await TimetableServices.getTimetable();
+                timetable = await TimetableServices.getTimetable();
+                if (timetable) {
+                    return timetable;
+                }
             } catch (e) {
                 error = e;
-                break;
+                timetable = null;
             }
         }
         throw error;

@@ -16,6 +16,7 @@ export default class FileManager {
                     if (!written) {
                         fileWriter.write(new Blob([JSON.stringify(dataObj)], { type: "application/json" }));
                         written = true;
+                    } else {
                         resolve();
                     }
                 };
