@@ -1,11 +1,17 @@
+import * as React from "react";
 import axios from "axios";
 import ITimetable from "../models/ITimetable";
 import FileManager from "./FileManager";
 import IConfiguration from "../models/IConfiguration";
 import * as Moment from "moment";
 import ITimetableFilters from "../models/ITimetableFilters";
+import IDateCheck from "../models/IDateCheck";
 
-export default class TimetableServices {
+interface IState {
+    dateToCompare: IDateCheck;
+}
+
+export default class TimetableServices extends React.Component {
 
     public static isNetworkAvailable = (): boolean => {
         if (typeof (Connection) === "undefined" || typeof (navigator.connection) === "undefined") {
@@ -21,12 +27,28 @@ export default class TimetableServices {
             return false;
         }
     }
-    public static isNewerTimetable = (date): boolean => {
+    public static isNewerTimetable = (date, newerDate): boolean => {
+        // console.log(date);
+        console.log(newerDate);
+        // console.log(date === dateFixed.split('"')[1]);
         return true;
     }
 
+    public static async getNewerDate(): Promise<IDateCheck> {
+        const url = "https://silvertimetable.azurewebsites.net/api/timetable/date";
+        const value = await axios.get(url, {responseType: "text"})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((er) => {
+            console.log("Błąd sprawdzania nowej wersji.", er);
+        });
+        // console.log(value.data);
+        return value;
+    }
+
     public static async getTimetable(): Promise<ITimetable> {
-        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/timetable");
+        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/Timetable");
         const events = response.data.events.map((event) => {
             return {
                 ...event,
@@ -49,8 +71,9 @@ export default class TimetableServices {
         return await FileManager.readFile(this.configFileName);
     }
 
-    public static async writeTimetableFile(data: ITimetable) {
+    public static async writeTimetableFile(data: ITimetable, date: IDateCheck) {
         await FileManager.writeFile(this.timetableFileName, data);
+        await FileManager.writeFile(this.updaterFileName, date);
     }
 
     public static async readTimetableFile(): Promise<ITimetable> {
@@ -69,4 +92,5 @@ export default class TimetableServices {
     }
     private static configFileName: string = "config.json";
     private static timetableFileName: string = "timetable.json";
+    private static updaterFileName: string = "updater.json";
 }
