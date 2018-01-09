@@ -169,7 +169,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     };
     return (
       <Chip
-        avatar={<Avatar>{name.match(/\b(\w)/g).join("")}</Avatar>}
+        avatar={<Avatar>{name.split(" ").map((item) => item[0]).join("")}</Avatar>}
         label={name}
         style={style}
         key={key}

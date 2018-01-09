@@ -22,11 +22,8 @@ interface IProps {
 }
 
 interface IState {
-  time: number;
   checked: string[];
 }
-
-let notifyOn: boolean = false;
 
 const style: any = {
   width: "100%",
@@ -43,23 +40,11 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      time: 5,
       checked: ["none"],
     };
-
-    if (this.props.configName === "notificationBeforeClass") {
-      const configTime = config.get("notificationBeforeClass");
-      if (config.get("notificationBeforeClass") > 0) {
-        this.state = {
-          checked: [this.props.iconName],
-          time: configTime,
-        };
-        notifyOn = true;
-      }
-    } else if (config.get(this.props.configName) === true) {
+    if (config.get(this.props.configName) === true) {
       this.state = {
         checked: [this.props.iconName],
-        time: 5,
       };
     }
   }
@@ -96,18 +81,8 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     }
 
     // global settings controller
-    const temp: IConfiguration = config.get("Timetable");
-    switch (this.props.iconName) {
-      case "Notifications":
-        temp.notifyAboutUpdates = currentIndex === -1;
-        break;
-
-      case "Top":
-        temp.allowQuickGroupChange = currentIndex === -1;
-
-      default:
-        break;
-    }
+    const temp: IConfiguration = config.get();
+    temp.allowQuickGroupChange = currentIndex === -1;
     config.set(temp);
     TimetableServices.writeConfigurationFile(temp);
 
