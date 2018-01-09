@@ -55,16 +55,16 @@ export default class MainPage extends React.Component<{}, IState> {
             if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date)) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
-                    result.timetableData = await TimetableServices.getTimetable();
+                    result.timetableData = await this.getTimetableWithRetries(5);
                     await TimetableServices.writeTimetableFile(result.timetableData);
-                } catch{
+                } catch {
 
                     console.log("Błąd pobierania...");
                     result.IsError = true;
                 }
             }
         } else {
-            console.log("nie ma internetu lub plan jest aktualny");
+            console.log("nie ma internetu");
             if (timetableData) {
                 console.log("jest plan w pamieci, ładuję");
                 result.timetableData = timetableData;
@@ -125,10 +125,10 @@ export default class MainPage extends React.Component<{}, IState> {
         this.setState({ ...this.state, IsLoaded: false });
         if (TimetableServices.isNetworkAvailable()
             && (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData))) {
-            console.log("Jest internet i nowsza wersja - pobieram...");
+            console.log("Jest internet i nowsza wersja, lub nie ma w pamięci - pobieram...");
             let timetable: ITimetable;
             try {
-                timetable = await TimetableServices.getTimetable();
+                timetable = await this.getTimetableWithRetries(5);
                 await TimetableServices.writeTimetableFile(timetable);
             } catch {
                 console.log("Błąd pobierania");
@@ -146,6 +146,19 @@ export default class MainPage extends React.Component<{}, IState> {
         this.setState({ ...this.state, IsLoaded: true });
     }
 
+    private async getTimetableWithRetries(retriesCount: number): Promise<ITimetable> {
+        let error;
+        for (let i = 0; i < retriesCount; i++) {
+            try {
+                console.log("trying to get the timetable...");
+                return await TimetableServices.getTimetable();
+            } catch (e) {
+                error = e;
+                break;
+            }
+        }
+        throw error;
+    }
     private handleEventBlockClick = (event: ITimetableEvent): void => {
         LecturersPages.openLecturersPage(event);
     }

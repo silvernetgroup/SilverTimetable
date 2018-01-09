@@ -11,12 +11,13 @@ export default class FileManager {
         const fileEntry = await this.getFileEntry(fileName, this.fileSystem);
         return new Promise((resolve, reject) => {
             fileEntry.createWriter((fileWriter) => {
+                let written = false;
                 fileWriter.onwriteend = () => {
-                    fileWriter.seek(0);
-                    fileWriter.onwriteend = () => {
+                    if (!written) {
+                        fileWriter.write(new Blob([JSON.stringify(dataObj)], { type: "application/json" }));
+                        written = true;
                         resolve();
-                    };
-                    fileWriter.write(new Blob([JSON.stringify(dataObj)], { type: "application/json" }));
+                    }
                 };
                 fileWriter.onerror = (e) => {
                     reject(e);
@@ -31,7 +32,7 @@ export default class FileManager {
         return new Promise<any>((resolve, reject) => {
             const reader = new FileReader();
             fileEntry.file((file) => {
-                reader.onloadend = function() {
+                reader.onloadend = function () {
                     resolve(this.result ? JSON.parse(this.result) : null);
                 };
                 reader.onerror = (ev) => {
