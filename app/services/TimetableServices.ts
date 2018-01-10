@@ -28,10 +28,10 @@ export default class TimetableServices extends React.Component {
         }
     }
     public static isNewerTimetable = (date, newerDate): boolean => {
-        // console.log(date);
-        console.log(newerDate);
-        // console.log(date === dateFixed.split('"')[1]);
-        return true;
+        if (newerDate) {
+            return (newerDate === date.date);
+        }
+        return false;
     }
 
     public static async getNewerDate(): Promise<IDateCheck> {

@@ -55,20 +55,15 @@ export default class MainPage extends React.Component<{}, IState> {
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
         const timetableData: ITimetable = await TimetableServices.readTimetableFile();
-        let newerDate: IDateCheck;
-        try {
-            newerDate = await TimetableServices.getNewerDate();
-            result.dateToCheck = newerDate;
-        } catch {
-            newerDate.date = null;
-        }
+        const newerDate: IDateCheck = await TimetableServices.getNewerDate();
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
-            if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date, newerDate.date)) {
+            if (!timetableData || TimetableServices.isNewerTimetable(timetableData, newerDate)) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
                     result.timetableData = await TimetableServices.getTimetable();
+                    result.dateToCheck = await newerDate;
                     await TimetableServices.writeTimetableFile(result.timetableData, result.dateToCheck);
                 } catch {
                     console.log("Błąd pobierania...");
