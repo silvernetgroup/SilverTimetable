@@ -50,7 +50,14 @@ export default class TimetableServices {
     }
 
     public static async writeTimetableFile(data: ITimetable) {
-        await FileManager.writeFile(this.timetableFileName, data);
+        const eventsWithSerializedDates = data.events.map((event) => {
+            return {
+                ...event,
+                startTime: event.startTime.format("HH:mm"),
+                endTime: event.endTime.format("HH:mm"),
+            };
+        });
+        await FileManager.writeFile(this.timetableFileName, { ...data, events: eventsWithSerializedDates });
     }
 
     public static async readTimetableFile(): Promise<ITimetable> {

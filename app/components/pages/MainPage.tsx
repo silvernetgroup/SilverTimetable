@@ -49,6 +49,7 @@ export default class MainPage extends React.Component<{}, IState> {
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
         const timetableData: ITimetable = await TimetableServices.readTimetableFile();
+        result.timetableData = timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
@@ -60,7 +61,11 @@ export default class MainPage extends React.Component<{}, IState> {
                 } catch {
 
                     console.log("Błąd pobierania...");
-                    result.IsError = true;
+                    if (timetableData) {
+                        console.log("Pobieram z pamieci, bo nie moge pobrac z internetu");
+                        result.IsError = false;
+                        result.timetableData = timetableData;
+                    }
                 }
             }
         } else {
@@ -126,14 +131,12 @@ export default class MainPage extends React.Component<{}, IState> {
         if (TimetableServices.isNetworkAvailable()
             && (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData))) {
             console.log("Jest internet i nowsza wersja, lub nie ma w pamięci - pobieram...");
-            let timetable: ITimetable;
+            let timetable: ITimetable = this.state.timetableData;
             try {
                 timetable = await this.getTimetableWithRetries(5);
                 await TimetableServices.writeTimetableFile(timetable);
             } catch {
                 console.log("Błąd pobierania");
-                timetable = this.state.timetableData;
-
             }
 
             this.setState({
@@ -148,13 +151,17 @@ export default class MainPage extends React.Component<{}, IState> {
 
     private async getTimetableWithRetries(retriesCount: number): Promise<ITimetable> {
         let error;
+        let timetable: ITimetable;
         for (let i = 0; i < retriesCount; i++) {
             try {
                 console.log("trying to get the timetable...");
-                return await TimetableServices.getTimetable();
+                timetable = await TimetableServices.getTimetable();
+                if (timetable) {
+                    return timetable;
+                }
             } catch (e) {
                 error = e;
-                break;
+                timetable = null;
             }
         }
         throw error;
