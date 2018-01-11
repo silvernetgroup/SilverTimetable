@@ -29,22 +29,16 @@ export default class TimetableServices extends React.Component {
     }
     public static isNewerTimetable = (date, newerDate): boolean => {
         if (newerDate) {
-            return (newerDate === date.date);
+            console.log(newerDate === date.date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
+            return !(newerDate === date.date);
         }
         return false;
     }
 
     public static async getNewerDate(): Promise<IDateCheck> {
         const url = "https://silvertimetable.azurewebsites.net/api/timetable/date";
-        const value = await axios.get(url, {responseType: "text"})
-        .then((response) => {
-            return response.data;
-        })
-        .catch((er) => {
-            console.log("Błąd sprawdzania nowej wersji.", er);
-        });
-        // console.log(value.data);
-        return value;
+        const value = await axios.get(url, {responseType: "text"});
+        return value.data;
     }
 
     public static async getTimetable(): Promise<ITimetable> {

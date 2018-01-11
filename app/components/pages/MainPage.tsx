@@ -69,6 +69,9 @@ export default class MainPage extends React.Component<{}, IState> {
                     console.log("Błąd pobierania...");
                     result.IsError = true;
                 }
+            } else {
+                console.log("odczytuję plan z pamięci...");
+                result.timetableData = timetableData;
             }
         } else {
             console.log("nie ma internetu lub plan jest aktualny");
