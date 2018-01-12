@@ -33,6 +33,14 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     this.state = {
       left: false,
     };
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+      document.addEventListener("backbutton", onBB, true);
+      function onBB() {
+        navigator.notification.alert("no nie wiem", () => {}, "", "kk" );
+        // this.toggleDrawer(false);
+      }
+    }
   }
 
   public render() {
