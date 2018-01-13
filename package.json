@@ -23,6 +23,7 @@
     "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.2.1",
     "android-versions": "^1.2.1",
+    "axios": "^0.17.1",
     "cordova-android": "^6.3.0",
     "cordova-android-support-gradle-release": "^1.1.5",
     "cordova-ios": "^4.5.4",
