@@ -54,34 +54,28 @@ export default class MainPage extends React.Component<{}, IState> {
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
+
+            let isNewerTimetable: boolean = false;
+
             try {
-                newerDate = await TimetableServices.getNewerDate();
+                isNewerTimetable = await TimetableServices.isNewerTimetable(timetableData);
             } catch {
-                console.log("Nie udało się sprawdzić nowszej wersji");
+                console.log("Blad sprawdzania nowej wersji");
+                // toast
             }
-            if (!timetableData || TimetableServices.isNewerTimetable(timetableData, newerDate)) {
+
+            if (!timetableData || isNewerTimetable) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
                     result.timetableData = await this.getTimetableWithRetries(5);
                     await TimetableServices.writeTimetableFile(result.timetableData);
                 } catch {
                     console.log("Błąd pobierania...");
-                    if (timetableData) {
-                        console.log("Pobieram z pamieci, bo nie moge pobrac z internetu");
-                        result.IsError = false;
-                        result.timetableData = timetableData;
-                    }
                 }
-            } else {
-                console.log("odczytuję plan z pamięci...");
-                result.timetableData = timetableData;
             }
         } else {
             console.log("nie ma internetu");
-            if (timetableData) {
-                console.log("jest plan w pamieci, ładuję");
-                result.timetableData = timetableData;
-            } else {
+            if (!timetableData) {
                 console.log("nie ma internetu i planu w pamieci");
                 result.IsError = true;
                 return result;
@@ -134,20 +128,41 @@ export default class MainPage extends React.Component<{}, IState> {
     }
 
     public async refresh() {
-        console.log("Odświerzam...");
+        const currentState: IState = this.state;
         this.setState({ ...this.state, IsLoaded: false });
-        if (TimetableServices.isNetworkAvailable()
-            && (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData))) {
-            console.log("Jest internet i nowsza wersja, lub nie ma w pamięci - pobieram...");
-            let timetable: ITimetable = this.state.timetableData;
-            try {
-                timetable = await this.getTimetableWithRetries(5);
-                await TimetableServices.writeTimetableFile(timetable);
-            } catch {
-                console.log("Błąd pobierania");
+        let timetable: ITimetable = currentState.timetableData;
+
+        if (TimetableServices.isNetworkAvailable()) {
+            let isNewerTimetable: boolean = false;
+            if (timetable) {
+                try {
+                    isNewerTimetable = await TimetableServices.isNewerTimetable(timetable);
+                } catch {
+                    console.log("Blad sprawdzania nowej wersji");
+                    // toast
+                }
+            }
+
+            if (!timetable || isNewerTimetable) {
+                try {
+                    timetable = await this.getTimetableWithRetries(5);
+
+                    const currentConfig: IConfiguration = config.get();
+                    config.set({ ...currentConfig, timetable });
+
+                    this.setState({ timetableData: timetable, IsLoaded: true, IsError: false });
+                    await TimetableServices.writeTimetableFile(timetable);
+                    return;
+
+                } catch {
+                    console.log("Blad pobierania planu");
+                    // toast
+                    this.setState(currentState);
+                    return;
+                }
             }
         }
-        this.setState({ ...this.state, IsLoaded: true });
+        this.setState(currentState);
     }
 
     private async getTimetableWithRetries(retriesCount: number): Promise<ITimetable> {

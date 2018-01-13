@@ -27,23 +27,18 @@ export default class TimetableServices extends React.Component {
             return false;
         }
     }
-    public static isNewerTimetable = (date, newerDate): boolean => {
+    public static async isNewerTimetable(timetable: ITimetable): Promise<boolean> {
+        const newerDate = await TimetableServices.getNewerDate();
         if (newerDate) {
-            console.log(newerDate === date.date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
-            return !(newerDate === date.date);
+            console.log(newerDate === timetable.date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
+            return !(newerDate === timetable.date);
         }
         console.log("Nie udało się sprawdzić nowszej wersji");
         return false;
     }
 
-    public static async getNewerDate(): Promise<IDateCheck> {
-        const url = "https://silvertimetable.azurewebsites.net/api/timetable/date";
-        const value = await axios.get(url, {responseType: "text"});
-        return value.data;
-    }
-
     public static async getTimetable(): Promise<ITimetable> {
-        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/Timetable");
+        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/timetable");
         const events = response.data.events.map((event) => {
             return {
                 ...event,
@@ -91,6 +86,13 @@ export default class TimetableServices extends React.Component {
         });
         return { ...result, events };
     }
+
     private static configFileName: string = "config.json";
     private static timetableFileName: string = "timetable.json";
+
+    private static async getNewerDate(): Promise<string> {
+        const url = "https://silvertimetable.azurewebsites.net/api/timetable/date";
+        const value = await axios.get(url, {responseType: "text"});
+        return value.data;
+    }
 }
