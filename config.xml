@@ -18,6 +18,12 @@
         <icon density="xhdpi" src="www/res/android/xhdpi.png" />
         <icon density="xxhdpi" src="www/res/android/xxhdpi.png" />
         <icon density="xxxhdpi" src="www/res/android/xxxhdpi.png" />
+        <splash src="www/res/androidSplash/HDPI.png" density="port-hdpi"/>
+        <splash src="www/res/androidSplash/LDPI.png" density="port-ldpi"/>
+        <splash src="www/res/androidSplash/MDPI.png" density="port-mdpi"/>
+        <splash src="www/res/androidSplash/XHDPI.png" density="port-xhdpi"/>
+        <splash src="www/res/androidSplash/XXHDPI.png" density="port-xxhdpi"/>
+        <splash src="www/res/androidSplash/XXXHDPI.png" density="port-xxxhdpi"/>
     </platform>
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
