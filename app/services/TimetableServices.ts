@@ -32,6 +32,7 @@ export default class TimetableServices extends React.Component {
             console.log(newerDate === date.date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
             return !(newerDate === date.date);
         }
+        console.log("Nie udało się sprawdzić nowszej wersji");
         return false;
     }
 
@@ -65,9 +66,8 @@ export default class TimetableServices extends React.Component {
         return await FileManager.readFile(this.configFileName);
     }
 
-    public static async writeTimetableFile(data: ITimetable, date: IDateCheck) {
+    public static async writeTimetableFile(data: ITimetable) {
         await FileManager.writeFile(this.timetableFileName, data);
-        await FileManager.writeFile(this.updaterFileName, date);
     }
 
     public static async readTimetableFile(): Promise<ITimetable> {
@@ -86,5 +86,4 @@ export default class TimetableServices extends React.Component {
     }
     private static configFileName: string = "config.json";
     private static timetableFileName: string = "timetable.json";
-    private static updaterFileName: string = "updater.json";
 }

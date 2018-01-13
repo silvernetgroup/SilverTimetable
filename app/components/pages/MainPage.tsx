@@ -14,7 +14,6 @@ import IDateCheck from "../../models/IDateCheck";
 
 interface IState {
     timetableData: ITimetable;
-    dateToCheck: IDateCheck;
     IsLoaded: boolean;
     IsError: boolean;
 }
@@ -27,7 +26,6 @@ export default class MainPage extends React.Component<{}, IState> {
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
             timetableData: null,
-            dateToCheck: null,
             IsLoaded: false,
             IsError: false,
         };
@@ -35,12 +33,10 @@ export default class MainPage extends React.Component<{}, IState> {
     public async Initialize(): Promise<IState> {
 
         const sessionConfigTimetable: ITimetable = config.get("timetable");
-        const sessionConfigUpdater: IDateCheck = config.get("updater");
         if (sessionConfigTimetable) {
             console.log("config w sesji");
             return {
                 timetableData: sessionConfigTimetable,
-                dateToCheck: sessionConfigUpdater,
                 IsError: false,
                 IsLoaded: true,
             };
@@ -48,23 +44,26 @@ export default class MainPage extends React.Component<{}, IState> {
 
         const result: IState = {
             timetableData: null,
-            dateToCheck: null,
             IsError: false,
             IsLoaded: false,
         };
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
         const timetableData: ITimetable = await TimetableServices.readTimetableFile();
-        const newerDate: IDateCheck = await TimetableServices.getNewerDate();
+        let newerDate: IDateCheck;
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
+            try {
+                newerDate = await TimetableServices.getNewerDate();
+            } catch {
+                console.log("Nie udało się sprawdzić nowszej wersji");
+            }
             if (!timetableData || TimetableServices.isNewerTimetable(timetableData, newerDate)) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
                     result.timetableData = await TimetableServices.getTimetable();
-                    result.dateToCheck = await newerDate;
-                    await TimetableServices.writeTimetableFile(result.timetableData, result.dateToCheck);
+                    await TimetableServices.writeTimetableFile(result.timetableData);
                 } catch {
                     console.log("Błąd pobierania...");
                     result.IsError = true;
@@ -93,7 +92,7 @@ export default class MainPage extends React.Component<{}, IState> {
             console.log("jest konfiguracja w pamięci");
         }
 
-        config.set({ ...configurationData, timetable: result.timetableData, updater: result.dateToCheck });
+        config.set({ ...configurationData, timetable: result.timetableData });
 
         result.IsLoaded = true;
 
@@ -133,28 +132,31 @@ export default class MainPage extends React.Component<{}, IState> {
     public async refresh() {
         console.log("Odświerzam...");
         this.setState({ ...this.state, IsLoaded: false });
-        if (TimetableServices.isNetworkAvailable()
-            && (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData, this.state.dateToCheck))) {
-            console.log("Jest internet i nowsza wersja - pobieram...");
-            let timetable: ITimetable;
-            let updater: IDateCheck;
+        if (TimetableServices.isNetworkAvailable()) {
+            let newerDate: IDateCheck;
             try {
-                timetable = await TimetableServices.getTimetable();
-                updater = await TimetableServices.getNewerDate();
-                await TimetableServices.writeTimetableFile(timetable, updater);
+                newerDate = await TimetableServices.getNewerDate();
             } catch {
-                console.log("Błąd pobierania");
-                timetable = this.state.timetableData;
-                updater = this.state.dateToCheck;
+                console.log("Nie udało się sprawdzić nowszej wersji");
             }
+            // tslint:disable-next-line:max-line-length
+            if (!this.state.timetableData || TimetableServices.isNewerTimetable(this.state.timetableData, newerDate)) {
+                console.log("Jest internet i nowsza wersja - pobieram...");
+                let timetable: ITimetable;
+                try {
+                    timetable = await TimetableServices.getTimetable();
+                    await TimetableServices.writeTimetableFile(timetable);
+                } catch {
+                    console.log("Błąd pobierania");
+                    timetable = this.state.timetableData;
+                }
 
-            this.setState({
-                ...this.state,
-                timetableData: timetable,
-                dateToCheck: updater,
-                IsLoaded: true,
-            });
-
+                this.setState({
+                    ...this.state,
+                    timetableData: timetable,
+                    IsLoaded: true,
+                });
+            }
         }
         this.setState({ ...this.state, IsLoaded: true });
     }
