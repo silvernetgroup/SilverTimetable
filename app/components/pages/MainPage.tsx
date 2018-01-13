@@ -20,6 +20,16 @@ interface IState {
 
 declare let window: any;
 
+const toastStyle = {
+    opacity: 1,
+    backgroundColor: "#323232",
+    textColor: "white",
+    cornerRadius: 3,
+    textSize: 15,
+    horizontalPadding: 20,
+    verticalPadding: 16,
+};
+
 export default class MainPage extends React.Component<{}, IState> {
     constructor(props) {
         super(props);
@@ -73,7 +83,7 @@ export default class MainPage extends React.Component<{}, IState> {
                     await TimetableServices.writeTimetableFile(result.timetableData);
                 } catch {
                     console.log("Błąd pobierania...");
-                    window.plugins.toast.show("Błąd pobierania planu", 3000, "bottom");
+                    window.plugins.toast.show("Błąd pobierania planu", 3000, "bottom", toastStyle);
                 }
             }
         } else {
@@ -141,7 +151,7 @@ export default class MainPage extends React.Component<{}, IState> {
                 try {
                     isNewerTimetable = await TimetableServices.isNewerTimetable(timetable);
                     if (!isNewerTimetable) {
-                        window.plugins.toast.show("Plan jest aktualny", 3000, "bottom");
+                        window.plugins.toast.show("Plan jest aktualny", 3000, "bottom", toastStyle);
                     }
                 } catch {
                     console.log("Blad sprawdzania nowej wersji");
@@ -157,18 +167,18 @@ export default class MainPage extends React.Component<{}, IState> {
 
                     this.setState({ timetableData: timetable, IsLoaded: true, IsError: false });
                     await TimetableServices.writeTimetableFile(timetable);
-                    window.plugins.toast.show("Pobrano nowy plan!", 3000, "bottom");
+                    window.plugins.toast.show("Pobrano nowy plan!", 3000, "bottom", toastStyle);
                     return;
 
                 } catch {
                     console.log("Blad pobierania planu");
-                    window.plugins.toast.show("Błąd pobierania planu", 3000, "bottom");
+                    window.plugins.toast.show("Błąd pobierania planu", 3000, "bottom", toastStyle);
                     this.setState(currentState);
                     return;
                 }
             }
         } else {
-            window.plugins.toast.show("Brak połączenia z internetem", 3000, "bottom");
+            window.plugins.toast.show("Brak połączenia z internetem", 3000, "bottom", toastStyle);
         }
         this.setState(currentState);
     }
