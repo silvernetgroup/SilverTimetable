@@ -10,6 +10,7 @@ import config from "react-global-configuration";
 import TimetableServices from "../../services/TimetableServices";
 import defaultConfig from "../../DefaultConfiguration";
 import IConfiguration from "../../models/IConfiguration";
+import IDateCheck from "../../models/IDateCheck";
 
 interface IState {
     timetableData: ITimetable;
@@ -53,13 +54,17 @@ export default class MainPage extends React.Component<{}, IState> {
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
-            if (!timetableData || TimetableServices.isNewerTimetable(timetableData.date)) {
+            try {
+                newerDate = await TimetableServices.getNewerDate();
+            } catch {
+                console.log("Nie udało się sprawdzić nowszej wersji");
+            }
+            if (!timetableData || TimetableServices.isNewerTimetable(timetableData, newerDate)) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
                     result.timetableData = await this.getTimetableWithRetries(5);
                     await TimetableServices.writeTimetableFile(result.timetableData);
                 } catch {
-
                     console.log("Błąd pobierania...");
                     if (timetableData) {
                         console.log("Pobieram z pamieci, bo nie moge pobrac z internetu");
@@ -67,6 +72,9 @@ export default class MainPage extends React.Component<{}, IState> {
                         result.timetableData = timetableData;
                     }
                 }
+            } else {
+                console.log("odczytuję plan z pamięci...");
+                result.timetableData = timetableData;
             }
         } else {
             console.log("nie ma internetu");
@@ -138,13 +146,6 @@ export default class MainPage extends React.Component<{}, IState> {
             } catch {
                 console.log("Błąd pobierania");
             }
-
-            this.setState({
-                ...this.state,
-                timetableData: timetable,
-                IsLoaded: true,
-            });
-
         }
         this.setState({ ...this.state, IsLoaded: true });
     }

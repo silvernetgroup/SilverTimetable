@@ -1,11 +1,17 @@
+import * as React from "react";
 import axios from "axios";
 import ITimetable from "../models/ITimetable";
 import FileManager from "./FileManager";
 import IConfiguration from "../models/IConfiguration";
 import * as Moment from "moment";
 import ITimetableFilters from "../models/ITimetableFilters";
+import IDateCheck from "../models/IDateCheck";
 
-export default class TimetableServices {
+interface IState {
+    dateToCompare: IDateCheck;
+}
+
+export default class TimetableServices extends React.Component {
 
     public static isNetworkAvailable = (): boolean => {
         if (typeof (Connection) === "undefined" || typeof (navigator.connection) === "undefined") {
@@ -21,12 +27,23 @@ export default class TimetableServices {
             return false;
         }
     }
-    public static isNewerTimetable = (date): boolean => {
-        return true;
+    public static isNewerTimetable = (date, newerDate): boolean => {
+        if (newerDate) {
+            console.log(newerDate === date.date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
+            return !(newerDate === date.date);
+        }
+        console.log("Nie udało się sprawdzić nowszej wersji");
+        return false;
+    }
+
+    public static async getNewerDate(): Promise<IDateCheck> {
+        const url = "https://silvertimetable.azurewebsites.net/api/timetable/date";
+        const value = await axios.get(url, {responseType: "text"});
+        return value.data;
     }
 
     public static async getTimetable(): Promise<ITimetable> {
-        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/timetable");
+        const response = await axios.get("https://silvertimetable.azurewebsites.net/api/Timetable");
         const events = response.data.events.map((event) => {
             return {
                 ...event,
