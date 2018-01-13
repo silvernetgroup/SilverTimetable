@@ -1,20 +1,17 @@
 import * as Colors from "material-ui/colors";
 import createMuiTheme from "material-ui/styles/createMuiTheme";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
-import FilteringPage from "./Pages/FilteringPage";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import FloorPage from "./Pages/FloorPage";
 import MainPage from "./Pages/MainPage";
 import SettingsPage from "./Pages/SettingsPage";
 
 // AppBar/Navigation
-import Drawer from "./appNavigationComponents/LeftDrawer";
-import NavigationToolbar from "./appNavigationComponents/NavigationToolbar";
+import NavigationToolbar from "./navigation/NavigationToolbar";
 
 // Config
-import * as config from "react-global-configuration";
-import configuration from "../Config";
+import config from "react-global-configuration";
+import configuration from "../DefaultConfiguration";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -23,8 +20,12 @@ const theme: any = createMuiTheme({
 });
 
 export default class App extends React.Component {
+    private mainPage: MainPage;
     constructor(props: any) {
         super(props);
+        // mobile touch delay fix
+        // initReactFastclick();
+        // config
         config.set(configuration, { freeze: false });
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
@@ -41,14 +42,17 @@ export default class App extends React.Component {
     public render(): JSX.Element {
         return (
             <Router>
-                <div className="app-container" style={{WebkitOverflowScrolling: "touch"}}>
+                <div className="app-container" style={{ WebkitOverflowScrolling: "touch" }}>
                     <Switch>
-                        <Route exact path="/" component={MainPage} />
+                        <Route
+                            exact
+                            path="/"
+                            render={(props) => <MainPage ref={(mainPage) => this.mainPage = mainPage} />}
+                        />
                         <Route path="/settings" component={SettingsPage} />
-                        <Route path="/filtering" component={FilteringPage} />
-                        <Route path="/floor" render={() => <FloorPage />} />
+                        <Route path="/floor" component={FloorPage} />
                     </Switch>
-                    <NavigationToolbar />
+                    <NavigationToolbar onRefreshClick={() => this.mainPage.refresh()} />
                 </div>
             </Router>
         );

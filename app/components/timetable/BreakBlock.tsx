@@ -1,6 +1,5 @@
 import * as Moment from "moment";
 import * as React from "react";
-import ITimetableEvent from "../models/ITimetableEvent";
 
 interface IProps {
     isStart?: boolean;
