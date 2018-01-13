@@ -15,9 +15,10 @@ export default interface ITimetableEvent {
     startTime: Moment.Moment;
     endTime: Moment.Moment;
     room: string;
-    lecturer: string;
+    lecturers: string[];
     type: string;
     remarks?: string;
     isFaculty: boolean;
     academicYear: string;
+    building: string;
 }
