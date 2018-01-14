@@ -5,13 +5,14 @@ const extractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     devtool: 'inline-source-map',
-    entry: {
-        'app': './app/index'
-    },
+    entry: [
+        'babel-polyfill',
+        './app/index'
+    ],
     output: {
         path: path.join(__dirname, 'www', 'dist'),
         publicPath: '/dist/',
-        filename: '[name]-bundle.js'
+        filename: 'app-bundle.js'
     },
     module: {
         loaders: [            

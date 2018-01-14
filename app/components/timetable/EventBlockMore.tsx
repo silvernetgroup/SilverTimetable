@@ -44,6 +44,17 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     this.state = {
       bottom: false,
     };
+    const onBB = () => {
+      if (this.state.bottom) {
+        this.toggleDrawer(false);
+      } else {
+        window.history.back();
+      }
+    };
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+      document.addEventListener("backbutton", onBB, true);
+    }
   }
 
   public render() {
@@ -81,15 +92,18 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     };
     return (
       <div>
-        <IconButton onClick={this.toggleDrawer(true)} style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}>
+        <IconButton
+          onClick={() => this.toggleDrawer(true)}
+          style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}
+        >
           <IconHelper iconName="More" />
         </IconButton>
-        <Drawer anchor="bottom" open={this.state.bottom} onClose={this.toggleDrawer(false)}>
+        <Drawer anchor="bottom" open={this.state.bottom} onClose={() => this.toggleDrawer(false)}>
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
+            onClick={() => this.toggleDrawer(false)}
+            onKeyDown={() => this.toggleDrawer(false)}
           >
             {sideList}
           </div>
@@ -98,7 +112,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     );
   }
 
-  private toggleDrawer = (open) => () => {
+  private toggleDrawer(open) {
     this.setState({
       bottom: open,
     });
