@@ -14,8 +14,8 @@ import IDateCheck from "../../models/IDateCheck";
 
 interface IState {
     timetableData: ITimetable;
-    IsLoaded: boolean;
-    IsError: boolean;
+    isLoaded: boolean;
+    isError: boolean;
 }
 
 declare let window: any;
@@ -40,8 +40,8 @@ export default class MainPage extends React.Component<{}, IState> {
         document.addEventListener("deviceready", onDeviceReady, false);
         this.state = {
             timetableData: null,
-            IsLoaded: false,
-            IsError: false,
+            isLoaded: false,
+            isError: false,
         };
     }
     public async Initialize(): Promise<IState> {
@@ -51,15 +51,15 @@ export default class MainPage extends React.Component<{}, IState> {
             console.log("config w sesji");
             return {
                 timetableData: sessionConfigTimetable,
-                IsError: false,
-                IsLoaded: true,
+                isError: false,
+                isLoaded: true,
             };
         }
 
         const result: IState = {
             timetableData: null,
-            IsError: false,
-            IsLoaded: false,
+            isError: false,
+            isLoaded: false,
         };
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
@@ -84,19 +84,16 @@ export default class MainPage extends React.Component<{}, IState> {
                     await TimetableServices.writeTimetableFile(result.timetableData);
                 } catch {
                     console.log("Błąd pobierania...");
-                    window.plugins.toast.showWithOptions({
-                        message: "Błąd pobierania planu",
-                        duration: 3000,
-                        position: "bottom",
-                        styling: toastStyle,
-                    });
+                    if (!timetableData) {
+                        result.isError = true;
+                    }
                 }
             }
         } else {
             console.log("nie ma internetu");
             if (!timetableData) {
                 console.log("nie ma internetu i planu w pamieci");
-                result.IsError = true;
+                result.isError = true;
                 return result;
             }
         }
@@ -111,7 +108,7 @@ export default class MainPage extends React.Component<{}, IState> {
 
         config.set({ ...configurationData, timetable: result.timetableData });
 
-        result.IsLoaded = true;
+        result.isLoaded = true;
 
         return result;
     }
@@ -122,13 +119,13 @@ export default class MainPage extends React.Component<{}, IState> {
 
         const filters: ITimetableFilters = config.get("filters");
 
-        if (!this.state.IsLoaded && !this.state.IsError) {
+        if (!this.state.isLoaded && !this.state.isError) {
             return (
                 <div className="CrcProgress">
                     <CircularProgress color="accent" size={60} thickness={7} />
                 </div>
             );
-        } else if (this.state.IsError) {
+        } else if (this.state.isError) {
             return (<ErrorPage />);
         } else {
             return (
@@ -148,7 +145,7 @@ export default class MainPage extends React.Component<{}, IState> {
 
     public async refresh() {
         const currentState: IState = this.state;
-        this.setState({ ...this.state, IsLoaded: false });
+        this.setState({ ...this.state, isLoaded: false, isError: false });
         let timetable: ITimetable = currentState.timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
@@ -156,7 +153,7 @@ export default class MainPage extends React.Component<{}, IState> {
             if (timetable) {
                 try {
                     isNewerTimetable = await TimetableServices.isNewerTimetable(timetable);
-                    if (!isNewerTimetable) {    
+                    if (!isNewerTimetable) {
                         window.plugins.toast.showWithOptions({
                             message: "Plan jest aktualny",
                             duration: 3000,
@@ -166,6 +163,12 @@ export default class MainPage extends React.Component<{}, IState> {
                     }
                 } catch {
                     console.log("Blad sprawdzania nowej wersji");
+                    window.plugins.toast.showWithOptions({
+                        message: "Błąd serwera",
+                        duration: 3000,
+                        position: "bottom",
+                        styling: toastStyle,
+                    });
                 }
             }
 
@@ -176,7 +179,7 @@ export default class MainPage extends React.Component<{}, IState> {
                     const currentConfig: IConfiguration = config.get();
                     config.set({ ...currentConfig, timetable });
 
-                    this.setState({ timetableData: timetable, IsLoaded: true, IsError: false });
+                    this.setState({ timetableData: timetable, isLoaded: true, isError: false });
                     await TimetableServices.writeTimetableFile(timetable);
                     window.plugins.toast.showWithOptions({
                         message: "Pobrano nowy plan!",
@@ -189,7 +192,7 @@ export default class MainPage extends React.Component<{}, IState> {
                 } catch {
                     console.log("Blad pobierania planu");
                     window.plugins.toast.showWithOptions({
-                        message: "Błąd pobierania planu",
+                        message: "Błąd serwera",
                         duration: 3000,
                         position: "bottom",
                         styling: toastStyle,
