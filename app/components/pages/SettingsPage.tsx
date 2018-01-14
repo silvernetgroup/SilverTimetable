@@ -137,7 +137,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
       fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department", "academicYear"], data),
       degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy", "academicYear"], data),
       semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
-      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"], data),
       group: this.shouldBeEnabled("group",
         ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
     };
@@ -150,7 +150,8 @@ export default class SettingsPage extends React.Component<{}, IState> {
       fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data),
       degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data),
       semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
-      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear"], data),
+      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"],
+        data),
       group: this.getAvailableOptions("group",
         ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
     };
