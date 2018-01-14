@@ -14,7 +14,7 @@ export default class AboutPage extends React.Component {
         return (
             <div style={style}>
                 <img src="res/img/logo.png" style={{ width: 155 }} />
-                <h1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2, fontSize: "2.5em"}}>SilverPlan</h1>
+                <h1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2, fontSize: "2.5em"}}>Plan WZIM</h1>
                 <Typography type="caption" gutterBottom align="center">
                     Wersja 1.0
                 </Typography>
