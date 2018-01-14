@@ -10,26 +10,13 @@ import config from "react-global-configuration";
 import TimetableServices from "../../services/TimetableServices";
 import defaultConfig from "../../DefaultConfiguration";
 import IConfiguration from "../../models/IConfiguration";
-import IDateCheck from "../../models/IDateCheck";
+import ToastServices from "../../services/ToastServices";
 
 interface IState {
     timetableData: ITimetable;
     isLoaded: boolean;
     isError: boolean;
 }
-
-declare let window: any;
-
-const toastStyle = {
-    opacity: 1,
-    backgroundColor: "#31429D",
-    textColor: "white",
-    cornerRadius: 100,
-    textSize: 16,
-    horizontalPadding: 55,
-    verticalPadding: 33,
-    marginBottom: 6,
-};
 
 export default class MainPage extends React.Component<{}, IState> {
     constructor(props) {
@@ -45,7 +32,7 @@ export default class MainPage extends React.Component<{}, IState> {
         };
     }
     public async Initialize(): Promise<IState> {
-
+        console.log("Initialize");
         const sessionConfigTimetable: ITimetable = config.get("timetable");
         if (sessionConfigTimetable) {
             console.log("config w sesji");
@@ -144,6 +131,7 @@ export default class MainPage extends React.Component<{}, IState> {
     }
 
     public async refresh() {
+        console.log("refresh");
         const currentState: IState = this.state;
         this.setState({ ...this.state, isLoaded: false, isError: false });
         let timetable: ITimetable = currentState.timetableData;
@@ -154,21 +142,11 @@ export default class MainPage extends React.Component<{}, IState> {
                 try {
                     isNewerTimetable = await TimetableServices.isNewerTimetable(timetable);
                     if (!isNewerTimetable) {
-                        window.plugins.toast.showWithOptions({
-                            message: "Plan jest aktualny",
-                            duration: 3000,
-                            position: "bottom",
-                            styling: toastStyle,
-                        });
+                        ToastServices.show("Plan aktualny");
                     }
                 } catch {
                     console.log("Blad sprawdzania nowej wersji");
-                    window.plugins.toast.showWithOptions({
-                        message: "Błąd serwera",
-                        duration: 3000,
-                        position: "bottom",
-                        styling: toastStyle,
-                    });
+                    ToastServices.show("Błąd serwera");
                 }
             }
 
@@ -181,33 +159,18 @@ export default class MainPage extends React.Component<{}, IState> {
 
                     this.setState({ timetableData: timetable, isLoaded: true, isError: false });
                     await TimetableServices.writeTimetableFile(timetable);
-                    window.plugins.toast.showWithOptions({
-                        message: "Pobrano nowy plan!",
-                        duration: 3000,
-                        position: "bottom",
-                        styling: toastStyle,
-                    });
+                    ToastServices.show("Pobrano nowy plan!");
                     return;
 
                 } catch {
                     console.log("Blad pobierania planu");
-                    window.plugins.toast.showWithOptions({
-                        message: "Błąd serwera",
-                        duration: 3000,
-                        position: "bottom",
-                        styling: toastStyle,
-                    });
+                    ToastServices.show("Błąd serwera");
                     this.setState(currentState);
                     return;
                 }
             }
         } else {
-            window.plugins.toast.showWithOptions({
-                message: "Brak połączenia z internetem",
-                duration: 3000,
-                position: "bottom",
-                styling: toastStyle,
-            });
+            ToastServices.show("Brak połączenia z internetem");
         }
         this.setState(currentState);
     }

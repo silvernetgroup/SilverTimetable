@@ -45,14 +45,8 @@ function onDeviceReady() {
 			});
 		}
 	});
-
-	push.on('notification', (data) => {
-		// data.message,
-		// data.title,
-		// data.count,
-		// data.sound,
-		// data.image,
-		// data.additionalData
+	
+	push.on('notification', (data) => {		
 		console.log('Notification event');
 		navigator.notification.alert(
 			"Udostępniono nowy plan zajęć!", // message

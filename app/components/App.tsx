@@ -13,6 +13,8 @@ import NavigationToolbar from "./navigation/NavigationToolbar";
 // Config
 import config from "react-global-configuration";
 import configuration from "../DefaultConfiguration";
+import PushNotificationServices from "../services/PushNotificationServices";
+import ToastServices from "../services/ToastServices";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -27,9 +29,16 @@ export default class App extends React.Component {
         // mobile touch delay fix
         // initReactFastclick();
         // config
+
+        const pushNotificationServices = new PushNotificationServices();
+        pushNotificationServices.onPushNotification = async () => {
+            if (config.get("timetable")) {
+                await this.mainPage.refresh();
+            }
+        };
+
         config.set(configuration, { freeze: false });
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
+        const onDeviceReady = () => {
             navigator.splashscreen.hide();
             StatusBar.styleLightContent();
             StatusBar.overlaysWebView(false); // config one doesn't work (on iOS)
@@ -38,7 +47,9 @@ export default class App extends React.Component {
             } else if (device.platform === "iOS") {
                 StatusBar.backgroundColorByHexString("#3f51b5");
             }
-        }
+        };
+
+        document.addEventListener("deviceready", onDeviceReady, false);
     }
 
     public render(): JSX.Element {

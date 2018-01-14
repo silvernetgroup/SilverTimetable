@@ -5,11 +5,6 @@ import FileManager from "./FileManager";
 import IConfiguration from "../models/IConfiguration";
 import * as Moment from "moment";
 import ITimetableFilters from "../models/ITimetableFilters";
-import IDateCheck from "../models/IDateCheck";
-
-interface IState {
-    dateToCompare: IDateCheck;
-}
 
 export default class TimetableServices extends React.Component {
 

@@ -39,8 +39,6 @@ export default class Timetable extends React.Component<IProps, IState> {
             selectedDay: props.defaultDay || 0,
             selectedGroup: config.get("filters").group || groupNames[0],
         };
-
-        console.log(this.props.filters);
     }
 
     public render(): JSX.Element {
