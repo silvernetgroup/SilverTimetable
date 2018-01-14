@@ -16,17 +16,17 @@
         <icon density="xhdpi" src="www/res/android/xhdpi.png" />
         <icon density="xxhdpi" src="www/res/android/xxhdpi.png" />
         <icon density="xxxhdpi" src="www/res/android/xxxhdpi.png" />
-        <splash src="www/res/androidSplash/HDPI.png" density="port-hdpi"/>
-        <splash src="www/res/androidSplash/LDPI.png" density="port-ldpi"/>
-        <splash src="www/res/androidSplash/MDPI.png" density="port-mdpi"/>
-        <splash src="www/res/androidSplash/XHDPI.png" density="port-xhdpi"/>
-        <splash src="www/res/androidSplash/XXHDPI.png" density="port-xxhdpi"/>
-        <splash src="www/res/androidSplash/XXXHDPI.png" density="port-xxxhdpi"/>
+        <splash density="port-hdpi" src="www/res/androidSplash/HDPI.png" />
+        <splash density="port-ldpi" src="www/res/androidSplash/LDPI.png" />
+        <splash density="port-mdpi" src="www/res/androidSplash/MDPI.png" />
+        <splash density="port-xhdpi" src="www/res/androidSplash/XHDPI.png" />
+        <splash density="port-xxhdpi" src="www/res/androidSplash/XXHDPI.png" />
+        <splash density="port-xxxhdpi" src="www/res/androidSplash/XXXHDPI.png" />
     </platform>
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
     <engine name="ios" spec="^4.5.4" />
-    <engine name="android" spec="^6.4.0" />
+    <engine name="android" spec="^6.3.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
