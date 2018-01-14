@@ -1,7 +1,5 @@
-import * as React from "react";
 import ITimetableEvent from "../models/ITimetableEvent";
 
-declare let device: any;
 declare let cordova: any;
 
 export default class LecturersPages {

@@ -1,11 +1,13 @@
 import * as React from "react";
-import * as config from "react-global-configuration";
+import config from "react-global-configuration";
 
 // material UI Select
-import { FormControl, FormHelperText } from "material-ui/Form";
+import { FormControl } from "material-ui/Form";
 import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
 import Select from "material-ui/Select";
+import TimetableServices from "../../services/TimetableServices";
+import IConfiguration from "../../models/IConfiguration";
 
 interface IProps {
   name: string;
@@ -62,12 +64,13 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   // select controller
   private handleChange = (event) => {
     this.setState({ option: event.target.value });
-    const temp = config.get();
+    const temp: IConfiguration = config.get();
     temp.filters[this.props.configName] = this.props.options[event.target.value];
     config.set(temp);
     if (this.props.onChange) {
       this.props.onChange();
     }
+    TimetableServices.writeConfigurationFile(temp);
   }
 
   private drawSelect(): JSX.Element {
