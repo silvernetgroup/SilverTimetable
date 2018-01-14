@@ -31,7 +31,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       if (this.state.left) {
         this.toggleDrawer(false);
       } else {
-        window.history.back();
+        window.history.go(-(window.history.length - 1));
       }
     };
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -106,7 +106,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
   }
 
   private toggleDrawer(open) {
-      this.setState({
+    this.setState({
       left: open,
     });
   }
