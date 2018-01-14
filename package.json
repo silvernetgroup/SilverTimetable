@@ -35,6 +35,7 @@
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-statusbar": "^2.3.0",
     "cordova-plugin-whitelist": "^1.3.3",
+    "cordova-plugin-x-toast": "^2.6.0",
     "cordova-sqlite-storage": "^1.4.8",
     "file-loader": "^1.1.6",
     "material-ui": "1.0.0-beta.26",
@@ -46,7 +47,8 @@
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "cordova-plugin-splashscreen": "~5.0.1"
   },
   "cordova": {
     "plugins": {
@@ -63,7 +65,9 @@
       "cordova-plugin-ms-azure-mobile-apps": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-x-toast": {}
     },
     "platforms": [
       "ios",
