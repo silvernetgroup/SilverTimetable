@@ -221,3 +221,7 @@ www/dist/
 platforms/
 plugins/
 
+
+*.apk
+
+*.keystore
