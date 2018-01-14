@@ -27,7 +27,7 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
-    <preference name="SplashScreenDelay" value="1500" />
+    <preference name="AutoHideSplashScreen" value="false" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^6.3.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">

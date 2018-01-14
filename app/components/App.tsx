@@ -30,6 +30,7 @@ export default class App extends React.Component {
         config.set(configuration, { freeze: false });
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
+            navigator.splashscreen.hide();
             StatusBar.styleLightContent();
             StatusBar.overlaysWebView(false); // config one doesn't work (on iOS)
             if (device.platform === "Android") {
