@@ -45,4 +45,5 @@
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-splashscreen" spec="~5.0.1" />
+    <plugin name="cordova-plugin-x-toast" spec="^2.6.0" />
 </widget>

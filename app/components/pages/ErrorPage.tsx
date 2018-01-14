@@ -6,7 +6,7 @@ const ErrorPage = () => (
     <div className="ErrorPage">
       <Paper elevation={4}>
         <Typography type="headline" component="h3">
-          Brak połączenia z Internetem
+          Brak połączenia z serwerem
         </Typography>
         <Typography>
           Nie udało się pobrać aktualnej wersji planu.
