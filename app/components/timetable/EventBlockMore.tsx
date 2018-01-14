@@ -44,6 +44,17 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     this.state = {
       bottom: false,
     };
+    const onBB = () => {
+      if (this.state.bottom) {
+        this.toggleDrawer(false).call(this);
+      } else {
+        window.history.back();
+      }
+    };
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+      document.addEventListener("backbutton", onBB, true);
+    }
   }
 
   public render() {
