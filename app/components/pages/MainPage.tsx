@@ -22,12 +22,13 @@ declare let window: any;
 
 const toastStyle = {
     opacity: 1,
-    backgroundColor: "#323232",
+    backgroundColor: "#31429D",
     textColor: "white",
-    cornerRadius: 3,
-    textSize: 15,
-    horizontalPadding: 20,
-    verticalPadding: 16,
+    cornerRadius: 100,
+    textSize: 16,
+    horizontalPadding: 55,
+    verticalPadding: 33,
+    marginBottom: 6,
 };
 
 export default class MainPage extends React.Component<{}, IState> {
