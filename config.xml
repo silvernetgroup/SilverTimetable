@@ -28,6 +28,7 @@
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="android-minSdkVersion" value="14" />
     <engine name="android" spec="^6.3.0" />
     <engine name="ios" spec="^4.5.4" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
