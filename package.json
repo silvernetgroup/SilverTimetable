@@ -46,7 +46,8 @@
     "react-global-configuration": "^1.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "cordova-plugin-splashscreen": "~5.0.1"
   },
   "cordova": {
     "plugins": {
@@ -63,7 +64,8 @@
       "cordova-plugin-ms-azure-mobile-apps": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "ios",
