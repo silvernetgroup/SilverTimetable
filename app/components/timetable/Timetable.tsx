@@ -44,16 +44,16 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        if (!this.props.filters.semester) {
+        if (!this.props.filters.semester || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
             return (
-                <div style={{width: 290, margin: "30% auto auto auto", textAlign: "center"}}>
-                <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
-                <Typography type="subheading" style={{marginBottom: 10}}>
-                    Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
+                <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
+                    <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
+                    <Typography type="subheading" style={{ marginBottom: 10 }}>
+                        Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
                 </Typography>
-                <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
-                    <Button raised>Ustaw filtry planu</Button>
-                </NavLink>
+                    <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
+                        <Button raised>Ustaw filtry planu</Button>
+                    </NavLink>
                 </div>
             );
         }
@@ -72,6 +72,10 @@ export default class Timetable extends React.Component<IProps, IState> {
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
             </div>
         );
+    }
+
+    private ensureFilteredValuesExist(filters: ITimetableFilters, timetable: ITimetable): boolean {
+        return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]));
     }
 
     private renderDayTabs(mode: string): JSX.Element[] {
