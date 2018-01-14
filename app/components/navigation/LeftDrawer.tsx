@@ -27,7 +27,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       left: false,
     };
 
-    const onBB = () => {
+    const onBB = (e) => {
       if (this.state.left) {
         this.toggleDrawer(false);
       } else {
@@ -36,7 +36,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-      document.addEventListener("backbutton", onBB, true);
+      document.addEventListener("backbutton", (e) => onBB(e), true);
     }
   }
 
@@ -106,7 +106,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
   }
 
   private toggleDrawer(open) {
-    this.setState({
+      this.setState({
       left: open,
     });
   }

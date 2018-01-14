@@ -37,6 +37,8 @@ interface IState {
   bottom: boolean;
 }
 
+declare let navigator: any;
+
 export default class EventBlockMore extends React.Component<IProps, IState> {
 
   constructor(props: any) {
@@ -44,17 +46,15 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     this.state = {
       bottom: false,
     };
-    const onBB = () => {
-      if (this.state.bottom) {
-        this.toggleDrawer(false);
-      } else {
-        window.history.back();
-      }
+
+    const onDeviceReady = () => {
+      document.addEventListener("backbutton", this.onBB, false);
     };
     document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-      document.addEventListener("backbutton", onBB, true);
-    }
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener("backbutton", this.onBB);
   }
 
   public render() {
@@ -112,83 +112,91 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     );
   }
 
-  private toggleDrawer(open) {
-    this.setState({
-      bottom: open,
-    });
+  private onBB = (e) => {
+    if (this.state.bottom) {
+      this.toggleDrawer(false);
+    } else {
+      navigator.app.exitApp();
+    }
   }
+
+  private toggleDrawer(open) {
+  this.setState({
+    bottom: open,
+  });
+}
 
   private renderRoom() {
-    let location = "/floor";
-    let text = "Budynek " + this.props.building + ", ";
+  let location = "/floor";
+  let text = "Budynek " + this.props.building + ", ";
 
-    if (this.props.room.substring(0, 2) === "Au" || this.props.room.substring(0, 2) === "au") {
-      text += this.lowercaseFirstLetter(this.props.room);
-    } else {
-      text += "sala " + this.props.room;
-    }
-    if (this.props.building !== "34") {
-      location = "/";
-    }
-
-    return (
-      <LinkListItem
-        name={text}
-        iconName="Map"
-        linkPage={location}
-        onClick={null}
-        color="black"
-      />
-    );
+  if (this.props.room.substring(0, 2) === "Au" || this.props.room.substring(0, 2) === "au") {
+    text += this.lowercaseFirstLetter(this.props.room);
+  } else {
+    text += "sala " + this.props.room;
   }
+  if (this.props.building !== "34") {
+    location = "/";
+  }
+
+  return (
+    <LinkListItem
+      name={text}
+      iconName="Map"
+      linkPage={location}
+      onClick={null}
+      color="black"
+    />
+  );
+}
 
   private lowercaseFirstLetter(text): string {
-    return text.charAt(0).toLowerCase() + text.slice(1);
-  }
+  return text.charAt(0).toLowerCase() + text.slice(1);
+}
 
   private uppercaseFirstLetter(text): string {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  }
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
   private renderRemarks(): JSX.Element {
-    if (this.props.remarks != null) {
-      return (
-        <div style={{ marginTop: 12 }}>
-          <Typography gutterBottom>{this.props.remarks}</Typography>
-        </div>
-      );
-    } else {
-      return (<div />);
-    }
-  }
-
-  private renderLecturers(): JSX.Element {
-    const rows = [];
-    let key: number = 0;
-    for (const item of this.props.lecturers) {
-      key++;
-      rows.push(this.renderOneLecturer(item, key));
-    }
+  if (this.props.remarks != null) {
     return (
-      <div style={{ marginTop: 10 }}>
-        {rows}
+      <div style={{ marginTop: 12 }}>
+        <Typography gutterBottom>{this.props.remarks}</Typography>
       </div>
     );
+  } else {
+    return (<div />);
   }
+}
+
+  private renderLecturers(): JSX.Element {
+  const rows = [];
+  let key: number = 0;
+  for (const item of this.props.lecturers) {
+    key++;
+    rows.push(this.renderOneLecturer(item, key));
+  }
+  return (
+    <div style={{ marginTop: 10 }}>
+      {rows}
+    </div>
+  );
+}
 
   private renderOneLecturer(name, key) {
-    const style = {
-      marginBottom: 6,
-      marginRight: 6,
-    };
-    return (
-      <Chip
-        avatar={<Avatar>{name.split(" ").map((item) => item[0]).join("")}</Avatar>}
-        label={name}
-        style={style}
-        key={key}
-      />
-    );
-  }
+  const style = {
+    marginBottom: 6,
+    marginRight: 6,
+  };
+  return (
+    <Chip
+      avatar={<Avatar>{name.split(" ").map((item) => item[0]).join("")}</Avatar>}
+      label={name}
+      style={style}
+      key={key}
+    />
+  );
+}
 
 }
