@@ -26,9 +26,10 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     this.state = {
       left: false,
     };
+
     const onBB = () => {
       if (this.state.left) {
-        this.toggleDrawer(false).call(this);
+        this.toggleDrawer(false);
       } else {
         window.history.back();
       }
@@ -61,6 +62,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
           <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={null} />
           <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" onClick={null} />
           <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" onClick={null} />
+          <LinkListItem name="O aplikacji" iconName="Info" linkPage="/about" onClick={null} />
         </List>
       </div>
     );
@@ -72,22 +74,27 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     };
     return (
       <div>
-        <IconButton color="contrast" onClick={this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}>
+        <IconButton
+          color="contrast"
+          onClick={() => this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}
+        >
           <Hamburger />
         </IconButton>
-        <Drawer open={this.state.left} onClose={this.toggleDrawer(false)}>
+        <Drawer open={this.state.left} onClose={() => this.toggleDrawer(false)}>
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
+            onClick={() => this.toggleDrawer(false)}
+            onKeyDown={() => this.toggleDrawer(false)}
           >
             {sideList}
             {config.get("timetable") &&
               <div style={footerStyle}>
                 <Divider />
-                <Typography type="body1" style={{marginLeft: 16, marginTop: 16, marginBottom: 16,
-                  color: "rgba(0, 0, 0, 0.56)"}}>
+                <Typography type="body1" style={{
+                  marginLeft: 16, marginTop: 16, marginBottom: 16,
+                  color: "rgba(0, 0, 0, 0.56)",
+                }}>
                   Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ").slice(0, -3)}
                 </Typography>
               </div>
@@ -98,7 +105,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     );
   }
 
-  private toggleDrawer = (open) => () => {
+  private toggleDrawer(open) {
     this.setState({
       left: open,
     });

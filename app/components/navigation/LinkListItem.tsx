@@ -32,7 +32,6 @@ const padding: any = {
 };
 
 export default class SwitchListItem extends React.Component<IProps, {}> {
-
   public static defaultProps: IProps = {
     name: "error",
     iconName: "Settings",

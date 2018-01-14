@@ -1,18 +1,18 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const extractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    devtool: 'inline-source-map',
-    entry: [
-        'babel-polyfill',
-        './app/index'
-    ],
+    devtool: 'cheap-module-source-map',
+    entry: {
+        'app': './app/index'
+    },
     output: {
         path: path.join(__dirname, 'www', 'dist'),
         publicPath: '/dist/',
-        filename: 'app-bundle.js'
+        filename: '[name]-bundle.js'
     },
     module: {
         loaders: [            
@@ -41,7 +41,10 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new extractTextPlugin('[name].css'),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
-        })
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
+        new UglifyJSPlugin({
+              sourceMap: true
+            }),
     ]
 };
