@@ -8,6 +8,7 @@ import IconButton from "material-ui/IconButton";
 import LinkListItem from "./LinkListItem";
 // Icons
 import Hamburger from "material-ui-icons/Menu";
+import FirstEventBlockMoreHolder from "../FirstEventBlockMoreHolder";
 
 const styles = {
   list: {
@@ -19,6 +20,8 @@ interface IState {
   left: boolean;
 }
 
+declare let navigator: any;
+
 export default class LeftDrawer extends React.Component<{}, IState> {
 
   constructor(props: any) {
@@ -27,16 +30,21 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       left: false,
     };
 
-    const onBB = (e) => {
+    const onBB = () => {
       if (this.state.left) {
         this.toggleDrawer(false);
+      } else if (FirstEventBlockMoreHolder.eventBlockMore.state.bottom) {
+        FirstEventBlockMoreHolder.eventBlockMore.toggleDrawer(false);
+      } else if (window.location.hash === "#/") {
+        navigator.app.exitApp();
       } else {
-        window.history.go(-(window.history.length - 1));
+        window.location.replace("index.html#/");
       }
+
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
-      document.addEventListener("backbutton", (e) => onBB(e), true);
+      document.addEventListener("backbutton", onBB, true);
     }
   }
 

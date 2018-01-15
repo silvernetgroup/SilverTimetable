@@ -14,6 +14,7 @@ interface IProps {
     remarks?: string;
     startTime: Moment.Moment;
     isFaculty: boolean;
+    order: number;
     onClick(event: ITimetableEvent): void;
 }
 
