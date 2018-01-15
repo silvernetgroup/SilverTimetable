@@ -191,6 +191,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                 <EventBlock
                     {...event}
                     onClick={() => this.props.onEventBlockClick(event)}
+                    order={index + 1}
                 />
                 {index + 1 < result.length &&
                     <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
