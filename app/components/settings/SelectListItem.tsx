@@ -66,6 +66,8 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     this.setState({ option: event.target.value });
     const temp: IConfiguration = config.get();
     temp.filters[this.props.configName] = this.props.options[event.target.value];
+    console.log("setting" + this.props.configName + "to" + this.props.options[event.target.value]);
+
     config.set(temp);
     if (this.props.onChange) {
       this.props.onChange();

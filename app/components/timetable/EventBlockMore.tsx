@@ -13,7 +13,7 @@ import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
 
 import IconHelper from "../settings/IconHelper";
-import FirstEventBlockMoreHolder from "../FirstEventBlockMoreHolder";
+import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
 
 const styles = {
   list: {
@@ -48,10 +48,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     this.state = {
       bottom: false,
     };
-
-    if (props.order === 1) {
-      FirstEventBlockMoreHolder.eventBlockMore = this;
-    }
+    EventBlocksMoreHolder.eventBlocksMore.push(this);
   }
 
   public render() {

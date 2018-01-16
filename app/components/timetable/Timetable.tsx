@@ -73,7 +73,8 @@ export default class Timetable extends React.Component<IProps, IState> {
     }
 
     private ensureFilteredValuesExist(filters: ITimetableFilters, timetable: ITimetable): boolean {
-        return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]));
+        return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]
+    || (key === "group") && event.specialization === filters.group));
     }
 
     private renderDayTabs(mode: string): JSX.Element[] {
