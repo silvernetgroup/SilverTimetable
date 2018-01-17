@@ -43,11 +43,15 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     };
   }
 
+  public setState2(state) {
+    this.setState(state);
+  }
+
   public componentDidUpdate() {
     const temp = config.get();
     temp.filters[this.props.configName] = this.props.options[this.state.option];
     config.set(temp);
-    // console.log("set " + this.props.configName + " to " + this.props.options[this.state.option]);
+    console.log("set " + this.props.configName + " to " + this.props.options[this.state.option]);
   }
 
   public render(): JSX.Element {
@@ -70,7 +74,7 @@ export default class SelectListItem extends React.Component<IProps, IState> {
 
     config.set(temp);
     if (this.props.onChange) {
-      this.props.onChange();
+      this.props.onChange(this.props.configName);
     }
     TimetableServices.writeConfigurationFile(temp);
   }
