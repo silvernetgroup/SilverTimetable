@@ -10,6 +10,7 @@ import LinkListItem from "./LinkListItem";
 import Hamburger from "material-ui-icons/Menu";
 import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
 
+
 const styles = {
   list: {
     width: 250,
@@ -41,6 +42,7 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       } else {
         window.location.replace("index.html#/");
       }
+
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {

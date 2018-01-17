@@ -16,7 +16,8 @@
     "ts-loader": "^3.1.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
-    "webpack": "^3.8.1"
+    "webpack": "^3.8.1",
+    "file-loader": "^1.1.6"
   },
   "dependencies": {
     "@types/react": "^16.0.30",
