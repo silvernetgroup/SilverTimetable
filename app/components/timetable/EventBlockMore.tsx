@@ -109,7 +109,8 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
 
   public toggleDrawer(event, open) {
     try {
-      if (event.target.className.startsWith("MuiBackdrop") && open) {
+      if ((event.target.className.startsWith("MuiBackdrop")
+      || event.target.className.startsWith("jss")) && open) {
         return;
       }
     } catch {
