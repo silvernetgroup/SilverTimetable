@@ -8,7 +8,7 @@ import IconButton from "material-ui/IconButton";
 import LinkListItem from "./LinkListItem";
 // Icons
 import Hamburger from "material-ui-icons/Menu";
-import FirstEventBlockMoreHolder from "../FirstEventBlockMoreHolder";
+import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
 
 const styles = {
   list: {
@@ -33,14 +33,14 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     const onBB = () => {
       if (this.state.left) {
         this.toggleDrawer(false);
-      } else if (FirstEventBlockMoreHolder.eventBlockMore.state.bottom) {
-        FirstEventBlockMoreHolder.eventBlockMore.toggleDrawer(false);
+      } else if (window.location.hash === "#/"
+        && EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
+        EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(null, false));
       } else if (window.location.hash === "#/") {
         navigator.app.exitApp();
       } else {
         window.location.replace("index.html#/");
       }
-
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
@@ -61,7 +61,9 @@ export default class LeftDrawer extends React.Component<{}, IState> {
               </Typography>
               <Typography gutterBottom style={{ color: "white" }}>
                 {config.get("filters").mode &&
-                  <React.Fragment>{config.get("filters").mode}, semestr {config.get("filters").semester}</React.Fragment>
+                  <React.Fragment>
+                    {config.get("filters").mode}, semestr {config.get("filters").semester}
+                  </React.Fragment>
                   // react fragment - w razie problemow zaktualizuj vscode
                 }
               </Typography>
