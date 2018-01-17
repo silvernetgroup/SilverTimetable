@@ -130,26 +130,6 @@ export default class SettingsPage extends React.Component<{}, IState> {
     const resultsSet: Set<string> = new Set<string>();
     const filters: ITimetableFilters = config.get("filters");
 
-    if (optionName === "group") {
-      console.log(filters);
-      console.log(data
-        .events
-        .filter((event) => filterKeys
-          .every((key) => event[key].toString() === filters[key].toString())));
-      console.log(filterKeys)
-
-      for (let i = 0; i < data.events.length; i++) {
-        filterKeys.forEach((element) => {
-          if (filters[element] !== data.events[i][element]) {
-            console.log("Nie rowna sie " + element.toString());
-            console.log(filters[element] + " !== " + data.events[i][element]);
-          }
-        });
-      }
-
-      console.log(data.events);
-    }
-
     data
       .events
       .filter((event) => filterKeys
@@ -157,9 +137,6 @@ export default class SettingsPage extends React.Component<{}, IState> {
       .forEach((event) => resultsSet.add(optionName === "group"
         ? event.specialization || event.group.toString()
         : event[optionName]));
-
-    console.log("options for " + optionName);
-    console.log(resultsSet);
 
     return [...resultsSet];
   }
@@ -204,37 +181,37 @@ export default class SettingsPage extends React.Component<{}, IState> {
 
     switch (resetRoot) {
       case "academicYear":
-      this.departmentListItem.setState({option: null});
+      this.departmentListItem.reset();
       let temp = config.get();
       temp.filters.department = null;
       config.set(temp);
       break;
       case "department":
-      this.fieldOfStudyListItem.setState({ option: null });
+      this.fieldOfStudyListItem.reset();
       temp = config.get();
       temp.filters.fieldOfStudy = null;
       config.set(temp);
       break;
       case "fieldOfStudy":
-      this.degreeListItem.setState({ option: null });
+      this.degreeListItem.reset();
       temp = config.get();
       temp.filters.degree = null;
       config.set(temp);
       break;
       case "degree":
-      this.semesterListItem.setState({ option: null });
+      this.semesterListItem.reset();
       temp = config.get();
       temp.filters.semester = null;
       config.set(temp);
       break;
       case "semester":
-      this.modeListItem.setState({ option: null });
+      this.modeListItem.reset();
       temp = config.get();
       temp.filters.mode = null;
       config.set(temp);
       break;
       case "mode":
-      this.groupListItem.setState({ option: null });
+      this.groupListItem.reset();
       temp = config.get();
       temp.filters.group = null;
       config.set(temp);
