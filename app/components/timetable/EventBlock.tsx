@@ -20,6 +20,8 @@ interface IProps {
 
 export default class EventBlock extends React.Component<IProps, {}> {
 
+    private blockMore: BlockMore;
+
     public render(): JSX.Element {
         const { startTime, endTime } = this.props;
         const style: any = {
@@ -32,14 +34,14 @@ export default class EventBlock extends React.Component<IProps, {}> {
             <Paper
                 style={style}
                 elevation={1}
-                /*onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}*/
-                {...{} as any}
+                onClick={(event) => this.blockMore.toggleDrawer(event, true)}
             >
+
                 <div className="header-event-block">
                     <div className="lectureName-event-block">
                         {this.props.name}
                     </div>
-                    <BlockMore {...this.props}/>
+                    <BlockMore {...this.props} ref={(blockMore) => this.blockMore = blockMore} />
                 </div>
                 <div className="props-event-block">
                     <span>

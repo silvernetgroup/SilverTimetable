@@ -36,12 +36,12 @@ function ButtonAppBar(props: any): JSX.Element {
           <LeftDrawer />
           <Switch>
             <Route exact path="/" render={() => (
-              <>
-              <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
-              <IconButton>
-                <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
-              </IconButton>
-              </>
+              <React.Fragment>
+                <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
+                <IconButton>
+                  <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
+                </IconButton>
+              </React.Fragment>
             )} />
             <Route exact path="/settings" render={() => (
               <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>

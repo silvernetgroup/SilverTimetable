@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const extractTextPlugin = require('extract-text-webpack-plugin');
+let WebpackAnnouncerPlugin = require('./webpack.announcer.plugin.js');
 
 module.exports = {
     devtool: 'inline-source-map',
@@ -15,7 +16,7 @@ module.exports = {
         filename: 'app-bundle.js'
     },
     module: {
-        loaders: [            
+        loaders: [
             { test: /\.js$/, include: /app/, exclude: /node_modules/, loaders: ['babel-loader'] },
             { test: /(\.css)$/, loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }) },
             { test: /\.jsx$/, include: /app/, loaders: ['babel-loader'] },
@@ -42,6 +43,7 @@ module.exports = {
         new extractTextPlugin('[name].css'),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
-        })
+        }),
+        new WebpackAnnouncerPlugin()   
     ]
 };

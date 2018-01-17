@@ -3,7 +3,7 @@ export default interface ITimetableFilters {
     degree: string;
     mode: string;
     semester: number;
-    group?: number;
+    group?: string;
     department: string;
     academicYear: string;
 }
