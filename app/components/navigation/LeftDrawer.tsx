@@ -33,14 +33,14 @@ export default class LeftDrawer extends React.Component<{}, IState> {
     const onBB = () => {
       if (this.state.left) {
         this.toggleDrawer(false);
-      } else if (EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
-        EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(false));
+      } else if (window.location.hash === "#/"
+        && EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
+        EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(null, false));
       } else if (window.location.hash === "#/") {
         navigator.app.exitApp();
       } else {
         window.location.replace("index.html#/");
       }
-
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {

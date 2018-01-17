@@ -87,17 +87,18 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     return (
       <div>
         <IconButton
-          onClick={() => this.toggleDrawer(true)}
+          onClick={(event) => this.toggleDrawer(event, true)}
           style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}
         >
           <IconHelper iconName="More" />
         </IconButton>
-        <Drawer anchor="bottom" open={this.state.bottom} onClose={() => this.toggleDrawer(false)}>
+        <Drawer anchor="bottom" open={this.state.bottom}
+          onClose={(event) => this.toggleDrawer(event, false)}>
           <div
             tabIndex={0}
             role="button"
-            onClick={() => this.toggleDrawer(false)}
-            onKeyDown={() => this.toggleDrawer(false)}
+            onClick={(event) => this.toggleDrawer(event, false)}
+            onKeyDown={(event) => this.toggleDrawer(event, false)}
           >
             {sideList}
           </div>
@@ -106,7 +107,15 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
     );
   }
 
-  public toggleDrawer(open) {
+  public toggleDrawer(event, open) {
+    try {
+      if (event.target.className.startsWith("MuiBackdrop") && open) {
+        return;
+      }
+    } catch {
+      // ignore no string classNames
+    }
+
     this.setState({
       bottom: open,
     });
@@ -130,7 +139,7 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
         name={text}
         iconName="Map"
         linkPage={location}
-        onClick={null}
+        onClick={(event) => this.toggleDrawer(event, false)}
         color="black"
       />
     );
