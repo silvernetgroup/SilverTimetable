@@ -114,7 +114,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         const groupNames: string[] = this.generateGroupNames(data, filters);
 
         return (
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                 {config.get("showGroupChange") === true &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
@@ -140,9 +140,9 @@ export default class Timetable extends React.Component<IProps, IState> {
                 }
                 {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
-                <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
-                    {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
-                </PullRefresh>
+                    <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
+                        {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
+                    </PullRefresh>
                 </div>
             </div >
 
