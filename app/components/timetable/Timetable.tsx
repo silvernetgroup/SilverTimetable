@@ -20,6 +20,7 @@ interface IProps {
     defaultDay?: number;
     defaultGroup?: string;
     onEventBlockClick(event: ITimetableEvent): void;
+    mainPageRefresh(): void;
 }
 
 interface IState {
@@ -151,7 +152,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                 }
                 {this.saveCurrentGroup()}
                 <div className="event-blocks-container">
-                    <PullRefresh onRefresh={this.refreshTimeTable} style={{position: "relative"}}>
+                    <PullRefresh onRefresh={() => this.props.mainPageRefresh()} style={{position: "relative"}}>
                         {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
                     </PullRefresh>
                 </div>
@@ -217,12 +218,5 @@ export default class Timetable extends React.Component<IProps, IState> {
 
     private handleGroupChange = (event: any, value: string) => {
         this.setState({ selectedGroup: value });
-    }
-
-    private async refreshTimeTable() {
-        console.log("refresh start");
-        const sleep = (msec) => new Promise((resolve) => setTimeout(resolve, msec));
-        await sleep(3000);
-        console.log("refresh end");
     }
 }

@@ -38,9 +38,6 @@ function ButtonAppBar(props: any): JSX.Element {
             <Route exact path="/" render={() => (
               <React.Fragment>
                 <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
-                <IconButton>
-                  <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
-                </IconButton>
               </React.Fragment>
             )} />
             <Route exact path="/settings" render={() => (

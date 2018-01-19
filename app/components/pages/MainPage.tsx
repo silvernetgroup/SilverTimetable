@@ -123,6 +123,7 @@ export default class MainPage extends React.Component<{}, IState> {
                             filters={filters}
                             defaultDay={this.currentDay(filters.mode)}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
+                            mainPageRefresh={() => this.refresh()}
                         />
                     }
                 </div>
@@ -133,7 +134,6 @@ export default class MainPage extends React.Component<{}, IState> {
     public async refresh() {
         console.log("refresh");
         const currentState: IState = this.state;
-        this.setState({ ...this.state, isLoaded: false, isError: false });
         let timetable: ITimetable = currentState.timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
