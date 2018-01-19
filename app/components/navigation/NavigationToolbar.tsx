@@ -1,16 +1,14 @@
 import * as React from "react";
-
 import { withStyles } from "material-ui/styles";
 import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
-import Button from "material-ui/Button";
 import IconButton from "material-ui/IconButton";
 
 // Icons
 import Refresh from "material-ui-icons/Refresh";
 
-import { HashRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import LeftDrawer from "./LeftDrawer";
 
@@ -34,22 +32,25 @@ function ButtonAppBar(props: any): JSX.Element {
   return (
     <div className={classes.root}>
       <AppBar style={testPadding}>
-        <Toolbar>
+        <Toolbar style={{ paddingRight: 6 }}>
           <LeftDrawer />
           <Switch>
-            <Route exact path="/" render={(props) => (
-              <>
-              <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
-              <IconButton>
-                <Refresh color="contrast"/>
-              </IconButton>
-              </>
+            <Route exact path="/" render={() => (
+              <React.Fragment>
+                <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
+                <IconButton>
+                  <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
+                </IconButton>
+              </React.Fragment>
             )} />
-            <Route exact path="/settings" render={(props) => (
+            <Route exact path="/settings" render={() => (
               <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
             )} />
-            <Route exact path="/floor" render={(props) => (
-              <Typography type="title" color="inherit" className={classes.flex}>Plan piętra</Typography>
+            <Route exact path="/floor" render={() => (
+              <Typography type="title" color="inherit" className={classes.flex}>Schemat piętra</Typography>
+            )} />
+            <Route exact path="/about" render={() => (
+              <Typography type="title" color="inherit" className={classes.flex}>O aplikacji</Typography>
             )} />
           </Switch>
         </Toolbar>

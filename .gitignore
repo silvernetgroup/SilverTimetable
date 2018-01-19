@@ -216,8 +216,14 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
+
 www/dist/
 
 platforms/
 plugins/
+
+
+*.apk
+
+*.keystore
 
