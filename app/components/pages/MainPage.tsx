@@ -101,7 +101,6 @@ export default class MainPage extends React.Component<{}, IState> {
     }
 
     public render(): JSX.Element {
-
         const data: ITimetable = this.state.timetableData;
 
         const filters: ITimetableFilters = config.get("filters");

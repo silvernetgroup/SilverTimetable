@@ -61,7 +61,7 @@ export default class App extends React.Component {
                             exact
                             path="/"
                             render={(props) => <MainPage ref={(mainPage) => this.mainPage = mainPage} />}
-                        />
+                            />
                         <Route path="/settings" component={SettingsPage} />
                         <Route path="/floor" component={FloorPage} />
                         <Route path="/about" component={AboutPage} />

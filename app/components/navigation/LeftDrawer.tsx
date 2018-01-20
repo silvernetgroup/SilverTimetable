@@ -9,7 +9,7 @@ import LinkListItem from "./LinkListItem";
 // Icons
 import Hamburger from "material-ui-icons/Menu";
 import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
-
+import { Swipeable } from "react-touch";
 
 const styles = {
   list: {
@@ -85,39 +85,41 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       width: "100%",
     };
     return (
-      <div>
-        <IconButton
-          color="contrast"
-          onClick={() => this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}
-        >
-          <Hamburger />
-        </IconButton>
-        <Drawer open={this.state.left} onClose={() => this.toggleDrawer(false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={() => this.toggleDrawer(false)}
-            onKeyDown={() => this.toggleDrawer(false)}
-          >
-            {sideList}
-            {config.get("timetable") &&
-              <div style={footerStyle}>
-                <Divider />
-                <Typography type="body1" style={{
-                  marginLeft: 16, marginTop: 16, marginBottom: 16,
-                  color: "rgba(0, 0, 0, 0.56)",
-                }}>
-                  Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ").slice(0, -3)}
-                </Typography>
-              </div>
-            }
+        <Swipeable onSwipeLeft={() => {this.toggleDrawer(false); }}>
+          <div>
+            <IconButton
+              color="contrast"
+              onClick={() => this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}
+            >
+              <Hamburger />
+            </IconButton>
+              <Drawer open={this.state.left} onClose={() => this.toggleDrawer(false)} >
+                <div
+                  tabIndex={0}
+                  role="button"
+                  onClick={() => this.toggleDrawer(false)}
+                  onKeyDown={() => this.toggleDrawer(false)}
+                >
+                  {sideList}
+                  {config.get("timetable") &&
+                    <div style={footerStyle}>
+                      <Divider />
+                      <Typography type="body1" style={{
+                        marginLeft: 16, marginTop: 16, marginBottom: 16,
+                        color: "rgba(0, 0, 0, 0.56)",
+                      }}>
+                        Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ").slice(0, -3)}
+                      </Typography>
+                    </div>
+                  }
+                </div>
+              </Drawer>
           </div>
-        </Drawer>
-      </div>
+        </Swipeable>
     );
   }
 
-  private toggleDrawer(open) {
+  public toggleDrawer(open) {
     this.setState({
       left: open,
     });
