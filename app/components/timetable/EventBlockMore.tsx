@@ -11,6 +11,7 @@ import IconButton from "material-ui/IconButton";
 import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
+import { Swipeable } from "react-touch";
 
 import IconHelper from "../settings/IconHelper";
 import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
@@ -85,25 +86,27 @@ export default class EventBlockMore extends React.Component<IProps, IState> {
       width: "100%",
     };
     return (
-      <div>
-        <IconButton
-          onClick={(event) => this.toggleDrawer(event, true)}
-          style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}
-        >
-          <IconHelper iconName="More" />
-        </IconButton>
-        <Drawer anchor="bottom" open={this.state.bottom}
-          onClose={(event) => this.toggleDrawer(event, false)}>
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={(event) => this.toggleDrawer(event, false)}
-            onKeyDown={(event) => this.toggleDrawer(event, false)}
+      <Swipeable onSwipeDown={(event) => {this.toggleDrawer(event, false); }}>
+        <div>
+          <IconButton
+            onClick={(event) => this.toggleDrawer(event, true)}
+            style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}
           >
-            {sideList}
-          </div>
-        </Drawer>
-      </div>
+            <IconHelper iconName="More" />
+          </IconButton>
+          <Drawer anchor="bottom" open={this.state.bottom}
+            onClose={(event) => this.toggleDrawer(event, false)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={(event) => this.toggleDrawer(event, false)}
+              onKeyDown={(event) => this.toggleDrawer(event, false)}
+            >
+              {sideList}
+            </div>
+          </Drawer>
+        </div>
+      </Swipeable>
     );
   }
 
