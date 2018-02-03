@@ -4,6 +4,7 @@ import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import IconButton from "material-ui/IconButton";
+import { connect } from "react-redux";
 
 // Icons
 import Refresh from "material-ui-icons/Refresh";
@@ -33,7 +34,7 @@ function ButtonAppBar(props: any): JSX.Element {
     <div className={classes.root}>
       <AppBar style={testPadding}>
         <Toolbar style={{ paddingRight: 6 }}>
-          <LeftDrawer />
+          <LeftDrawer open={props.leftDrawerOpen}/>
           <Switch>
             <Route exact path="/" render={() => (
               <React.Fragment>
@@ -59,4 +60,8 @@ function ButtonAppBar(props: any): JSX.Element {
   );
 }
 
-export default withStyles(styles)(ButtonAppBar);
+const mapStateToProps = (state, ownProps) => {
+  return { leftDrawerOpen: state.navigationToolbar.leftDrawerOpen };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(ButtonAppBar));

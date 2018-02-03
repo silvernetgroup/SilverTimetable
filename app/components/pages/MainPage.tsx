@@ -8,8 +8,8 @@ import ErrorPage from "../Pages/ErrorPage";
 import Timetable from "../timetable/Timetable";
 import config from "react-global-configuration";
 import TimetableServices from "../../services/TimetableServices";
-import defaultConfig from "../../DefaultConfiguration";
-import IConfiguration from "../../models/IConfiguration";
+import IConfiguration from "../../store/IConfiguration";
+import { initialState } from "../../store/index";
 import ToastServices from "../../services/ToastServices";
 
 interface IState {
@@ -87,7 +87,7 @@ export default class MainPage extends React.Component<{}, IState> {
 
         if (!configurationData) {
             console.log("nie ma pliku konfiguracyjnego, tworzę domyslny");
-            configurationData = { ...defaultConfig };
+            configurationData = { ...initialState.configuration };
             await TimetableServices.writeConfigurationFile(configurationData);
         } else {
             console.log("jest konfiguracja w pamięci");

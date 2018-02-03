@@ -8,8 +8,9 @@ import IconButton from "material-ui/IconButton";
 import LinkListItem from "./LinkListItem";
 // Icons
 import Hamburger from "material-ui-icons/Menu";
-import EventBlocksMoreHolder from "../EventBlocksMoreHolder";
 
+import { openLeftDrawer, closeLeftDrawer } from "../../actions/index";
+import { connect } from "react-redux";
 
 const styles = {
   list: {
@@ -17,38 +18,40 @@ const styles = {
   },
 };
 
-interface IState {
-  left: boolean;
+interface IProps {
+  open: boolean;
+  closeLeftDrawer?: any;
+  openLeftDrawer?: any;
 }
 
 declare let navigator: any;
 
-export default class LeftDrawer extends React.Component<{}, IState> {
+class LeftDrawer extends React.Component<IProps> {
 
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      left: false,
-    };
+  // constructor(props: any) {
+  //   super(props);
+  //   this.state = {
+  //     left: false,
+  //   };
 
-    const onBB = () => {
-      if (this.state.left) {
-        this.toggleDrawer(false);
-      } else if (window.location.hash === "#/"
-        && EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
-        EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(null, false));
-      } else if (window.location.hash === "#/") {
-        navigator.app.exitApp();
-      } else {
-        window.location.replace("index.html#/");
-      }
+  //   const onBB = () => {
+  //     if (this.props.open) {
+  //       this.props.closeLeftDrawer();
+  //     } else if (window.location.hash === "#/"
+  //       && EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
+  //       EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(null, false));
+  //     } else if (window.location.hash === "#/") {
+  //       navigator.app.exitApp();
+  //     } else {
+  //       window.location.replace("index.html#/");
+  //     }
 
-    };
-    document.addEventListener("deviceready", onDeviceReady, false);
-    function onDeviceReady() {
-      document.addEventListener("backbutton", onBB, true);
-    }
-  }
+  //   };
+  //   document.addEventListener("deviceready", onDeviceReady, false);
+  //   function onDeviceReady() {
+  //     document.addEventListener("backbutton", onBB, true);
+  //   }
+  // }
 
   public render() {
     const sideList = (
@@ -88,16 +91,16 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       <div>
         <IconButton
           color="contrast"
-          onClick={() => this.toggleDrawer(true)} style={{ marginLeft: -12, marginRight: 20 }}
+          onClick={() => this.props.openLeftDrawer()} style={{ marginLeft: -12, marginRight: 20 }}
         >
           <Hamburger />
         </IconButton>
-        <Drawer open={this.state.left} onClose={() => this.toggleDrawer(false)}>
+        <Drawer open={this.props.open} onClose={() => this.props.closeLeftDrawer()}>
           <div
             tabIndex={0}
             role="button"
-            onClick={() => this.toggleDrawer(false)}
-            onKeyDown={() => this.toggleDrawer(false)}
+            onClick={() => this.props.closeLeftDrawer()}
+            onKeyDown={() => this.props.closeLeftDrawer()}
           >
             {sideList}
             {config.get("timetable") &&
@@ -116,10 +119,13 @@ export default class LeftDrawer extends React.Component<{}, IState> {
       </div>
     );
   }
-
-  private toggleDrawer(open) {
-    this.setState({
-      left: open,
-    });
-  }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openLeftDrawer: () => dispatch(openLeftDrawer()),
+    closeLeftDrawer: () => dispatch(closeLeftDrawer()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LeftDrawer);

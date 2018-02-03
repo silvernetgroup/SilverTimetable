@@ -12,6 +12,7 @@ import Typography from "material-ui/Typography";
 
 // Config
 import config from "react-global-configuration";
+import EventBlockMore from "./EventBlockMore";
 
 interface IProps {
     data: ITimetable;
@@ -24,6 +25,7 @@ interface IProps {
 interface IState {
     selectedDay: number;
     selectedGroup: string;
+    selectedEvent: ITimetableEvent;
 }
 
 interface IGroupNumberNamePair {
@@ -38,6 +40,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         this.state = {
             selectedDay: props.defaultDay || 0,
             selectedGroup: config.get("filters").group || groupNames[0],
+            selectedEvent: null,
         };
     }
 
@@ -68,6 +71,7 @@ export default class Timetable extends React.Component<IProps, IState> {
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
+                <EventBlockMore event={this.state.selectedEvent}/>
             </div>
         );
     }
@@ -191,7 +195,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         result.forEach((event, index) => elements.push(
             <React.Fragment key={index + 1}>
                 <EventBlock
-                    {...event}
+                    event={event}
                     onClick={() => this.props.onEventBlockClick(event)}
                     order={index + 1}
                 />

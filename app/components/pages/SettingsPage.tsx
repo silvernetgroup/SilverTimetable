@@ -48,6 +48,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
   constructor(props) {
     super(props);
     const data = config.get("timetable");
+    console.log(data);
     this.state = {
       listsEnabled: this.getSelectListsState(data),
       listValues: this.getSelectListsValues(data),
@@ -55,6 +56,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
   }
   public render(): JSX.Element {
     const data: ITimetable = config.get("timetable");
+    console.log(data);
     return (
       <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>

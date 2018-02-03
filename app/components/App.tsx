@@ -12,9 +12,12 @@ import NavigationToolbar from "./navigation/NavigationToolbar";
 
 // Config
 import config from "react-global-configuration";
-import configuration from "../DefaultConfiguration";
 import PushNotificationServices from "../services/PushNotificationServices";
 import ToastServices from "../services/ToastServices";
+import { IGlobalState } from "../store/IGlobalState";
+import { closeLeftDrawer, closeBottomDrawer } from "../actions/index";
+import { connect } from "react-redux";
+import { initialState } from "../store/index";
 
 const theme: any = createMuiTheme({
     palette: {
@@ -22,7 +25,16 @@ const theme: any = createMuiTheme({
     },
 });
 
-export default class App extends React.Component {
+interface IProps {
+    leftDrawerOpen: boolean;
+    bottomDrawerOpen: boolean;
+    closeBottomDrawer: any;
+    closeLeftDrawer: any;
+}
+
+declare let navigator: any;
+
+class App extends React.Component<IProps> {
     private mainPage: MainPage;
     constructor(props: any) {
         super(props);
@@ -37,7 +49,19 @@ export default class App extends React.Component {
             }
         };
 
-        config.set(configuration, { freeze: false });
+        const onBackButtonClick = () => {
+            if (this.props.bottomDrawerOpen) {
+                this.props.closeBottomDrawer();
+            } else if (this.props.leftDrawerOpen) {
+                this.props.closeLeftDrawer();
+            } else if (window.location.hash !== "#/") {
+                window.location.replace("index.html#/");
+            } else {
+                navigator.app.exitApp();
+            }
+        };
+
+        config.set(initialState.configuration, { freeze: false });
         const onDeviceReady = () => {
             navigator.splashscreen.hide();
             StatusBar.styleLightContent();
@@ -47,6 +71,7 @@ export default class App extends React.Component {
             } else if (device.platform === "iOS") {
                 StatusBar.backgroundColorByHexString("#3f51b5");
             }
+            document.addEventListener("backbutton", onBackButtonClick, true);
         };
 
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -72,3 +97,19 @@ export default class App extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state: IGlobalState, ownProps) => {
+    return {
+        leftDrawerOpen: state.navigationToolbar.leftDrawerOpen,
+        bottomDrawerOpen: state.timetable.bottomDrawerOpen,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        closeLeftDrawer: () => dispatch(closeLeftDrawer()),
+        closeBottomDrawer: () => dispatch(closeBottomDrawer()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

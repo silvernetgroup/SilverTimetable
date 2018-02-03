@@ -12,7 +12,7 @@ import Switch from "material-ui/Switch";
 
 // Icons
 import IconHelper from "./IconHelper";
-import IConfiguration from "../../models/IConfiguration";
+import IConfiguration from "../../store/IConfiguration";
 import TimetableServices from "../../services/TimetableServices";
 
 interface IProps {

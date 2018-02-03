@@ -7,7 +7,7 @@ import Input, { InputLabel } from "material-ui/Input";
 import { MenuItem } from "material-ui/Menu";
 import Select from "material-ui/Select";
 import TimetableServices from "../../services/TimetableServices";
-import IConfiguration from "../../models/IConfiguration";
+import IConfiguration from "../../store/IConfiguration";
 
 interface IProps {
   name: string;

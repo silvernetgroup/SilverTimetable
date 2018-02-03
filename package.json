@@ -16,8 +16,7 @@
     "ts-loader": "^3.1.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
-    "webpack": "^3.8.1",
-    "file-loader": "^1.1.6"
+    "webpack": "^3.8.1"
   },
   "dependencies": {
     "@types/react": "^16.0.30",
@@ -46,8 +45,10 @@
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-global-configuration": "^1.2.0",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
     "typescript": "^2.6.1"
   },
   "cordova": {
