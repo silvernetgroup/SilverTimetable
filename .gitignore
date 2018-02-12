@@ -227,3 +227,7 @@ plugins/
 
 *.keystore
 
+
+*.jks
+
+*.der
