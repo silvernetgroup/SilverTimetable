@@ -15,27 +15,28 @@ import { connect } from "react-redux";
 import {
     loadTimetableRequest,
     changeGroup,
+    openBottomDrawer,
     closeBottomDrawer,
     loadTimetableSuccess,
     loadTimetableFailure,
+    loadConfiguration,
 } from "../../actions";
 
 interface IProps {
     timetableData: ITimetable;
     timetableFilters: ITimetableFilters;
-    isLoaded: boolean;
-    isError: boolean;
-    selectedGroup: string;
-    bottomDrawerOpen: boolean;
-    quickGroupChangeAllowed: boolean;
     configuration: IConfiguration;
+    timetableConfig: any;
 
     changeGroup: any;
+    openBottomDrawer: any;
     closeBottomDrawer: any;
 
     timetableLoadRequest: any;
     timetableLoadSuccess: any;
     timetableLoadFailure: any;
+
+    loadConfiguration(config: IConfiguration);
 }
 
 interface IState {
@@ -62,7 +63,7 @@ class MainPage extends React.Component<IProps, IState> {
         const sessionConfigTimetable: ITimetable = this.props.timetableData;
         if (sessionConfigTimetable) {
             console.log("config w sesji");
-            this.props.timetableLoadSuccess(); // bez payloadu
+            this.props.timetableLoadSuccess(sessionConfigTimetable);
             return;
         }
 
@@ -91,9 +92,11 @@ class MainPage extends React.Component<IProps, IState> {
                     if (!timetableData) {
                         this.props.timetableLoadFailure();
                     } else {
-                        this.props.timetableLoadSuccess(); // bez payloadu
+                        this.props.timetableLoadSuccess(timetableData);
                     }
                 }
+            } else {
+                this.props.timetableLoadSuccess(timetableData);
             }
         } else {
             console.log("nie ma internetu");
@@ -109,6 +112,7 @@ class MainPage extends React.Component<IProps, IState> {
             await TimetableServices.writeConfigurationFile(configurationData);
         } else {
             console.log("jest konfiguracja w pamięci");
+            this.props.loadConfiguration(configurationData);
         }
     }
 
@@ -118,13 +122,13 @@ class MainPage extends React.Component<IProps, IState> {
 
         const filters: ITimetableFilters = this.props.timetableFilters;
 
-        if (!this.props.isLoaded && !this.props.isError) {
+        if (!this.props.timetableConfig.isLoaded && !this.props.timetableConfig.isError) {
             return (
                 <div className="CrcProgress">
                     <CircularProgress color="accent" size={60} thickness={7} />
                 </div>
             );
-        } else if (this.props.isError) {
+        } else if (this.props.timetableConfig.isError) {
             return (<ErrorPage />);
         } else {
             return (
@@ -134,10 +138,9 @@ class MainPage extends React.Component<IProps, IState> {
                             data={data}
                             filters={filters}
                             selectedDay={this.state.selectedDay}
-                            selectedGroup={this.props.selectedGroup}
                             selectedEvent={this.state.selectedEvent}
-                            bottomDrawerOpen={this.props.bottomDrawerOpen}
-                            quickGroupChangeAllowed={this.props.quickGroupChangeAllowed}
+                            bottomDrawerOpen={this.props.timetableConfig.bottomDrawerOpen}
+                            quickGroupChangeAllowed={this.props.configuration.allowQuickGroupChange}
                             handleGroupChange={this.props.changeGroup}
                             onDayChange={this.changeDay}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
@@ -215,7 +218,9 @@ class MainPage extends React.Component<IProps, IState> {
         throw error;
     }
     private handleEventBlockClick = (event: ITimetableEvent): void => {
-        LecturersPages.openLecturersPage(event);
+        console.log("opening bottom drawer");
+        this.setState({ selectedEvent: event });
+        this.props.openBottomDrawer();
     }
 
     private currentDay(mode: string): number {
@@ -244,23 +249,23 @@ class MainPage extends React.Component<IProps, IState> {
 
 const mapStateToProps = (state: IGlobalState) => {
     return {
-        isLoaded: state.timetable.isLoaded,
-        isError: state.timetable.isError,
-        selectedGroup: state.timetable.selectedGroup,
-        bottomDrawerOpen: state.timetable.bottomDrawerOpen,
+        timetableConfig: state.timetable,
         timetableData: state.timetable.data,
         timetableFilters: state.configuration.filters,
+        configuration: state.configuration,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         changeGroup: (group) => dispatch(changeGroup(group)),
+        openBottomDrawer: () => dispatch(openBottomDrawer()),
         closeBottomDrawer: () => dispatch(closeBottomDrawer()),
         timetableLoadRequest: () => dispatch(loadTimetableRequest()),
         timetableLoadSuccess: (timetable) => dispatch(loadTimetableSuccess(timetable)),
         timetableLoadFailure: () => dispatch(loadTimetableFailure()),
+        loadConfiguration: (config) => dispatch(loadConfiguration(config)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(MainPage);

@@ -7,6 +7,9 @@ import {
     LOAD_TIMETABLE_REQUEST,
     LOAD_TIMETABLE_FAILURE,
     LOAD_TIMETABLE_SUCCESS,
+    CHANGE_FILTER,
+    CHANGE_CONFIGURATION_OPTION,
+    LOAD_CONFIGURATION,
 } from "../constants/action-types";
 import { IGlobalState } from "../store/IGlobalState";
 
@@ -30,7 +33,29 @@ const rootReducer = (state: IGlobalState, action) => {
             return {
                 ...state,
                 timetable: {
-                    ...state.timetable, isLoaded: true, isError: false, data: action.payload,
+                    ...state.timetable, isLoaded: true, isError: false, data: action.payload || state.timetable.data,
+                },
+            };
+        case LOAD_CONFIGURATION:
+            return{
+                ...state,
+                configuration: action.payload,
+            };
+        case CHANGE_FILTER:
+            return {
+                ...state, configuration: {
+                    ...state.configuration,
+                    filters: {
+                        ...state.configuration.filters,
+                        [action.payload.name]: action.payload.value,
+                    },
+                },
+            };
+        case CHANGE_CONFIGURATION_OPTION:
+            return {
+                ...state, configuration: {
+                    ...state.configuration,
+                    [action.payload.name]: action.payload.option,
                 },
             };
         default:

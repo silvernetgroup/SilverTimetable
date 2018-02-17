@@ -15,7 +15,6 @@ interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
     selectedDay: number;
-    selectedGroup: string;
     selectedEvent: ITimetableEvent;
     bottomDrawerOpen: boolean;
     quickGroupChangeAllowed: boolean;
@@ -133,7 +132,7 @@ export default class Timetable extends React.Component<IProps> {
                 {this.props.quickGroupChangeAllowed &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
-                            value={this.props.selectedGroup}
+                            value={this.props.filters.group}
                             onChange={this.props.handleGroupChange}
                             fullWidth
                             scrollable
@@ -155,7 +154,7 @@ export default class Timetable extends React.Component<IProps> {
                 }
                 {/* {this.saveCurrentGroup()} */}
                 <div className="event-blocks-container">
-                    {this.renderEventBlocks(data, filters, selectedDay, this.props.selectedGroup)}
+                    {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
                 </div>
             </div >
 

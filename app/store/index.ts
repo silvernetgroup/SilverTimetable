@@ -10,6 +10,7 @@ export const initialState: IGlobalState = {
     },
     timetable: {
         isLoaded: false,
+        isError: false,
         bottomDrawerOpen: false,
         data: null,
     },

@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 
 // material UI Select
 import { FormControl } from "material-ui/Form";
@@ -8,6 +7,10 @@ import { MenuItem } from "material-ui/Menu";
 import Select from "material-ui/Select";
 import TimetableServices from "../../services/TimetableServices";
 import IConfiguration from "../../store/IConfiguration";
+import ITimetableFilters from "../../models/ITimetableFilters";
+import { IGlobalState } from "../../store/IGlobalState";
+import { changeFilter } from "../../actions";
+import { connect } from "react-redux";
 
 interface IProps {
   name: string;
@@ -15,6 +18,10 @@ interface IProps {
   enabled: boolean;
   configName: string;
   onChange?: any;
+
+  configuration: IConfiguration;
+  filters: ITimetableFilters;
+  changeFilter(name: string, value: any): any;
 }
 interface IState {
   option: any;
@@ -29,11 +36,11 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SelectListItem extends React.Component<IProps, IState> {
+class SelectListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    let option = config.get("filters")[this.props.configName];
+    let option = this.props.filters[this.props.configName];
     if (props.configName === "group" && option) {
       option = option.toString();
     }
@@ -44,18 +51,14 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   }
 
   public componentDidUpdate() {
-    const temp = config.get();
-    temp.filters[this.props.configName] = this.props.options[this.state.option];
-    config.set(temp);
-    TimetableServices.writeConfigurationFile(temp);
+    // this.props.changeFilter(this.props.configName, this.props.options[this.state.option]);
+    TimetableServices.writeConfigurationFile(this.props.configuration);
   }
 
   public reset() {
     console.log("reset");
-    const temp = config.get();
-    temp.filters[this.props.configName] = null;
-    config.set(temp);
-    TimetableServices.writeConfigurationFile(temp);
+    this.props.changeFilter(this.props.configName, null);
+    TimetableServices.writeConfigurationFile(this.props.configuration);
     this.setState({ option: -1 });
   }
 
@@ -75,14 +78,12 @@ export default class SelectListItem extends React.Component<IProps, IState> {
   private handleChange = (event) => {
     console.log("handlechange");
     this.setState({ option: event.target.value });
-    const temp: IConfiguration = config.get();
-    temp.filters[this.props.configName] = this.props.options[event.target.value];
+    this.props.changeFilter(this.props.configName, this.props.options[event.target.value]);
 
-    config.set(temp);
     if (this.props.onChange) {
       this.props.onChange(this.props.configName);
     }
-    TimetableServices.writeConfigurationFile(temp);
+    TimetableServices.writeConfigurationFile(this.props.configuration);
   }
 
   private renderSelect(): JSX.Element {
@@ -112,3 +113,18 @@ export default class SelectListItem extends React.Component<IProps, IState> {
     }
   }
 }
+
+const mapStateToProps = (state: IGlobalState, ownProps) => {
+  return {
+    configuration: state.configuration,
+    filters: state.configuration.filters,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    changeFilter: (name, value) => dispatch(changeFilter(name, value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(SelectListItem);

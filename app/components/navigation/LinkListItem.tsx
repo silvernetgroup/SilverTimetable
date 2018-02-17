@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 import ITimetableEvent from "../../models/ITimetableEvent";
 
 import { NavLink } from "react-router-dom";

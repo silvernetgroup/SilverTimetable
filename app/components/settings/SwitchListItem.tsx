@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 
 // material UI
 import {
@@ -14,11 +13,17 @@ import Switch from "material-ui/Switch";
 import IconHelper from "./IconHelper";
 import IConfiguration from "../../store/IConfiguration";
 import TimetableServices from "../../services/TimetableServices";
+import { IGlobalState } from "../../store/IGlobalState";
+import { changeConfigurationOption } from "../../actions";
+import { connect } from "react-redux";
 
 interface IProps {
   name: string;
   iconName: string;
   configName: string;
+
+  configuration: IConfiguration;
+  changeConfigurationOption(name: string, value: any): any;
 }
 
 interface IState {
@@ -34,7 +39,7 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, IState> {
+class SwitchListItem extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
@@ -42,7 +47,7 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
     this.state = {
       checked: ["none"],
     };
-    if (config.get(this.props.configName) === true) {
+    if (this.props.configuration[this.props.configName] === true) {
       this.state = {
         checked: [this.props.iconName],
       };
@@ -80,14 +85,26 @@ export default class SwitchListItem extends React.Component<IProps, IState> {
       newChecked.splice(currentIndex, 1);
     }
 
-    // global settings controller
-    const temp: IConfiguration = config.get();
-    temp.allowQuickGroupChange = currentIndex === -1;
-    config.set(temp);
-    TimetableServices.writeConfigurationFile(temp);
+    this.props.changeConfigurationOption("allowQuickGroupChange", currentIndex === -1); // wtf?? zmienic to koniecznie!!
+
+    TimetableServices.writeConfigurationFile(this.props.configuration);
 
     this.setState({
       checked: newChecked,
     });
   }
 }
+
+const mapStateToProps = (state: IGlobalState, ownProps) => {
+  return {
+    configuration: state.configuration,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    changeConfigurationOption: (name, value) => dispatch(changeConfigurationOption(name, value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SwitchListItem);

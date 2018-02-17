@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 
 // material UI
 import List, { ListSubheader } from "material-ui/List";
@@ -9,10 +8,20 @@ import SelectListItem from "../settings/SelectListItem";
 import SwitchListItem from "../settings/SwitchListItem";
 import ITimetable from "../../models/ITimetable";
 import ITimetableFilters from "../../models/ITimetableFilters";
+import { IGlobalState } from "../../store/IGlobalState";
+import { connect } from "react-redux";
+import { changeConfigurationOption, changeFilter } from "../../actions";
 
 interface IState {
   listsEnabled: ISelectListsState;
   listValues: ISelectListValues;
+}
+
+interface IProps {
+  timetable: ITimetable;
+  filters: ITimetableFilters;
+  changeFilter(name: string, value: any): any;
+  changeConfigurationOption(name: string, value: any): any;
 }
 
 interface ISelectListsState {
@@ -35,19 +44,19 @@ interface ISelectListValues {
   academicYear: string[];
 }
 
-export default class SettingsPage extends React.Component<{}, IState> {
+class SettingsPage extends React.Component<IProps, IState> {
 
-  private academicYearListItem: SelectListItem;
-  private departmentListItem: SelectListItem;
-  private fieldOfStudyListItem: SelectListItem;
-  private degreeListItem: SelectListItem;
-  private semesterListItem: SelectListItem;
-  private modeListItem: SelectListItem;
-  private groupListItem: SelectListItem;
+  private academicYearListItem;
+  private departmentListItem;
+  private fieldOfStudyListItem;
+  private degreeListItem;
+  private semesterListItem;
+  private modeListItem;
+  private groupListItem;
 
   constructor(props) {
     super(props);
-    const data = config.get("timetable");
+    const data = this.props.timetable;
     console.log(data);
     this.state = {
       listsEnabled: this.getSelectListsState(data),
@@ -55,7 +64,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
     };
   }
   public render(): JSX.Element {
-    const data: ITimetable = config.get("timetable");
+    const data: ITimetable = this.props.timetable;
     console.log(data);
     return (
       <div style={{ marginTop: "69px" }}>
@@ -130,7 +139,7 @@ export default class SettingsPage extends React.Component<{}, IState> {
     }
 
     const resultsSet: Set<string> = new Set<string>();
-    const filters: ITimetableFilters = config.get("filters");
+    const filters: ITimetableFilters = this.props.filters;
 
     data
       .events
@@ -144,7 +153,9 @@ export default class SettingsPage extends React.Component<{}, IState> {
   }
 
   private shouldBeEnabled(optionName: string, filterKeys: string[], data: ITimetable): boolean {
-    if (!data || filterKeys.some((value) => !config.get("filters")[value])) {
+    if (!data || filterKeys.some((value) => !this.props.filters[value])) {
+      console.log(optionName + "shouldn't be enabled");
+      console.log(this.props.filters);
       return false;
     }
     return true;
@@ -183,43 +194,31 @@ export default class SettingsPage extends React.Component<{}, IState> {
 
     switch (resetRoot) {
       case "academicYear":
-      this.departmentListItem.reset();
-      let temp = config.get();
-      temp.filters.department = null;
-      config.set(temp);
-      break;
+        this.departmentListItem.getWrappedInstance().reset();
+        this.props.changeFilter("department", null);
+        break;
       case "department":
-      this.fieldOfStudyListItem.reset();
-      temp = config.get();
-      temp.filters.fieldOfStudy = null;
-      config.set(temp);
-      break;
+        this.fieldOfStudyListItem.getWrappedInstance().reset();
+        this.props.changeFilter("fieldOfStudy", null);
+        break;
       case "fieldOfStudy":
-      this.degreeListItem.reset();
-      temp = config.get();
-      temp.filters.degree = null;
-      config.set(temp);
-      break;
+        this.degreeListItem.getWrappedInstance().reset();
+        this.props.changeFilter("degree", null);
+        break;
       case "degree":
-      this.semesterListItem.reset();
-      temp = config.get();
-      temp.filters.semester = null;
-      config.set(temp);
-      break;
+        this.semesterListItem.getWrappedInstance().reset();
+        this.props.changeFilter("semester", null);
+        break;
       case "semester":
-      this.modeListItem.reset();
-      temp = config.get();
-      temp.filters.mode = null;
-      config.set(temp);
-      break;
+        this.modeListItem.getWrappedInstance().reset();
+        this.props.changeFilter("mode", null);
+        break;
       case "mode":
-      this.groupListItem.reset();
-      temp = config.get();
-      temp.filters.group = null;
-      config.set(temp);
-      break;
+        this.groupListItem.getWrappedInstance().reset();
+        this.props.changeFilter("group", null);
+        break;
       default:
-      break;
+        break;
     }
 
     const enabled = this.getSelectListsState(data);
@@ -230,3 +229,19 @@ export default class SettingsPage extends React.Component<{}, IState> {
     });
   }
 }
+
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    timetable: state.timetable.data,
+    filters: state.configuration.filters,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeConfigurationOption: (name, value) => dispatch(changeConfigurationOption(name, value)),
+    changeFilter: (name, value) => dispatch(changeFilter(name, value)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

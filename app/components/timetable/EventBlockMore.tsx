@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 import * as Moment from "moment";
 import ITimetableEvent from "../../models/ITimetableEvent";
 
@@ -16,7 +15,7 @@ import IconHelper from "../settings/IconHelper";
 import { IGlobalState } from "../../store/IGlobalState";
 import { openBottomDrawer, closeBottomDrawer } from "../../actions/index";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 const styles = {
   list: {
@@ -35,6 +34,9 @@ declare let navigator: any;
 export default class EventBlockMore extends React.Component<IProps> {
 
   public render() {
+    if (!this.props.event) {
+      return null;
+    }
     const { startTime, endTime } = this.props.event;
     const sideList = (
       <div>

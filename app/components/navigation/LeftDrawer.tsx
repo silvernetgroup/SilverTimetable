@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 import Divider from "material-ui/Divider";
 import Drawer from "material-ui/Drawer";
 import Typography from "material-ui/Typography";
@@ -11,6 +10,9 @@ import Hamburger from "material-ui-icons/Menu";
 
 import { openLeftDrawer, closeLeftDrawer } from "../../actions/index";
 import { connect } from "react-redux";
+import ITimetableFilters from "../../models/ITimetableFilters";
+import { IGlobalState } from "../../store/IGlobalState";
+import ITimetable from "../../models/ITimetable";
 
 const styles = {
   list: {
@@ -22,6 +24,9 @@ interface IProps {
   open: boolean;
   closeLeftDrawer?: any;
   openLeftDrawer?: any;
+
+  filters: ITimetableFilters;
+  timetable: ITimetable;
 }
 
 declare let navigator: any;
@@ -60,14 +65,14 @@ class LeftDrawer extends React.Component<IProps> {
           <div style={{ height: 160, backgroundColor: "#3f51b5", top: 0, display: "flex", marginBottom: 16 }}>
             <div style={{ display: "inline-block", alignSelf: "flex-end", marginLeft: 16, marginBottom: 6 }}>
               <Typography type="headline" gutterBottom style={{ color: "white", marginBottom: 0 }}>
-                {config.get("filters").degree &&
-                  config.get("filters").fieldOfStudy + " (" + config.get("filters").degree + ")"
+                {this.props.filters.degree &&
+                  this.props.filters.fieldOfStudy + " (" + this.props.filters.degree + ")"
                 }
               </Typography>
               <Typography gutterBottom style={{ color: "white" }}>
-                {config.get("filters").mode &&
+                {this.props.filters.mode &&
                   <React.Fragment>
-                    {config.get("filters").mode}, semestr {config.get("filters").semester}
+                    {this.props.filters.mode}, semestr {this.props.filters.semester}
                   </React.Fragment>
                   // react fragment - w razie problemow zaktualizuj vscode
                 }
@@ -103,14 +108,14 @@ class LeftDrawer extends React.Component<IProps> {
             onKeyDown={() => this.props.closeLeftDrawer()}
           >
             {sideList}
-            {config.get("timetable") &&
+            {this.props.timetable &&
               <div style={footerStyle}>
                 <Divider />
                 <Typography type="body1" style={{
                   marginLeft: 16, marginTop: 16, marginBottom: 16,
                   color: "rgba(0, 0, 0, 0.56)",
                 }}>
-                  Ostatnia aktualizacja: <br /> {config.get("timetable").date.replace("T", " ").slice(0, -3)}
+                  {/* Ostatnia aktualizacja: <br /> {this.props.timetable.date.replace("T", " ").slice(0, -3)} */}
                 </Typography>
               </div>
             }
@@ -121,6 +126,13 @@ class LeftDrawer extends React.Component<IProps> {
   }
 }
 
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    filters: state.configuration.filters,
+    timetable: state.timetable,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     openLeftDrawer: () => dispatch(openLeftDrawer()),
@@ -128,4 +140,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LeftDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(LeftDrawer);

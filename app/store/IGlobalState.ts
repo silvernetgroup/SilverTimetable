@@ -8,7 +8,6 @@ export interface IGlobalState {
     timetable: {
         isLoaded: boolean,
         isError: boolean,
-        selectedGroup: string,
         bottomDrawerOpen: boolean,
         data: ITimetable,
     };
