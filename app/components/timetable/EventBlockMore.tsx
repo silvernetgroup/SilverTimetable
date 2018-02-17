@@ -26,7 +26,6 @@ const styles = {
 
 interface IProps {
   event: ITimetableEvent;
-
   bottomDrawerOpen: boolean;
   closeBottomDrawer: any;
 }
