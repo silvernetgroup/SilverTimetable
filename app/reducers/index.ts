@@ -56,7 +56,7 @@ const rootReducer = (state: IGlobalState, action) => {
             return {
                 ...state, configuration: {
                     ...state.configuration,
-                    [action.payload.name]: action.payload.option,
+                    [action.payload.name]: action.payload.value,
                 },
             };
         default:

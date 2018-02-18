@@ -39,7 +39,7 @@ const SwitchListItem = (props: IProps) => {
         <ListItemText primary={props.name} />
         <ListItemSecondaryAction>
           <Switch
-            onChange={(event) => props.onChange(event)}
+            onChange={(event) => props.onChange(event, !props.checked)}
             checked={props.checked}
           />
         </ListItemSecondaryAction>
