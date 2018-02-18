@@ -33,31 +33,6 @@ declare let navigator: any;
 
 class LeftDrawer extends React.Component<IProps> {
 
-  // constructor(props: any) {
-  //   super(props);
-  //   this.state = {
-  //     left: false,
-  //   };
-
-  //   const onBB = () => {
-  //     if (this.props.open) {
-  //       this.props.closeLeftDrawer();
-  //     } else if (window.location.hash === "#/"
-  //       && EventBlocksMoreHolder.eventBlocksMore.some((ebm) => ebm.state.bottom)) {
-  //       EventBlocksMoreHolder.eventBlocksMore.forEach((ebm) => ebm.toggleDrawer(null, false));
-  //     } else if (window.location.hash === "#/") {
-  //       navigator.app.exitApp();
-  //     } else {
-  //       window.location.replace("index.html#/");
-  //     }
-
-  //   };
-  //   document.addEventListener("deviceready", onDeviceReady, false);
-  //   function onDeviceReady() {
-  //     document.addEventListener("backbutton", onBB, true);
-  //   }
-  // }
-
   public render() {
     const sideList = (
       <div style={{ width: 250 }}>
@@ -115,7 +90,8 @@ class LeftDrawer extends React.Component<IProps> {
                   marginLeft: 16, marginTop: 16, marginBottom: 16,
                   color: "rgba(0, 0, 0, 0.56)",
                 }}>
-                  {/* Ostatnia aktualizacja: <br /> {this.props.timetable.date.replace("T", " ").slice(0, -3)} */}
+                  Ostatnia aktualizacja: <br /> {
+                    this.props.timetable.date.replace("T", " ").slice(0, -3)}
                 </Typography>
               </div>
             }
@@ -126,10 +102,11 @@ class LeftDrawer extends React.Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: IGlobalState) => {
+const mapStateToProps: ((state: IGlobalState, ownProps) => IProps) = (state, ownProps) => {
   return {
+    ...ownProps,
     filters: state.configuration.filters,
-    timetable: state.timetable,
+    timetable: state.timetable.data,
   };
 };
 

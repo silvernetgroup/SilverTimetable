@@ -41,7 +41,7 @@ export default class Timetable extends React.Component<IProps> {
     }
 
     public render(): JSX.Element {
-        if (!this.props.filters.semester || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
+        if (!this.props.filters.mode || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
             return (
                 <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
                     <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
