@@ -1,5 +1,5 @@
-import ITimetableFilters from "./ITimetableFilters";
-import ITimetable from "./ITimetable";
+import ITimetableFilters from "../models/ITimetableFilters";
+import ITimetable from "../models/ITimetable";
 
 export default interface IConfiguration {
     filters: ITimetableFilters;

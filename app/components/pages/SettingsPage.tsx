@@ -1,5 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
 
 // material UI
 import List, { ListSubheader } from "material-ui/List";
@@ -9,10 +8,20 @@ import SelectListItem from "../settings/SelectListItem";
 import SwitchListItem from "../settings/SwitchListItem";
 import ITimetable from "../../models/ITimetable";
 import ITimetableFilters from "../../models/ITimetableFilters";
+import { IGlobalState } from "../../store/IGlobalState";
+import { connect } from "react-redux";
+import { changeConfigurationOption, changeFilter } from "../../actions";
+import IConfiguration from "../../store/IConfiguration";
+import TimetableServices from "../../services/TimetableServices";
 
-interface IState {
-  listsEnabled: ISelectListsState;
-  listValues: ISelectListValues;
+interface IProps {
+  timetable: ITimetable;
+  filters: ITimetableFilters;
+  configuration: IConfiguration;
+  selectListsState: ISelectListsState;
+  selectListsValues: ISelectListsValues;
+  changeFilter?(name: string, value: any): any;
+  changeConfigurationOption?(name: string, value: any): any;
 }
 
 interface ISelectListsState {
@@ -25,7 +34,7 @@ interface ISelectListsState {
   academicYear: boolean;
 }
 
-interface ISelectListValues {
+interface ISelectListsValues {
   department: string[];
   fieldOfStudy: string[];
   degree: string[];
@@ -35,196 +44,157 @@ interface ISelectListValues {
   academicYear: string[];
 }
 
-export default class SettingsPage extends React.Component<{}, IState> {
+class SettingsPage extends React.Component<IProps> {
 
-  private academicYearListItem: SelectListItem;
-  private departmentListItem: SelectListItem;
-  private fieldOfStudyListItem: SelectListItem;
-  private degreeListItem: SelectListItem;
-  private semesterListItem: SelectListItem;
-  private modeListItem: SelectListItem;
-  private groupListItem: SelectListItem;
+  public componentWillReceiveProps(props: IProps) {
+    TimetableServices.writeConfigurationFile(props.configuration);
 
-  constructor(props) {
-    super(props);
-    const data = config.get("timetable");
-    this.state = {
-      listsEnabled: this.getSelectListsState(data),
-      listValues: this.getSelectListsValues(data),
-    };
+    if (!props.filters.group && props.configuration.filters.mode) {
+      props.changeFilter("group", props.selectListsValues.group[0]);
+    }
   }
+
   public render(): JSX.Element {
-    const data: ITimetable = config.get("timetable");
     return (
       <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
           <SelectListItem
             name="Rok akademicki"
-            enabled={this.state.listsEnabled.academicYear}
-            options={this.state.listValues.academicYear}
-            configName="academicYear"
-            onChange={() => this.setStateOfSelectLists(data, "academicYear")}
-            ref={(item) => this.academicYearListItem = item}
+            enabled={this.props.selectListsState.academicYear}
+            options={this.props.selectListsValues.academicYear}
+            activeOption={this.props.filters.academicYear}
+            onChange={(event, newValue) => this.props.changeFilter("academicYear", newValue)}
           />
           <SelectListItem
             name="Wydział"
-            enabled={this.state.listsEnabled.department}
-            options={this.state.listValues.department}
-            configName="department"
-            onChange={() => this.setStateOfSelectLists(data, "department")}
-            ref={(item) => this.departmentListItem = item}
+            enabled={this.props.selectListsState.department}
+            options={this.props.selectListsValues.department}
+            activeOption={this.props.filters.department}
+            onChange={(event, newValue) => this.props.changeFilter("department", newValue)}
           />
           <SelectListItem
             name="Kierunek"
-            enabled={this.state.listsEnabled.fieldOfStudy}
-            options={this.state.listValues.fieldOfStudy}
-            configName="fieldOfStudy"
-            onChange={() => this.setStateOfSelectLists(data, "fieldOfStudy")}
-            ref={(item) => this.fieldOfStudyListItem = item}
+            enabled={this.props.selectListsState.fieldOfStudy}
+            options={this.props.selectListsValues.fieldOfStudy}
+            activeOption={this.props.filters.fieldOfStudy}
+            onChange={(event, newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
           />
           <SelectListItem
             name="Stopień"
-            enabled={this.state.listsEnabled.degree}
-            options={this.state.listValues.degree}
-            configName="degree"
-            onChange={() => this.setStateOfSelectLists(data, "degree")}
-            ref={(item) => this.degreeListItem = item}
+            enabled={this.props.selectListsState.degree}
+            options={this.props.selectListsValues.degree}
+            activeOption={this.props.filters.degree}
+            onChange={(event, newValue) => this.props.changeFilter("degree", newValue)}
           />
           <SelectListItem
             name="Semestr"
-            enabled={this.state.listsEnabled.semester}
-            options={this.state.listValues.semester}
-            configName="semester"
-            onChange={() => this.setStateOfSelectLists(data, "semester")}
-            ref={(item) => this.semesterListItem = item}
+            enabled={this.props.selectListsState.semester}
+            options={this.props.selectListsValues.semester}
+            activeOption={this.props.filters.semester}
+            onChange={(event, newValue) => this.props.changeFilter("semester", newValue)}
           />
           <SelectListItem
             name="Tryb"
-            enabled={this.state.listsEnabled.mode}
-            options={this.state.listValues.mode}
-            configName="mode"
-            onChange={() => this.setStateOfSelectLists(data, "mode")}
-            ref={(item) => this.modeListItem = item}
+            enabled={this.props.selectListsState.mode}
+            options={this.props.selectListsValues.mode}
+            activeOption={this.props.filters.mode}
+            onChange={(event, newValue) => this.props.changeFilter("mode", newValue)}
           />
           <SelectListItem
             name="Grupa"
-            enabled={this.state.listsEnabled.group}
-            options={this.state.listValues.group}
-            configName="group"
-            onChange={() => this.setStateOfSelectLists(data, "group")}
-            ref={(item) => this.groupListItem = item}
+            enabled={this.props.selectListsState.group}
+            options={this.props.selectListsValues.group}
+            activeOption={this.props.filters.group}
+            onChange={(event, newValue) => this.props.changeFilter("group", newValue)}
           />
         </List>
         <List subheader={<ListSubheader>Inne</ListSubheader>}>
-          <SwitchListItem name="Szybka zmiana grupy " iconName="Top" configName="allowQuickGroupChange" />
+          <SwitchListItem
+            name="Szybka zmiana grupy "
+            iconName="SwapHoriz"
+            checked={this.props.configuration.allowQuickGroupChange}
+            onChange={(event, newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)}
+          />
         </List>
       </div>
     );
   }
+}
 
-  private getAvailableOptions(optionName: string, filterKeys: string[], data: ITimetable): string[] {
-    if (!this.shouldBeEnabled(optionName, filterKeys, data)) {
+const getAvailableOptions:
+  ((optionName: string, filterKeys: string[], data: ITimetable, filters: ITimetableFilters) => string[]) =
+  (optionName, filterKeys, data, filters) => {
+
+    if (!data) {
       return [];
     }
 
     const resultsSet: Set<string> = new Set<string>();
-    const filters: ITimetableFilters = config.get("filters");
 
     data
       .events
-      .filter((event) => filterKeys
+      .filter((event, newValue) => filterKeys
         .every((key) => event[key] === filters[key]))
-      .forEach((event) => resultsSet.add(optionName === "group"
+      .forEach((event, newValue) => resultsSet.add(optionName === "group"
         ? event.specialization || event.group.toString()
         : event[optionName]));
 
     return [...resultsSet];
-  }
+  };
 
-  private shouldBeEnabled(optionName: string, filterKeys: string[], data: ITimetable): boolean {
-    if (!data || filterKeys.some((value) => !config.get("filters")[value])) {
+const shouldBeEnabled:
+  ((optionName: string, filterKeys: string[], data: ITimetable, filters: ITimetableFilters) => boolean) =
+  (optionName, filterKeys, data, filters) => {
+    if (!data || filterKeys.some((value) => !filters[value])) {
       return false;
     }
     return true;
-  }
+  };
 
-  private getSelectListsState(data: ITimetable): ISelectListsState {
+const getSelectListsState: ((data: ITimetable, filters: ITimetableFilters) => ISelectListsState) = (data, filters) => {
+  return {
+    academicYear: shouldBeEnabled("academicYear", [], data, filters),
+    department: shouldBeEnabled("department", ["academicYear"], data, filters),
+    fieldOfStudy: shouldBeEnabled("fieldOfStudy", ["department", "academicYear"], data, filters),
+    degree: shouldBeEnabled("degree", ["department", "fieldOfStudy", "academicYear"], data, filters),
+    semester: shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data, filters),
+    mode: shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"], data, filters),
+    group: shouldBeEnabled("group",
+      ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data, filters),
+  };
+};
+
+const getSelectListsValues: ((data: ITimetable, filters: ITimetableFilters) => ISelectListsValues) =
+  (data, filters) => {
     return {
-      academicYear: this.shouldBeEnabled("academicYear", [], data),
-      department: this.shouldBeEnabled("department", ["academicYear"], data),
-      fieldOfStudy: this.shouldBeEnabled("fieldOfStudy", ["department", "academicYear"], data),
-      degree: this.shouldBeEnabled("degree", ["department", "fieldOfStudy", "academicYear"], data),
-      semester: this.shouldBeEnabled("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
-      mode: this.shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"], data),
-      group: this.shouldBeEnabled("group",
-        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
+      academicYear: getAvailableOptions("academicYear", [], data, filters),
+      department: getAvailableOptions("department", ["academicYear"], data, filters),
+      fieldOfStudy: getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data, filters),
+      degree: getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data, filters),
+      semester: getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"],
+        data, filters),
+      mode: getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"],
+        data, filters),
+      group: getAvailableOptions("group",
+        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data, filters),
     };
-  }
+  };
 
-  private getSelectListsValues(data: ITimetable): ISelectListValues {
-    return {
-      academicYear: this.getAvailableOptions("academicYear", [], data),
-      department: this.getAvailableOptions("department", ["academicYear"], data),
-      fieldOfStudy: this.getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data),
-      degree: this.getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data),
-      semester: this.getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"], data),
-      mode: this.getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"],
-        data),
-      group: this.getAvailableOptions("group",
-        ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data),
-    };
-  }
+const mapStateToProps: ((state: IGlobalState) => IProps) = (state) => {
+  return {
+    timetable: state.timetable.data,
+    filters: state.configuration.filters,
+    configuration: state.configuration,
+    selectListsState: getSelectListsState(state.timetable.data, state.configuration.filters),
+    selectListsValues: getSelectListsValues(state.timetable.data, state.configuration.filters),
+  };
+};
 
-  private setStateOfSelectLists(data: ITimetable, resetRoot: string) {
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeConfigurationOption: (name, value) => dispatch(changeConfigurationOption(name, value)),
+    changeFilter: (name, value) => dispatch(changeFilter(name, value)),
+  };
+};
 
-    const values = this.getSelectListsValues(data);
-
-    switch (resetRoot) {
-      case "academicYear":
-      this.departmentListItem.reset();
-      let temp = config.get();
-      temp.filters.department = null;
-      config.set(temp);
-      break;
-      case "department":
-      this.fieldOfStudyListItem.reset();
-      temp = config.get();
-      temp.filters.fieldOfStudy = null;
-      config.set(temp);
-      break;
-      case "fieldOfStudy":
-      this.degreeListItem.reset();
-      temp = config.get();
-      temp.filters.degree = null;
-      config.set(temp);
-      break;
-      case "degree":
-      this.semesterListItem.reset();
-      temp = config.get();
-      temp.filters.semester = null;
-      config.set(temp);
-      break;
-      case "semester":
-      this.modeListItem.reset();
-      temp = config.get();
-      temp.filters.mode = null;
-      config.set(temp);
-      break;
-      case "mode":
-      this.groupListItem.reset();
-      temp = config.get();
-      temp.filters.group = null;
-      config.set(temp);
-      break;
-      default:
-      break;
-    }
-
-    const enabled = this.getSelectListsState(data);
-
-    this.setState({
-      listsEnabled: enabled,
-      listValues: values,
-    });
-  }
-}
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

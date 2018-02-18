@@ -1,5 +1,4 @@
 import ITimetable from "../models/ITimetable";
-import config from "react-global-configuration";
 
 export default class FileManager {
 
@@ -33,7 +32,7 @@ export default class FileManager {
         return new Promise<any>((resolve, reject) => {
             const reader = new FileReader();
             fileEntry.file((file) => {
-                reader.onloadend = function () {
+                reader.onloadend = function() {
                     resolve(this.result ? JSON.parse(this.result) : null);
                 };
                 reader.onerror = (ev) => {

@@ -2,7 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import ITimetable from "../models/ITimetable";
 import FileManager from "./FileManager";
-import IConfiguration from "../models/IConfiguration";
+import IConfiguration from "../store/IConfiguration";
 import * as Moment from "moment";
 import ITimetableFilters from "../models/ITimetableFilters";
 

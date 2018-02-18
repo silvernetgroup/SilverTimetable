@@ -228,6 +228,6 @@ plugins/
 *.keystore
 
 
-*.jks
-
 *.der
+
+*.jks
