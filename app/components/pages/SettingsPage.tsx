@@ -48,6 +48,10 @@ class SettingsPage extends React.Component<IProps> {
 
   public componentWillReceiveProps(props: IProps) {
     TimetableServices.writeConfigurationFile(props.configuration);
+
+    if (!props.filters.group && props.configuration.filters.mode) {
+      props.changeFilter("group", props.selectListsValues.group[0]);
+    }
   }
 
   public render(): JSX.Element {
