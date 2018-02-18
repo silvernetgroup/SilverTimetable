@@ -6,6 +6,7 @@ import {
   ListItemText,
 } from "material-ui/List";
 import Switch from "material-ui/Switch";
+import { SwapHoriz } from "material-ui-icons";
 
 interface IProps {
   name: string;
@@ -24,12 +25,16 @@ const padding: any = {
 };
 
 const SwitchListItem = (props: IProps) => {
-  const IconName = props.iconName;
+// tslint:disable:object-literal-shorthand
+  const icons = {
+    SwapHoriz: SwapHoriz,
+  };
+  const IconName = icons[props.iconName];
   return (
     <div>
       <ListItem>
         <ListItemIcon>
-          <IconName/>
+          <IconName />
         </ListItemIcon>
         <ListItemText primary={props.name} />
         <ListItemSecondaryAction>

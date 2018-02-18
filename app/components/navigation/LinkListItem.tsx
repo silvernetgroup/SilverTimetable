@@ -10,6 +10,8 @@ import {
   ListItemText,
 } from "material-ui/List";
 
+import { Event, Settings, Map, Info, Public } from "material-ui-icons";
+
 interface IProps {
   name: string;
   iconName: string;
@@ -26,35 +28,42 @@ const padding: any = {
   padding: "16px",
   paddingTop: "0px",
 };
-
-export default class SwitchListItem extends React.Component<IProps> {
+// tslint:disable:object-literal-shorthand
+export default class LinkListItem extends React.Component<IProps> {
 
   public render(): JSX.Element {
-    const IconName = this.props.iconName;
+    const icons = {
+      Map: Map,
+      Info: Info,
+      Event: Event,
+      Settings: Settings,
+      Public: Public,
+    };
+    const Icon = icons[this.props.iconName];
     if (this.props.linkPage === null) {
       return (
         <div>
-            <ListItem
-              button
-              onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
-              {...{} as any}
-              style={{color: this.props.color}}
-            >
-              <ListItemIcon>
-                <IconName/>
-              </ListItemIcon>
-              <ListItemText primary={this.props.name} />
-            </ListItem>
+          <ListItem
+            button
+            onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
+            {...{} as any}
+            style={{ color: this.props.color }}
+          >
+            <ListItemIcon>
+              <Icon/>
+            </ListItemIcon>
+            <ListItemText primary={this.props.name} />
+          </ListItem>
         </div>
       );
     } else {
       return (
         <div>
           <NavLink to={this.props.linkPage}
-          style={{textDecoration: "none", color: this.props.color}}>
+            style={{ textDecoration: "none", color: this.props.color }}>
             <ListItem button>
               <ListItemIcon>
-                <IconName/>
+                <Icon/>
               </ListItemIcon>
               <ListItemText primary={this.props.name} />
             </ListItem>

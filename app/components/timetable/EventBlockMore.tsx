@@ -45,7 +45,7 @@ export default class EventBlockMore extends React.Component<IProps> {
           <div style={{ color: "black", marginTop: 6 }}>
             <LinkListItem
               name="Strona wykładowcy"
-              iconName="Website"
+              iconName="Public"
               linkPage={null}
               color="black"
               onClick={() => LecturersPages.openLecturersPage(this.props.event)}

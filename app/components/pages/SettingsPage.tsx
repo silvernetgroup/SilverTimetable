@@ -72,7 +72,7 @@ class SettingsPage extends React.Component<IProps> {
             name="Kierunek"
             enabled={this.props.selectListsState.fieldOfStudy}
             options={this.props.selectListsValues.fieldOfStudy}
-            activeOption={this.props.filters.department}
+            activeOption={this.props.filters.fieldOfStudy}
             onChange={(event, newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
           />
           <SelectListItem
@@ -107,7 +107,7 @@ class SettingsPage extends React.Component<IProps> {
         <List subheader={<ListSubheader>Inne</ListSubheader>}>
           <SwitchListItem
             name="Szybka zmiana grupy "
-            iconName="Top"
+            iconName="SwapHoriz"
             checked={this.props.configuration.allowQuickGroupChange}
             onChange={(event, newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)}
           />
