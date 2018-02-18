@@ -16,6 +16,7 @@ import { IGlobalState } from "../../store/IGlobalState";
 import { openBottomDrawer, closeBottomDrawer } from "../../actions/index";
 
 import { connect } from "react-redux";
+import LecturersPages from "../../services/LecturersPages";
 
 const styles = {
   list: {
@@ -56,6 +57,7 @@ export default class EventBlockMore extends React.Component<IProps> {
               iconName="Website"
               linkPage={null}
               color="black"
+              onClick={() => LecturersPages.openLecturersPage(this.props.event)}
             />
             {this.renderRoom()}
           </div>

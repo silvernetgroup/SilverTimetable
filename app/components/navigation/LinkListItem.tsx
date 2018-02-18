@@ -30,12 +30,7 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, {}> {
-  public static defaultProps: IProps = {
-    name: "error",
-    iconName: "Settings",
-    color: "#4F4F4F",
-};
+export default class SwitchListItem extends React.Component<IProps> {
 
   public render(): JSX.Element {
     if (this.props.linkPage === null) {

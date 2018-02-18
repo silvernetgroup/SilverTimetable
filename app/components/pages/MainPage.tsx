@@ -53,7 +53,8 @@ class MainPage extends React.Component<IProps, IState> {
         document.addEventListener("deviceready", onDeviceReady, false);
 
         this.state = {
-            selectedDay: this.currentDay(this.props.timetableFilters.mode),
+            // selectedDay: this.currentDay(this.props.timetableFilters.mode),
+            selectedDay: 1,
             selectedEvent: null,
         };
     }
@@ -113,6 +114,7 @@ class MainPage extends React.Component<IProps, IState> {
         } else {
             console.log("jest konfiguracja w pamięci");
             this.props.loadConfiguration(configurationData);
+            this.setState({ selectedDay: this.currentDay(this.props.timetableFilters.mode) });
         }
     }
 
