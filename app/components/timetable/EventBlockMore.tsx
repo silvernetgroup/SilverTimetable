@@ -41,15 +41,15 @@ export default class EventBlockMore extends React.Component<IProps> {
             {this.renderLecturers()}
             {this.renderRemarks()}
           </div>
-          <Divider />
+          {/* <Divider /> */}
           <div style={{ color: "black", marginTop: 6 }}>
-            <LinkListItem
+            {/* <LinkListItem
               name="Strona wykładowcy"
               iconName="Public"
               linkPage={null}
               color="black"
               onClick={() => LecturersPages.openLecturersPage(this.props.event)}
-            />
+            /> */}
             {this.renderRoom()}
           </div>
         </List>
