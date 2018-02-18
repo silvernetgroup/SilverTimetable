@@ -104,6 +104,8 @@ class MainPage extends React.Component<IProps, IState> {
             if (!timetableData) {
                 console.log("nie ma internetu i planu w pamieci");
                 this.props.timetableLoadFailure();
+            } else {
+                this.props.timetableLoadSuccess(timetableData);
             }
         }
 

@@ -125,6 +125,10 @@ const getAvailableOptions:
   ((optionName: string, filterKeys: string[], data: ITimetable, filters: ITimetableFilters) => string[]) =
   (optionName, filterKeys, data, filters) => {
 
+    if (!data) {
+      return [];
+    }
+
     const resultsSet: Set<string> = new Set<string>();
 
     data
