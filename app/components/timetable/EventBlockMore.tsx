@@ -1,21 +1,12 @@
 import * as React from "react";
-import * as Moment from "moment";
 import ITimetableEvent from "../../models/ITimetableEvent";
-
 import Divider from "material-ui/Divider";
 import Drawer from "material-ui/Drawer";
 import Typography from "material-ui/Typography";
 import List from "material-ui/List";
-import IconButton from "material-ui/IconButton";
 import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
-
-import IconHelper from "../settings/IconHelper";
-import { IGlobalState } from "../../store/IGlobalState";
-import { openBottomDrawer, closeBottomDrawer } from "../../actions/index";
-
-import { connect } from "react-redux";
 import LecturersPages from "../../services/LecturersPages";
 
 const styles = {

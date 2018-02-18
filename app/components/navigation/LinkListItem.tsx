@@ -10,9 +10,6 @@ import {
   ListItemText,
 } from "material-ui/List";
 
-// settings Components
-import IconHelper from "../settings/IconHelper";
-
 interface IProps {
   name: string;
   iconName: string;
@@ -33,6 +30,7 @@ const padding: any = {
 export default class SwitchListItem extends React.Component<IProps> {
 
   public render(): JSX.Element {
+    const IconName = this.props.iconName;
     if (this.props.linkPage === null) {
       return (
         <div>
@@ -43,7 +41,7 @@ export default class SwitchListItem extends React.Component<IProps> {
               style={{color: this.props.color}}
             >
               <ListItemIcon>
-                <IconHelper iconName={this.props.iconName} />
+                <IconName/>
               </ListItemIcon>
               <ListItemText primary={this.props.name} />
             </ListItem>
@@ -56,7 +54,7 @@ export default class SwitchListItem extends React.Component<IProps> {
           style={{textDecoration: "none", color: this.props.color}}>
             <ListItem button>
               <ListItemIcon>
-                <IconHelper iconName={this.props.iconName}/>
+                <IconName/>
               </ListItemIcon>
               <ListItemText primary={this.props.name} />
             </ListItem>
