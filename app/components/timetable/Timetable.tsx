@@ -114,7 +114,7 @@ export default class Timetable extends React.Component<IProps> {
                 groupNamesSet.add(event.specialization || event.group.toString());
             });
 
-        return [...groupNamesSet];
+        return [...groupNamesSet].sort();
     }
 
     // private saveCurrentGroup() {
@@ -133,7 +133,7 @@ export default class Timetable extends React.Component<IProps> {
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
                             value={this.props.filters.group}
-                            onChange={this.props.handleGroupChange}
+                            onChange={(event, value) => this.props.handleGroupChange(value)}
                             fullWidth
                             scrollable
                             {...{} as any}
@@ -161,8 +161,9 @@ export default class Timetable extends React.Component<IProps> {
         );
     }
 
-    private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-                              dayOfWeek: number, group: string): JSX.Element[] {
+    private renderEventBlocks(
+        data: ITimetable, filters: ITimetableFilters,
+        dayOfWeek: number, group: string): JSX.Element[] {
 
         const dayNames: any = {
             1: "PN",
@@ -211,12 +212,4 @@ export default class Timetable extends React.Component<IProps> {
 
         return elements;
     }
-
-    // private handleDayChange = (event: any, value: any) => {
-    //     this.setState({ selectedDay: value });
-    // }
-
-    // private handleGroupChange = (event: any, value: string) => {
-    //     this.setState({ selectedGroup: value });
-    // }
 }

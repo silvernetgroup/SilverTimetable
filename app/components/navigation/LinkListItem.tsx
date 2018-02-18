@@ -29,50 +29,49 @@ const padding: any = {
   paddingTop: "0px",
 };
 // tslint:disable:object-literal-shorthand
-export default class LinkListItem extends React.Component<IProps> {
-
-  public render(): JSX.Element {
-    const icons = {
-      Map: Map,
-      Info: Info,
-      Event: Event,
-      Settings: Settings,
-      Public: Public,
-    };
-    const Icon = icons[this.props.iconName];
-    if (this.props.linkPage === null) {
-      return (
-        <div>
-          <ListItem
-            button
-            onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
-            {...{} as any}
-            style={{ color: this.props.color }}
-          >
+const LinkListItem = (props: IProps) => {
+  const icons = {
+    Map: Map,
+    Info: Info,
+    Event: Event,
+    Settings: Settings,
+    Public: Public,
+  };
+  const Icon = icons[props.iconName];
+  if (props.linkPage === null) {
+    return (
+      <div>
+        <ListItem
+          button
+          onClick={(timetableEvent, event) => props.onClick(timetableEvent)}
+          {...{} as any}
+          style={{ color: props.color }}
+        >
+          <ListItemIcon>
+            <Icon />
+          </ListItemIcon>
+          <ListItemText primary={props.name} />
+        </ListItem>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <NavLink to={props.linkPage}
+          style={{ textDecoration: "none", color: props.color }}
+          onClick={props.onClick ? (timetableEvent, event) => props.onClick(timetableEvent) : null}
+          {...{} as any}
+        >
+          <ListItem button>
             <ListItemIcon>
               <Icon />
             </ListItemIcon>
-            <ListItemText primary={this.props.name} />
+            <ListItemText primary={props.name} />
           </ListItem>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <NavLink to={this.props.linkPage}
-            style={{ textDecoration: "none", color: this.props.color }}
-            onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
-            {...{} as any}
-          >
-            <ListItem button>
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListItemText primary={this.props.name} />
-            </ListItem>
-          </NavLink>
-        </div>
-      );
-    }
+        </NavLink>
+      </div>
+    );
   }
-}
+};
+
+export default LinkListItem;

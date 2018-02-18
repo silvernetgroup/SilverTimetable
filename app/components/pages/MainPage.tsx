@@ -14,12 +14,12 @@ import { IGlobalState } from "../../store/IGlobalState";
 import { connect } from "react-redux";
 import {
     loadTimetableRequest,
-    changeGroup,
     openBottomDrawer,
     closeBottomDrawer,
     loadTimetableSuccess,
     loadTimetableFailure,
     loadConfiguration,
+    changeFilter,
 } from "../../actions";
 
 interface IProps {
@@ -146,7 +146,7 @@ class MainPage extends React.Component<IProps, IState> {
                             selectedEvent={this.state.selectedEvent}
                             bottomDrawerOpen={this.props.timetableConfig.bottomDrawerOpen}
                             quickGroupChangeAllowed={this.props.configuration.allowQuickGroupChange}
-                            handleGroupChange={this.props.changeGroup}
+                            handleGroupChange={(group) => this.props.changeGroup(group)}
                             onDayChange={this.changeDay}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                             onBottomDrawerClose={this.props.closeBottomDrawer}
@@ -263,7 +263,7 @@ const mapStateToProps = (state: IGlobalState) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeGroup: (group) => dispatch(changeGroup(group)),
+        changeGroup: (group) => dispatch(changeFilter("group", group)),
         openBottomDrawer: () => dispatch(openBottomDrawer()),
         closeBottomDrawer: () => dispatch(closeBottomDrawer()),
         timetableLoadRequest: () => dispatch(loadTimetableRequest()),
