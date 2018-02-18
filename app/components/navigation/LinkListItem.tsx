@@ -50,7 +50,7 @@ export default class LinkListItem extends React.Component<IProps> {
             style={{ color: this.props.color }}
           >
             <ListItemIcon>
-              <Icon/>
+              <Icon />
             </ListItemIcon>
             <ListItemText primary={this.props.name} />
           </ListItem>
@@ -60,10 +60,13 @@ export default class LinkListItem extends React.Component<IProps> {
       return (
         <div>
           <NavLink to={this.props.linkPage}
-            style={{ textDecoration: "none", color: this.props.color }}>
+            style={{ textDecoration: "none", color: this.props.color }}
+            onClick={(timetableEvent, event) => this.props.onClick(timetableEvent)}
+            {...{} as any}
+          >
             <ListItem button>
               <ListItemIcon>
-                <Icon/>
+                <Icon />
               </ListItemIcon>
               <ListItemText primary={this.props.name} />
             </ListItem>
