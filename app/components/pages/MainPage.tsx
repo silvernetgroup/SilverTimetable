@@ -114,7 +114,10 @@ class MainPage extends React.Component<IProps, IState> {
         } else {
             console.log("jest konfiguracja w pamięci");
             this.props.loadConfiguration(configurationData);
-            this.setState({ selectedDay: this.currentDay(this.props.timetableFilters.mode) });
+            this.setState({
+                selectedDay: this.currentDay(this.props.timetableFilters.mode),
+                selectedEvent: this.props.timetableData.events[0],
+            });
         }
     }
 

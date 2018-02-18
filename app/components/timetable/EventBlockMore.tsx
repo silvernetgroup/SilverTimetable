@@ -63,19 +63,13 @@ export default class EventBlockMore extends React.Component<IProps> {
     };
     return (
       <div>
-        {/* <IconButton
-          onClick={(event) => this.toggleDrawer(event, true)}
-          style={{ color: "#787878", width: 34, height: 24, marginTop: 6 }}
-        >
-          <IconHelper iconName="More" />
-        </IconButton> */}
         <Drawer anchor="bottom" open={this.props.bottomDrawerOpen}
           onClose={(event) => this.props.closeBottomDrawer()}>
           <div
             tabIndex={0}
             role="button"
-            onClick={() => this.props.closeBottomDrawer()}
-            onKeyDown={() => this.props.closeBottomDrawer()}
+            // onClick={() => this.props.closeBottomDrawer()}
+            // onKeyDown={() => this.props.closeBottomDrawer()}
           >
             {sideList}
           </div>
@@ -83,21 +77,6 @@ export default class EventBlockMore extends React.Component<IProps> {
       </div>
     );
   }
-
-  // public toggleDrawer(event, open) {
-  //   try {
-  //     if ((event.target.className.startsWith("MuiBackdrop")
-  //     || event.target.className.startsWith("jss")) && open) {
-  //       return;
-  //     }
-  //   } catch {
-  //     // ignore no string classNames
-  //   }
-
-  //   this.setState({
-  //     bottom: open,
-  //   });
-  // }
 
   private renderRoom() {
     let location = "/floor";

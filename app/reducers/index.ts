@@ -12,6 +12,7 @@ import {
     LOAD_CONFIGURATION,
 } from "../constants/action-types";
 import { IGlobalState } from "../store/IGlobalState";
+import ITimetableFilters from "../models/ITimetableFilters";
 
 const rootReducer = (state: IGlobalState, action) => {
     switch (action.type) {
@@ -37,7 +38,7 @@ const rootReducer = (state: IGlobalState, action) => {
                 },
             };
         case LOAD_CONFIGURATION:
-            return{
+            return {
                 ...state,
                 configuration: action.payload,
             };
@@ -46,7 +47,7 @@ const rootReducer = (state: IGlobalState, action) => {
                 ...state, configuration: {
                     ...state.configuration,
                     filters: {
-                        ...state.configuration.filters,
+                        ...resetDependingFilters(state.configuration.filters, action.payload.name),
                         [action.payload.name]: action.payload.value,
                     },
                 },
@@ -62,5 +63,58 @@ const rootReducer = (state: IGlobalState, action) => {
             return state;
     }
 };
+
+const resetDependingFilters: ((filters: ITimetableFilters, optionName: string) => ITimetableFilters) =
+    (filters, optionName) => {
+        switch (optionName) {
+            case "academicYear":
+                return {
+                    ...filters,
+                    department: null,
+                    fieldOfStudy: null,
+                    degree: null,
+                    semester: null,
+                    mode: null,
+                    group: null,
+                };
+            case "department":
+                return {
+                    ...filters,
+                    fieldOfStudy: null,
+                    degree: null,
+                    semester: null,
+                    mode: null,
+                    group: null,
+                };
+            case "fieldOfStudy":
+                return {
+                    ...filters,
+                    degree: null,
+                    semester: null,
+                    mode: null,
+                    group: null,
+                };
+            case "degree":
+                return {
+                    ...filters,
+                    semester: null,
+                    mode: null,
+                    group: null,
+                };
+            case "semester":
+                return {
+                    ...filters,
+                    mode: null,
+                    group: null,
+                };
+            case "mode":
+                return {
+                    ...filters,
+                    group: null,
+                };
+            default:
+                return filters;
+        }
+    };
 
 export default rootReducer;
