@@ -81,7 +81,7 @@ const LeftDrawer = (props: IProps) => {
                 color: "rgba(0, 0, 0, 0.56)",
               }}>
                 Ostatnia aktualizacja: <br /> {
-                  props.updateDate.replace("T", " ").slice(0, -3)}
+                  props.updateDate.replace("T", " ").slice(0, -5)}
               </Typography>
             </div>
           }
