@@ -5,6 +5,7 @@ import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import IconButton from "material-ui/IconButton";
 import { Swipeable } from "react-touch";
+import { connect } from "react-redux";
 
 // Icons
 import Refresh from "material-ui-icons/Refresh";
@@ -12,6 +13,9 @@ import Refresh from "material-ui-icons/Refresh";
 import { Route, Switch } from "react-router-dom";
 
 import LeftDrawer from "./LeftDrawer";
+import ITimetableFilters from "../../models/ITimetableFilters";
+import { IGlobalState } from "../../store/IGlobalState";
+import { openLeftDrawer, closeLeftDrawer } from "../../actions";
 
 const styles: any = (theme) => ({
   flex: {
@@ -28,18 +32,34 @@ const testPadding: any = {
   padding: "7px",
 };
 
-function ButtonAppBar(props: any): JSX.Element {
+interface IProps {
+  leftDrawerOpen: boolean;
+  filters: ITimetableFilters;
+  updateDate: string;
+  classes: any;
+  onRefreshClick: any;
+
+  openLeftDrawer: any;
+  closeLeftDrawer: any;
+}
+
+const ButtonAppBar = (props: IProps) => {
   const { classes } = props;
-  let leftDrawer: LeftDrawer;
   return (
     <React.Fragment>
-      <Swipeable onSwipeRight={() => {leftDrawer.toggleDrawer(true); }}>
-        <div style={{position: "absolute", height: "100%", width: "5%" }}/>
+      <Swipeable onSwipeRight={props.leftDrawerOpen}>
+          <div style={{position: "absolute", height: "100%", width: "5%" }}/>
       </Swipeable>
       <div className={classes.root}>
         <AppBar style={testPadding}>
           <Toolbar style={{ paddingRight: 6 }}>
-            <LeftDrawer ref = {(lfdr) => leftDrawer = lfdr}/>
+            <LeftDrawer
+              open={props.leftDrawerOpen}
+              filters={props.filters}
+              updateDate={props.updateDate}
+              openLeftDrawer={props.openLeftDrawer}
+              closeLeftDrawer={props.closeLeftDrawer}
+            />
             <Switch>
               <Route exact path="/" render={() => (
                 <React.Fragment>
@@ -64,6 +84,22 @@ function ButtonAppBar(props: any): JSX.Element {
       </div>
     </React.Fragment>
   );
-}
+};
 
-export default withStyles(styles)(ButtonAppBar);
+const mapStateToProps: ((state: IGlobalState, ownProps: any) => IProps) = (state, ownProps) => {
+  return {
+    leftDrawerOpen: state.navigationToolbar.leftDrawerOpen,
+    filters: state.configuration.filters,
+    updateDate: state.timetable.data ? state.timetable.data.date : null,
+    ...ownProps,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openLeftDrawer: () => dispatch(openLeftDrawer()),
+    closeLeftDrawer: () => dispatch(closeLeftDrawer()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ButtonAppBar));

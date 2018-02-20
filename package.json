@@ -1,6 +1,6 @@
 {
   "name": "silvertimetable",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -44,9 +44,10 @@
     "phonegap-plugin-push": "^2.1.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
-    "react-global-configuration": "^1.2.0",
+    "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
     "typescript": "^2.6.1"
   },
   "cordova": {
