@@ -10,22 +10,20 @@ import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
 import PullRefresh from "react-pullrefresh";
 import Typography from "material-ui/Typography";
-
-// Config
-import config from "react-global-configuration";
+import EventBlockMore from "./EventBlockMore";
 
 interface IProps {
     data: ITimetable;
     filters: ITimetableFilters;
-    defaultDay?: number;
-    defaultGroup?: string;
-    onEventBlockClick(event: ITimetableEvent): void;
-    mainPageRefresh(): void;
-}
-
-interface IState {
     selectedDay: number;
-    selectedGroup: string;
+    selectedEvent: ITimetableEvent;
+    bottomDrawerOpen: boolean;
+    quickGroupChangeAllowed: boolean;
+    handleGroupChange: any;
+    onDayChange: any;
+    onBottomDrawerClose: any;
+    onEventBlockClick(event: ITimetableEvent): void;
+    onTimetableRefresh(): void;
 }
 
 interface IGroupNumberNamePair {
@@ -33,18 +31,19 @@ interface IGroupNumberNamePair {
     name: string;
 }
 
-export default class Timetable extends React.Component<IProps, IState> {
+export default class Timetable extends React.Component<IProps> {
     constructor(props: IProps) {
         super(props);
         const groupNames = this.generateGroupNames(props.data, props.filters);
-        this.state = {
-            selectedDay: props.defaultDay || 0,
-            selectedGroup: config.get("filters").group || groupNames[0],
-        };
+        // this.state = {
+        //     selectedDay: props.selectedDay || 0,
+        //     selectedGroup: config.get("filters").group || groupNames[0],
+        //     selectedEvent: null,
+        // };
     }
 
     public render(): JSX.Element {
-        if (!this.props.filters.semester || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
+        if (!this.props.filters.mode || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
             return (
                 <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
                     <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
@@ -61,15 +60,20 @@ export default class Timetable extends React.Component<IProps, IState> {
             <div className="timetable-container">
                 <AppBar style={{ position: "relative", color: "white" }}>
                     <Tabs
-                        value={this.state.selectedDay}
-                        onChange={this.handleDayChange}
+                        value={this.props.selectedDay}
+                        onChange={this.props.onDayChange}
                         scrollable
                         fullWidth
                     >
                         {this.renderDayTabs(this.props.filters.mode)}
                     </Tabs>
                 </AppBar>
-                {this.renderDayTab(this.props.data, this.props.filters, this.state.selectedDay)}
+                {this.renderDayTab(this.props.data, this.props.filters, this.props.selectedDay)}
+                <EventBlockMore
+                    event={this.props.selectedEvent}
+                    closeBottomDrawer={this.props.onBottomDrawerClose}
+                    bottomDrawerOpen={this.props.bottomDrawerOpen}
+                />
             </div>
         );
     }
@@ -77,7 +81,7 @@ export default class Timetable extends React.Component<IProps, IState> {
     private ensureFilteredValuesExist(filters: ITimetableFilters, timetable: ITimetable): boolean {
         return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]
             || ((key === "group") && event.specialization === filters.group)
-            || (!filters.group && config.get().allowQuickGroupChange)));
+            || (!filters.group && this.props.quickGroupChangeAllowed)));
     }
 
     private renderDayTabs(mode: string): JSX.Element[] {
@@ -112,14 +116,14 @@ export default class Timetable extends React.Component<IProps, IState> {
                 groupNamesSet.add(event.specialization || event.group.toString());
             });
 
-        return [...groupNamesSet];
+        return [...groupNamesSet].sort();
     }
 
-    private saveCurrentGroup() {
-        const temp = config.get();
-        temp.filters.group = this.state.selectedGroup;
-        config.set(temp);
-    }
+    // private saveCurrentGroup() {
+    //     const temp = config.get();
+    //     temp.filters.group = this.props.selectedGroup;
+    //     config.set(temp);
+    // }
 
     private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDay: number): JSX.Element {
 
@@ -127,11 +131,11 @@ export default class Timetable extends React.Component<IProps, IState> {
 
         return (
             <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                {config.get("allowQuickGroupChange") === true &&
+                {this.props.quickGroupChangeAllowed &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
-                            value={this.state.selectedGroup}
-                            onChange={this.handleGroupChange}
+                            value={this.props.filters.group}
+                            onChange={(event, value) => this.props.handleGroupChange(value)}
                             fullWidth
                             scrollable
                             {...{} as any}
@@ -150,10 +154,10 @@ export default class Timetable extends React.Component<IProps, IState> {
                         </Tabs>
                     </AppBar>
                 }
-                {this.saveCurrentGroup()}
+                {/* {this.saveCurrentGroup()} */}
                 <div className="event-blocks-container">
-                    <PullRefresh onRefresh={() => this.props.mainPageRefresh()} style={{position: "relative"}}>
-                        {this.renderEventBlocks(data, filters, selectedDay, this.state.selectedGroup)}
+                    <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{position: "relative"}}>
+                        {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
                     </PullRefresh>
                 </div>
             </div >
@@ -161,8 +165,9 @@ export default class Timetable extends React.Component<IProps, IState> {
         );
     }
 
-    private renderEventBlocks(data: ITimetable, filters: ITimetableFilters,
-                              dayOfWeek: number, group: string): JSX.Element[] {
+    private renderEventBlocks(
+        data: ITimetable, filters: ITimetableFilters,
+        dayOfWeek: number, group: string): JSX.Element[] {
 
         const dayNames: any = {
             1: "PN",
@@ -195,7 +200,7 @@ export default class Timetable extends React.Component<IProps, IState> {
         result.forEach((event, index) => elements.push(
             <React.Fragment key={index + 1}>
                 <EventBlock
-                    {...event}
+                    event={event}
                     onClick={() => this.props.onEventBlockClick(event)}
                     order={index + 1}
                 />
@@ -210,13 +215,5 @@ export default class Timetable extends React.Component<IProps, IState> {
         }
 
         return elements;
-    }
-
-    private handleDayChange = (event: any, value: any) => {
-        this.setState({ selectedDay: value });
-    }
-
-    private handleGroupChange = (event: any, value: string) => {
-        this.setState({ selectedGroup: value });
     }
 }

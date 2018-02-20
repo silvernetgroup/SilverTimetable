@@ -6,52 +6,70 @@ import CircularProgress from "material-ui/Progress/CircularProgress";
 import LecturersPages from "../../services/LecturersPages";
 import ErrorPage from "../Pages/ErrorPage";
 import Timetable from "../timetable/Timetable";
-import config from "react-global-configuration";
 import TimetableServices from "../../services/TimetableServices";
-import defaultConfig from "../../DefaultConfiguration";
-import IConfiguration from "../../models/IConfiguration";
+import IConfiguration from "../../store/IConfiguration";
+import { initialState } from "../../store/index";
 import ToastServices from "../../services/ToastServices";
+import { IGlobalState } from "../../store/IGlobalState";
+import { connect } from "react-redux";
+import {
+    loadTimetableRequest,
+    openBottomDrawer,
+    closeBottomDrawer,
+    loadTimetableSuccess,
+    loadTimetableFailure,
+    loadConfiguration,
+    changeFilter,
+} from "../../actions";
 
-interface IState {
+interface IProps {
     timetableData: ITimetable;
-    isLoaded: boolean;
-    isError: boolean;
+    timetableFilters: ITimetableFilters;
+    configuration: IConfiguration;
+    timetableConfig: any;
+
+    changeGroup: any;
+    openBottomDrawer: any;
+    closeBottomDrawer: any;
+
+    timetableLoadRequest: any;
+    timetableLoadSuccess: any;
+    timetableLoadFailure: any;
+
+    loadConfiguration(config: IConfiguration);
 }
 
-export default class MainPage extends React.Component<{}, IState> {
+interface IState {
+    selectedDay: number;
+    selectedEvent: ITimetableEvent;
+}
+
+class MainPage extends React.Component<IProps, IState> {
     constructor(props) {
         super(props);
         const onDeviceReady = () => {
-            TimetableServices.initialize().then(() => this.Initialize().then((result) => this.setState(result)));
+            TimetableServices.initialize().then(() => this.Initialize());
         };
         document.addEventListener("deviceready", onDeviceReady, false);
+
         this.state = {
-            timetableData: null,
-            isLoaded: false,
-            isError: false,
+            // selectedDay: this.currentDay(this.props.timetableFilters.mode),
+            selectedDay: 1,
+            selectedEvent: null,
         };
     }
-    public async Initialize(): Promise<IState> {
+    public async Initialize() {
+        this.props.timetableLoadRequest();
         console.log("Initialize");
-        const sessionConfigTimetable: ITimetable = config.get("timetable");
+        const sessionConfigTimetable: ITimetable = this.props.timetableData;
         if (sessionConfigTimetable) {
             console.log("config w sesji");
-            return {
-                timetableData: sessionConfigTimetable,
-                isError: false,
-                isLoaded: true,
-            };
+            this.props.timetableLoadSuccess(sessionConfigTimetable);
+            return;
         }
-
-        const result: IState = {
-            timetableData: null,
-            isError: false,
-            isLoaded: false,
-        };
 
         let configurationData: IConfiguration = await TimetableServices.readConfigurationFile();
         const timetableData: ITimetable = await TimetableServices.readTimetableFile();
-        result.timetableData = timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
             console.log("jest internet");
@@ -67,63 +85,74 @@ export default class MainPage extends React.Component<{}, IState> {
             if (!timetableData || isNewerTimetable) {
                 console.log("jest nowszy plan lub nie ma w pamieci, ściągam");
                 try {
-                    result.timetableData = await this.getTimetableWithRetries(5);
-                    await TimetableServices.writeTimetableFile(result.timetableData);
+                    const timetable = await this.getTimetableWithRetries(5);
+                    await TimetableServices.writeTimetableFile(timetable);
+                    this.props.timetableLoadSuccess(timetable);
                 } catch {
                     console.log("Błąd pobierania...");
                     if (!timetableData) {
-                        result.isError = true;
+                        this.props.timetableLoadFailure();
+                    } else {
+                        this.props.timetableLoadSuccess(timetableData);
                     }
                 }
+            } else {
+                this.props.timetableLoadSuccess(timetableData);
             }
         } else {
             console.log("nie ma internetu");
             if (!timetableData) {
                 console.log("nie ma internetu i planu w pamieci");
-                result.isError = true;
-                return result;
+                this.props.timetableLoadFailure();
+            } else {
+                this.props.timetableLoadSuccess(timetableData);
             }
         }
 
         if (!configurationData) {
             console.log("nie ma pliku konfiguracyjnego, tworzę domyslny");
-            configurationData = { ...defaultConfig };
+            configurationData = { ...this.props.configuration };
             await TimetableServices.writeConfigurationFile(configurationData);
         } else {
             console.log("jest konfiguracja w pamięci");
+            this.props.loadConfiguration(configurationData);
+            this.setState({
+                selectedDay: this.currentDay(this.props.timetableFilters.mode),
+                selectedEvent: this.props.timetableData.events[0],
+            });
         }
-
-        config.set({ ...configurationData, timetable: result.timetableData });
-
-        result.isLoaded = true;
-
-        return result;
     }
 
     public render(): JSX.Element {
 
-        const data: ITimetable = this.state.timetableData;
+        const data: ITimetable = this.props.timetableData;
 
-        const filters: ITimetableFilters = config.get("filters");
+        const filters: ITimetableFilters = this.props.timetableFilters;
 
-        if (!this.state.isLoaded && !this.state.isError) {
+        if (!this.props.timetableConfig.isLoaded && !this.props.timetableConfig.isError) {
             return (
                 <div className="CrcProgress">
                     <CircularProgress color="accent" size={60} thickness={7} />
                 </div>
             );
-        } else if (this.state.isError) {
+        } else if (this.props.timetableConfig.isError) {
             return (<ErrorPage />);
         } else {
             return (
                 <div className="main-page-container" style={{ marginTop: "69px" }}>
-                    {this.state.timetableData &&
+                    {this.props.timetableData &&
                         <Timetable
                             data={data}
                             filters={filters}
-                            defaultDay={this.currentDay(filters.mode)}
+                            selectedDay={this.state.selectedDay}
+                            selectedEvent={this.state.selectedEvent}
+                            bottomDrawerOpen={this.props.timetableConfig.bottomDrawerOpen}
+                            quickGroupChangeAllowed={this.props.configuration.allowQuickGroupChange}
+                            handleGroupChange={(group) => this.props.changeGroup(group)}
+                            onDayChange={this.changeDay}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
-                            mainPageRefresh={() => this.refresh()}
+                            onBottomDrawerClose={this.props.closeBottomDrawer}
+                            onTimetableRefresh={this.refresh}
                         />
                     }
                 </div>
@@ -133,10 +162,10 @@ export default class MainPage extends React.Component<{}, IState> {
 
     public async refresh() {
         console.log("refresh");
-        const currentState: IState = this.state;
-        let timetable: ITimetable = currentState.timetableData;
+        let timetable: ITimetable = this.props.timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
+            this.props.timetableLoadRequest();
             let isNewerTimetable: boolean = false;
             if (timetable) {
                 try {
@@ -148,16 +177,17 @@ export default class MainPage extends React.Component<{}, IState> {
                     console.log("Blad sprawdzania nowej wersji");
                     ToastServices.show("Błąd serwera");
                 }
+
+                this.props.timetableLoadSuccess(); // bez payloadu
             }
 
             if (!timetable || isNewerTimetable) {
                 try {
                     timetable = await this.getTimetableWithRetries(5);
 
-                    const currentConfig: IConfiguration = config.get();
-                    config.set({ ...currentConfig, timetable });
+                    const currentConfig: IConfiguration = this.props.configuration;
+                    this.props.timetableLoadSuccess(timetable);
 
-                    this.setState({ timetableData: timetable, isLoaded: true, isError: false });
                     await TimetableServices.writeTimetableFile(timetable);
                     ToastServices.show("Pobrano nowy plan!");
                     return;
@@ -165,14 +195,17 @@ export default class MainPage extends React.Component<{}, IState> {
                 } catch {
                     console.log("Blad pobierania planu");
                     ToastServices.show("Błąd serwera");
-                    this.setState(currentState);
+                    this.props.timetableLoadFailure();
                     return;
                 }
             }
         } else {
             ToastServices.show("Brak połączenia z internetem");
         }
-        this.setState(currentState);
+    }
+
+    private changeDay = (event: any, newDay: number) => {
+        this.setState({ selectedDay: newDay });
     }
 
     private async getTimetableWithRetries(retriesCount: number): Promise<ITimetable> {
@@ -193,7 +226,9 @@ export default class MainPage extends React.Component<{}, IState> {
         throw error;
     }
     private handleEventBlockClick = (event: ITimetableEvent): void => {
-        LecturersPages.openLecturersPage(event);
+        console.log("opening bottom drawer");
+        this.setState({ selectedEvent: event });
+        this.props.openBottomDrawer();
     }
 
     private currentDay(mode: string): number {
@@ -219,3 +254,26 @@ export default class MainPage extends React.Component<{}, IState> {
         return dayNumber;
     }
 }
+
+const mapStateToProps = (state: IGlobalState) => {
+    return {
+        timetableConfig: state.timetable,
+        timetableData: state.timetable.data,
+        timetableFilters: state.configuration.filters,
+        configuration: state.configuration,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeGroup: (group) => dispatch(changeFilter("group", group)),
+        openBottomDrawer: () => dispatch(openBottomDrawer()),
+        closeBottomDrawer: () => dispatch(closeBottomDrawer()),
+        timetableLoadRequest: () => dispatch(loadTimetableRequest()),
+        timetableLoadSuccess: (timetable) => dispatch(loadTimetableSuccess(timetable)),
+        timetableLoadFailure: () => dispatch(loadTimetableFailure()),
+        loadConfiguration: (config) => dispatch(loadConfiguration(config)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(MainPage);

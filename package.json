@@ -1,6 +1,6 @@
 {
   "name": "silvertimetable",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -46,7 +46,9 @@
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-file": "^5.0.0",
     "cordova-plugin-splashscreen": "~5.0.1",
-    "cordova-plugin-x-toast": "^2.6.0"
+    "cordova-plugin-x-toast": "^2.6.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "cordova": {
     "plugins": {

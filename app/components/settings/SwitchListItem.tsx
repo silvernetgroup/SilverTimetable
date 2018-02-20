@@ -1,7 +1,4 @@
 import * as React from "react";
-import config from "react-global-configuration";
-
-// material UI
 import {
   ListItem,
   ListItemIcon,
@@ -9,20 +6,13 @@ import {
   ListItemText,
 } from "material-ui/List";
 import Switch from "material-ui/Switch";
-
-// Icons
-import IconHelper from "./IconHelper";
-import IConfiguration from "../../models/IConfiguration";
-import TimetableServices from "../../services/TimetableServices";
+import { SwapHoriz } from "material-ui-icons";
 
 interface IProps {
   name: string;
   iconName: string;
-  configName: string;
-}
-
-interface IState {
-  checked: string[];
+  onChange: any;
+  checked: boolean;
 }
 
 const style: any = {
@@ -34,60 +24,28 @@ const padding: any = {
   paddingTop: "0px",
 };
 
-export default class SwitchListItem extends React.Component<IProps, IState> {
+const SwitchListItem = (props: IProps) => {
+// tslint:disable:object-literal-shorthand
+  const icons = {
+    SwapHoriz: SwapHoriz,
+  };
+  const IconName = icons[props.iconName];
+  return (
+    <div>
+      <ListItem>
+        <ListItemIcon>
+          <IconName />
+        </ListItemIcon>
+        <ListItemText primary={props.name} />
+        <ListItemSecondaryAction>
+          <Switch
+            onChange={(event) => props.onChange(event, !props.checked)}
+            checked={props.checked}
+          />
+        </ListItemSecondaryAction>
+      </ListItem>
+    </div>
+  );
+};
 
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      checked: ["none"],
-    };
-    if (config.get(this.props.configName) === true) {
-      this.state = {
-        checked: [this.props.iconName],
-      };
-    }
-  }
-
-  public render(): JSX.Element {
-    return (
-      <div>
-        <ListItem>
-          <ListItemIcon>
-            <IconHelper iconName={this.props.iconName} />
-          </ListItemIcon>
-          <ListItemText primary={this.props.name} />
-          <ListItemSecondaryAction>
-            <Switch
-              onChange={this.handleToggle(this.props.iconName)}
-              checked={this.state.checked.indexOf(this.props.iconName) !== -1}
-            />
-          </ListItemSecondaryAction>
-        </ListItem>
-      </div>
-    );
-  }
-
-  // toggle controller
-  private handleToggle = (value) => () => {
-    const { checked } = this.state;
-    const currentIndex: number = checked.indexOf(value);
-    const newChecked: string[] = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    // global settings controller
-    const temp: IConfiguration = config.get();
-    temp.allowQuickGroupChange = currentIndex === -1;
-    config.set(temp);
-    TimetableServices.writeConfigurationFile(temp);
-
-    this.setState({
-      checked: newChecked,
-    });
-  }
-}
+export default SwitchListItem;
