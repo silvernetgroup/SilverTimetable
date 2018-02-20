@@ -47,7 +47,7 @@ const ButtonAppBar = (props: IProps) => {
   const { classes } = props;
   return (
     <React.Fragment>
-      <Swipeable onSwipeRight={props.leftDrawerOpen}>
+      <Swipeable onSwipeRight={props.openLeftDrawer}>
           <div style={{position: "absolute", height: "100%", width: "5%" }}/>
       </Swipeable>
       <div className={classes.root}>
