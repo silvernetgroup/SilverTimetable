@@ -23,7 +23,7 @@
         <splash density="port-xxhdpi" src="www/res/androidSplash/XXHDPI.png" />
         <splash density="port-xxxhdpi" src="www/res/androidSplash/XXXHDPI.png" />
     </platform>
-    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#3f51b5" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
