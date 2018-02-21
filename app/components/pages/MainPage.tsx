@@ -136,7 +136,7 @@ class MainPage extends React.Component<IProps, IState> {
                 </div>
             );
         } else if (this.props.timetableConfig.isError) {
-            return (<ErrorPage />);
+            return (<ErrorPage onTimetableRefresh={() => this.refresh(false)}/>);
         } else {
             return (
                 <div className="main-page-container" style={{ marginTop: "69px" }}>
@@ -152,6 +152,7 @@ class MainPage extends React.Component<IProps, IState> {
                             onDayChange={this.changeDay}
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                             onBottomDrawerClose={this.props.closeBottomDrawer}
+                            onTimetableRefresh={() => this.refresh(false)}
                         />
                     }
                 </div>
@@ -159,12 +160,14 @@ class MainPage extends React.Component<IProps, IState> {
         }
     }
 
-    public async refresh() {
+    public async refresh(loadRequest: boolean = true) {
         console.log("refresh");
         let timetable: ITimetable = this.props.timetableData;
 
         if (TimetableServices.isNetworkAvailable()) {
-            this.props.timetableLoadRequest();
+            if (loadRequest) { // to not show CircularProgress
+                this.props.timetableLoadRequest();
+            }
             let isNewerTimetable: boolean = false;
             if (timetable) {
                 try {

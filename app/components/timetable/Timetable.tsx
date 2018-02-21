@@ -8,6 +8,7 @@ import BreakBlock from "./BreakBlock";
 import EventBlock from "./EventBlock";
 import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
+import PullRefresh from "react-pullrefresh";
 import Typography from "material-ui/Typography";
 import EventBlockMore from "./EventBlockMore";
 
@@ -22,6 +23,7 @@ interface IProps {
     onDayChange: any;
     onBottomDrawerClose: any;
     onEventBlockClick(event: ITimetableEvent): void;
+    onTimetableRefresh(): void;
 }
 
 interface IGroupNumberNamePair {
@@ -43,15 +45,19 @@ export default class Timetable extends React.Component<IProps> {
     public render(): JSX.Element {
         if (!this.props.filters.mode || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
             return (
-                <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
-                    <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
-                    <Typography type="subheading" style={{ marginBottom: 10 }}>
-                        Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
-                </Typography>
-                    <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
-                        <Button raised>Ustaw filtry planu</Button>
-                    </NavLink>
-                </div>
+                <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{position: "relative"}}>
+                    <div style={{height: "100%", width: "100%"}}>
+                    <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
+                        <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
+                        <Typography type="subheading" style={{ marginBottom: 10 }}>
+                            Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
+                    </Typography>
+                        <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
+                            <Button raised>Ustaw filtry planu</Button>
+                        </NavLink>
+                    </div>
+                    </div>
+                </PullRefresh>
             );
         }
         return (
@@ -128,7 +134,7 @@ export default class Timetable extends React.Component<IProps> {
         const groupNames: string[] = this.generateGroupNames(data, filters);
 
         return (
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                 {this.props.quickGroupChangeAllowed &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
@@ -154,7 +160,9 @@ export default class Timetable extends React.Component<IProps> {
                 }
                 {/* {this.saveCurrentGroup()} */}
                 <div className="event-blocks-container">
-                    {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
+                    <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{position: "relative"}}>
+                        {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
+                    </PullRefresh>
                 </div>
             </div >
 

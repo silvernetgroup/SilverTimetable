@@ -23,7 +23,7 @@ body, html, .app-container{
 }
 
 .event-blocks-container{
-    overflow-y: auto;      
+    overflow-y: auto;
     flex: 1;    
 }
 
@@ -104,4 +104,5 @@ body, html, .app-container{
     margin-right: auto;
     margin-bottom: auto;
     margin-top: 69px;
+    height: 100%;
 }
