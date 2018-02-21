@@ -10,6 +10,7 @@ import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
 import Typography from "material-ui/Typography";
 import EventBlockMore from "./EventBlockMore";
+import SwipeableViews from "react-swipeable-views";
 
 interface IProps {
     data: ITimetable;
@@ -66,7 +67,9 @@ export default class Timetable extends React.Component<IProps> {
                         {this.renderDayTabs(this.props.filters.mode)}
                     </Tabs>
                 </AppBar>
-                {this.renderDayTab(this.props.data, this.props.filters, this.props.selectedDay)}
+                    <SwipeableViews onChangeIndex={this.props.onDayChange}>
+                        {this.renderAllDaysTabs(this.props.data, this.props.filters, this.props.selectedDay)}
+                    </SwipeableViews>
                 <EventBlockMore
                     event={this.props.selectedEvent}
                     closeBottomDrawer={this.props.onBottomDrawerClose}
@@ -122,6 +125,23 @@ export default class Timetable extends React.Component<IProps> {
     //     temp.filters.group = this.props.selectedGroup;
     //     config.set(temp);
     // }
+    private renderAllDaysTabs(data: ITimetable, filters: ITimetableFilters, selectedDay: number): JSX.Element[] {
+        if (filters.mode === "Stacjonarne") {
+            return [
+                this.renderDayTab(data, filters, 1),
+                this.renderDayTab(data, filters, 2),
+                this.renderDayTab(data, filters, 3),
+                this.renderDayTab(data, filters, 4),
+                this.renderDayTab(data, filters, 5),
+            ];
+        } else {
+            return [
+                this.renderDayTab(data, filters, 5),
+                this.renderDayTab(data, filters, 6),
+                this.renderDayTab(data, filters, 7),
+            ];
+        }
+    }
 
     private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDay: number): JSX.Element {
 
