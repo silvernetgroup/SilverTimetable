@@ -30,6 +30,8 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="android-minSdkVersion" value="14" />
     <preference name="Orientation" value="portrait" />
+    <engine name="ios" spec="^4.5.4" />
+    <engine name="android" spec="^6.4.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
@@ -46,6 +48,4 @@
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-splashscreen" spec="~5.0.1" />
     <plugin name="cordova-plugin-x-toast" spec="^2.6.0" />
-    <engine name="ios" spec="^4.5.4" />
-    <engine name="android" spec="^6.4.0" />
 </widget>

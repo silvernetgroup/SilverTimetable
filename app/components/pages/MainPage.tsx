@@ -136,7 +136,7 @@ class MainPage extends React.Component<IProps, IState> {
                 </div>
             );
         } else if (this.props.timetableConfig.isError) {
-            return (<ErrorPage />);
+            return (<ErrorPage onTimetableRefresh={() => this.refresh(false)}/>);
         } else {
             return (
                 <div className="main-page-container" style={{ marginTop: "69px" }}>
@@ -166,7 +166,7 @@ class MainPage extends React.Component<IProps, IState> {
 
         if (TimetableServices.isNetworkAvailable()) {
             if (loadRequest) { // to not show CircularProgress
-                this.props.timetableLoadRequest(); 
+                this.props.timetableLoadRequest();
             }
             let isNewerTimetable: boolean = false;
             if (timetable) {
