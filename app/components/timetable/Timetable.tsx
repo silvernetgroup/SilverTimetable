@@ -26,16 +26,12 @@ interface IProps {
     onEventBlockClick(event: ITimetableEvent): void;
 }
 
-interface IState {
-    selectedDay: number;
-}
-
 interface IGroupNumberNamePair {
     number: number;
     name: string;
 }
 
-export default class Timetable extends React.Component<IProps, IState> {
+export default class Timetable extends React.Component<IProps> {
     constructor(props: IProps) {
         super(props);
         // this.state = {
