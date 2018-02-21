@@ -6,6 +6,7 @@ import List from "material-ui/List";
 import IconButton from "material-ui/IconButton";
 import LinkListItem from "./LinkListItem";
 import Hamburger from "material-ui-icons/Menu";
+import { Swipeable } from "react-touch";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import ITimetable from "../../models/ITimetable";
 
@@ -58,36 +59,38 @@ const LeftDrawer = (props: IProps) => {
     width: "100%",
   };
   return (
-    <div>
-      <IconButton
-        color="contrast"
-        onClick={() => props.openLeftDrawer()} style={{ marginLeft: -12, marginRight: 20 }}
-      >
-        <Hamburger />
-      </IconButton>
-      <Drawer open={props.open} onClose={() => props.closeLeftDrawer()}>
-        <div
-          tabIndex={0}
-          role="button"
-          onClick={() => props.closeLeftDrawer()}
-          onKeyDown={() => props.closeLeftDrawer()}
+    <Swipeable onSwipeLeft={props.closeLeftDrawer}>
+      <div>
+        <IconButton
+          color="contrast"
+          onClick={() => props.openLeftDrawer()} style={{ marginLeft: -12, marginRight: 20 }}
         >
-          {sideList}
-          {props.updateDate &&
-            <div style={footerStyle}>
-              <Divider />
-              <Typography type="body1" style={{
-                marginLeft: 16, marginTop: 16, marginBottom: 16,
-                color: "rgba(0, 0, 0, 0.56)",
-              }}>
-                Ostatnia aktualizacja: <br /> {
-                  props.updateDate.replace("T", " ").slice(0, -5)}
-              </Typography>
-            </div>
-          }
-        </div>
-      </Drawer>
-    </div>
+          <Hamburger />
+        </IconButton>
+        <Drawer open={props.open} onClose={() => props.closeLeftDrawer()}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={() => props.closeLeftDrawer()}
+            onKeyDown={() => props.closeLeftDrawer()}
+          >
+            {sideList}
+            {props.updateDate &&
+              <div style={footerStyle}>
+                <Divider />
+                <Typography type="body1" style={{
+                  marginLeft: 16, marginTop: 16, marginBottom: 16,
+                  color: "rgba(0, 0, 0, 0.56)",
+                }}>
+                  Ostatnia aktualizacja: <br /> {
+                    props.updateDate.replace("T", " ").slice(0, -5)}
+                </Typography>
+              </div>
+            }
+          </div>
+        </Drawer>
+      </div>
+    </Swipeable>
   );
 };
 

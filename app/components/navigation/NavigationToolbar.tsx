@@ -4,6 +4,7 @@ import AppBar from "material-ui/AppBar";
 import Toolbar from "material-ui/Toolbar";
 import Typography from "material-ui/Typography";
 import IconButton from "material-ui/IconButton";
+import { Swipeable } from "react-touch";
 import { connect } from "react-redux";
 
 // Icons
@@ -45,38 +46,43 @@ interface IProps {
 const ButtonAppBar = (props: IProps) => {
   const { classes } = props;
   return (
-    <div className={classes.root}>
-      <AppBar style={testPadding}>
-        <Toolbar style={{ paddingRight: 6 }}>
-          <LeftDrawer
-            open={props.leftDrawerOpen}
-            filters={props.filters}
-            updateDate={props.updateDate}
-            openLeftDrawer={props.openLeftDrawer}
-            closeLeftDrawer={props.closeLeftDrawer}
-          />
-          <Switch>
-            <Route exact path="/" render={() => (
-              <React.Fragment>
-                <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
-                <IconButton>
-                  <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
-                </IconButton>
-              </React.Fragment>
-            )} />
-            <Route exact path="/settings" render={() => (
-              <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
-            )} />
-            <Route exact path="/floor" render={() => (
-              <Typography type="title" color="inherit" className={classes.flex}>Schemat piętra</Typography>
-            )} />
-            <Route exact path="/about" render={() => (
-              <Typography type="title" color="inherit" className={classes.flex}>O aplikacji</Typography>
-            )} />
-          </Switch>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <React.Fragment>
+      <Swipeable onSwipeRight={props.openLeftDrawer}>
+          <div style={{position: "absolute", height: "100%", width: "5%" }}/>
+      </Swipeable>
+      <div className={classes.root}>
+        <AppBar style={testPadding}>
+          <Toolbar style={{ paddingRight: 6 }}>
+            <LeftDrawer
+              open={props.leftDrawerOpen}
+              filters={props.filters}
+              updateDate={props.updateDate}
+              openLeftDrawer={props.openLeftDrawer}
+              closeLeftDrawer={props.closeLeftDrawer}
+            />
+            <Switch>
+              <Route exact path="/" render={() => (
+                <React.Fragment>
+                  <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
+                  <IconButton>
+                    <Refresh style={{ color: "white" }} onClick={() => props.onRefreshClick()} />
+                  </IconButton>
+                </React.Fragment>
+              )} />
+              <Route exact path="/settings" render={() => (
+                <Typography type="title" color="inherit" className={classes.flex}>Ustawienia</Typography>
+              )} />
+              <Route exact path="/floor" render={() => (
+                <Typography type="title" color="inherit" className={classes.flex}>Schemat piętra</Typography>
+              )} />
+              <Route exact path="/about" render={() => (
+                <Typography type="title" color="inherit" className={classes.flex}>O aplikacji</Typography>
+              )} />
+            </Switch>
+          </Toolbar>
+        </AppBar>
+      </div>
+    </React.Fragment>
   );
 };
 

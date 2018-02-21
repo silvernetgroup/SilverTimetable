@@ -7,6 +7,7 @@ import List from "material-ui/List";
 import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
+import { Swipeable } from "react-touch";
 import LecturersPages from "../../services/LecturersPages";
 
 const styles = {
@@ -62,7 +63,7 @@ export default class EventBlockMore extends React.Component<IProps> {
       width: "100%",
     };
     return (
-      <div>
+      <Swipeable onSwipeDown={this.props.closeBottomDrawer}>
         <Drawer anchor="bottom" open={this.props.bottomDrawerOpen}
           onClose={(event) => this.props.closeBottomDrawer()}>
           <div
@@ -74,7 +75,7 @@ export default class EventBlockMore extends React.Component<IProps> {
             {sideList}
           </div>
         </Drawer>
-      </div>
+      </Swipeable>
     );
   }
 

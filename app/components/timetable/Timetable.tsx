@@ -10,6 +10,8 @@ import Button from "material-ui/Button";
 import { NavLink } from "react-router-dom";
 import Typography from "material-ui/Typography";
 import EventBlockMore from "./EventBlockMore";
+import SwipeableViews from "react-swipeable-views";
+import { ChangeEvent } from "react";
 
 interface IProps {
     data: ITimetable;
@@ -24,20 +26,24 @@ interface IProps {
     onEventBlockClick(event: ITimetableEvent): void;
 }
 
+interface IState {
+    selectedDay: number;
+}
+
 interface IGroupNumberNamePair {
     number: number;
     name: string;
 }
 
-export default class Timetable extends React.Component<IProps> {
+export default class Timetable extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
-        const groupNames = this.generateGroupNames(props.data, props.filters);
         // this.state = {
         //     selectedDay: props.selectedDay || 0,
-        //     selectedGroup: config.get("filters").group || groupNames[0],
-        //     selectedEvent: null,
+        //     // selectedGroup: config.get("filters").group || groupNames[0],
+        //     // selectedEvent: null,
         // };
+        const groupNames = this.generateGroupNames(props.data, props.filters);
     }
 
     public render(): JSX.Element {
@@ -54,31 +60,37 @@ export default class Timetable extends React.Component<IProps> {
                 </div>
             );
         }
+
         return (
             <div className="timetable-container">
                 <AppBar style={{ position: "relative", color: "white" }}>
                     <Tabs
-                        value={this.props.selectedDay}
-                        onChange={this.props.onDayChange}
+                        value={this.props.selectedDay + 1}
+                        onChange={(event: object, value: number) => {this.props.onDayChange(event, value - 1); }}
                         scrollable
                         fullWidth
-                    >
+                        >
                         {this.renderDayTabs(this.props.filters.mode)}
                     </Tabs>
                 </AppBar>
-                {this.renderDayTab(this.props.data, this.props.filters, this.props.selectedDay)}
+                    <SwipeableViews
+                        index={this.props.selectedDay}
+                        onChangeIndex={(index, fromIndex) => {this.props.onDayChange(null, index); }}
+                    >
+                        {this.renderAllDaysTabs(this.props.data, this.props.filters)}
+                    </SwipeableViews>
                 <EventBlockMore
                     event={this.props.selectedEvent}
                     closeBottomDrawer={this.props.onBottomDrawerClose}
                     bottomDrawerOpen={this.props.bottomDrawerOpen}
-                />
+                    />
             </div>
         );
     }
 
     private ensureFilteredValuesExist(filters: ITimetableFilters, timetable: ITimetable): boolean {
         return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]
-            || ((key === "group") && event.specialization === filters.group)
+        || ((key === "group") && event.specialization === filters.group)
             || (!filters.group && this.props.quickGroupChangeAllowed)));
     }
 
@@ -122,6 +134,23 @@ export default class Timetable extends React.Component<IProps> {
     //     temp.filters.group = this.props.selectedGroup;
     //     config.set(temp);
     // }
+    private renderAllDaysTabs(data: ITimetable, filters: ITimetableFilters): JSX.Element[] {
+        if (filters.mode === "Stacjonarne") {
+            return [
+                this.renderDayTab(data, filters, 1),
+                this.renderDayTab(data, filters, 2),
+                this.renderDayTab(data, filters, 3),
+                this.renderDayTab(data, filters, 4),
+                this.renderDayTab(data, filters, 5),
+            ];
+        } else {
+            return [
+                this.renderDayTab(data, filters, 5),
+                this.renderDayTab(data, filters, 6),
+                this.renderDayTab(data, filters, 7),
+            ];
+        }
+    }
 
     private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDay: number): JSX.Element {
 
