@@ -19,7 +19,12 @@ export default class AboutPage extends React.Component {
                     Wersja 1.0.6
                 </Typography>
                 <Typography type="subheading" gutterBottom style={{margin: "30px auto 0 auto", width: 280}}>
-                    Aplikacja stworzona przez członków koła naukowego Silver .NET
+                    Aplikacja stworzona przez członków koła naukowego Silver .NET: <br/><br/>
+                    Marcin Lewandowski <br/>
+                    Wiktor El Attar <br/>
+                    Michał Kocisz <br/>
+                    Maciej Maj <br/>
+                    Bartosz Matyjasiak <br/>
                 </Typography>
                 <img src="res/img/silver_logo.png" style={{ width: 160, marginTop: 10 }} />
             </div>
