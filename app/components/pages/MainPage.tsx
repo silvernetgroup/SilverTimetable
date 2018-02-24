@@ -136,7 +136,7 @@ class MainPage extends React.Component<IProps, IState> {
                 </div>
             );
         } else if (this.props.timetableConfig.isError) {
-            return (<ErrorPage onTimetableRefresh={() => this.refresh(false)}/>);
+            return (<ErrorPage onTimetableRefresh={() => this.refresh(false)} />);
         } else {
             return (
                 <div className="main-page-container" style={{ marginTop: "69px" }}>
@@ -237,6 +237,10 @@ class MainPage extends React.Component<IProps, IState> {
     private currentDay(mode: string): number {
         const today: Date = new Date();
         let dayNumber: number = today.getDay();
+
+        if (this.props.configuration.lecturerMode) {
+            return dayNumber === 0 ? 7 : dayNumber;
+        }
 
         switch (mode) {
             case "Stacjonarne":

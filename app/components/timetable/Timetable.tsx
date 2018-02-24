@@ -75,7 +75,7 @@ export default class Timetable extends React.Component<IProps> {
                         scrollable
                         fullWidth
                     >
-                        {this.renderDayTabs(this.props.filters.mode)}
+                        {this.renderDayTabs(this.props.filters.mode, this.props.lecturerMode)}
                     </Tabs>
                 </AppBar>
                 {this.renderDayTab(this.props.data, this.props.filters, this.props.selectedDay)}
@@ -97,7 +97,18 @@ export default class Timetable extends React.Component<IProps> {
             || (!filters.group && this.props.quickGroupChangeAllowed)));
     }
 
-    private renderDayTabs(mode: string): JSX.Element[] {
+    private renderDayTabs(mode: string, lecturerMode: boolean): JSX.Element[] {
+        if (lecturerMode) {
+            return [
+                <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" value={1} />,
+                <Tab label="Wt" style={{ minWidth: 50 }} key="Wt" value={2} />,
+                <Tab label="Śr" style={{ minWidth: 50 }} key="Sr" value={3} />,
+                <Tab label="Czw" style={{ minWidth: 50 }} key="Cz" value={4} />,
+                <Tab label="Pt" style={{ minWidth: 50 }} key="Pt" value={5} />,
+                <Tab label="So" style={{ minWidth: 50 }} key="So" value={6} />,
+                <Tab label="Nd" style={{ minWidth: 50 }} key="Nie" value={7} />,
+            ];
+        }
         if (mode === "Stacjonarne") {
             return [
                 <Tab label="Pn" style={{ minWidth: 50 }} key="Pn" value={1} />,
