@@ -84,6 +84,7 @@ export default class Timetable extends React.Component<IProps> {
                     event={this.props.selectedEvent}
                     closeBottomDrawer={this.props.onBottomDrawerClose}
                     bottomDrawerOpen={this.props.bottomDrawerOpen}
+                    lecturerMode={this.props.lecturerMode}
                 />
             </div>
         );
