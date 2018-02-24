@@ -5,4 +5,5 @@ export default interface IConfiguration {
     filters: ITimetableFilters;
     notifyAboutUpdates: boolean;
     allowQuickGroupChange: boolean;
+    lecturerMode: boolean;
 }

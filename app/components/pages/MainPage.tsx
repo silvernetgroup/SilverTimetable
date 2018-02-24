@@ -153,6 +153,7 @@ class MainPage extends React.Component<IProps, IState> {
                             onEventBlockClick={(event) => this.handleEventBlockClick(event)}
                             onBottomDrawerClose={this.props.closeBottomDrawer}
                             onTimetableRefresh={() => this.refresh(false)}
+                            lecturerMode={this.props.configuration.lecturerMode}
                         />
                     }
                 </div>

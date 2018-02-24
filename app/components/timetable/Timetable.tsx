@@ -19,6 +19,7 @@ interface IProps {
     selectedEvent: ITimetableEvent;
     bottomDrawerOpen: boolean;
     quickGroupChangeAllowed: boolean;
+    lecturerMode: boolean;
     handleGroupChange: any;
     onDayChange: any;
     onBottomDrawerClose: any;
@@ -43,19 +44,24 @@ export default class Timetable extends React.Component<IProps> {
     }
 
     public render(): JSX.Element {
-        if (!this.props.filters.mode || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
+        if ((this.props.lecturerMode && !this.props.filters.lecturer)
+            || (!this.props.lecturerMode && !this.props.filters.mode)
+            || !this.ensureFilteredValuesExist(this.props.filters, this.props.data)) {
             return (
-                <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{position: "relative"}}>
-                    <div style={{height: "100%", width: "100%"}}>
-                    <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
-                        <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
-                        <Typography type="subheading" style={{ marginBottom: 10 }}>
-                            Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
+                <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{ position: "relative" }}>
+                    <div style={{ height: "100%", width: "100%" }}>
+                        <div style={{ width: 290, margin: "30% auto auto auto", textAlign: "center" }}>
+                            <img src="res/img/unknown.png" style={{ width: 155, margin: "0 auto" }} />
+                            <Typography type="subheading" style={{ marginBottom: 10 }}>
+                                Aby zobaczyć plan zajęć proszę spersonalizować ustawienia
                     </Typography>
-                        <NavLink to="/settings" style={{ height: "100%", textAlign: "center", textDecoration: "none" }}>
-                            <Button raised>Ustaw filtry planu</Button>
-                        </NavLink>
-                    </div>
+                            <NavLink
+                                to="/settings"
+                                style={{ height: "100%", textAlign: "center", textDecoration: "none" }}
+                            >
+                                <Button raised>Ustaw filtry planu</Button>
+                            </NavLink>
+                        </div>
                     </div>
                 </PullRefresh>
             );
@@ -83,6 +89,9 @@ export default class Timetable extends React.Component<IProps> {
     }
 
     private ensureFilteredValuesExist(filters: ITimetableFilters, timetable: ITimetable): boolean {
+        if (this.props.lecturerMode) {
+            return timetable.events.some((event) => event.lecturers.some((lecturer) => lecturer === filters.lecturer));
+        }
         return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]
             || ((key === "group") && event.specialization === filters.group)
             || (!filters.group && this.props.quickGroupChangeAllowed)));
@@ -135,7 +144,7 @@ export default class Timetable extends React.Component<IProps> {
 
         return (
             <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                {this.props.quickGroupChangeAllowed &&
+                {(this.props.quickGroupChangeAllowed && !this.props.lecturerMode) &&
                     <AppBar style={{ position: "relative", background: "#00BCD4", color: "white" }}>
                         <Tabs
                             value={this.props.filters.group}
@@ -160,7 +169,7 @@ export default class Timetable extends React.Component<IProps> {
                 }
                 {/* {this.saveCurrentGroup()} */}
                 <div className="event-blocks-container">
-                    <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{position: "relative"}}>
+                    <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{ position: "relative" }}>
                         {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
                     </PullRefresh>
                 </div>
@@ -183,7 +192,11 @@ export default class Timetable extends React.Component<IProps> {
             7: "NIE",
         };
 
-        const result =
+        const result = this.props.lecturerMode
+            ?
+            data.events.filter((obj) => (obj.lecturers.some((lecturer) => lecturer === filters.lecturer)
+                && obj.dayOfWeek === dayNames[dayOfWeek]))
+            :
             data
                 .events
                 .filter((obj) => (obj.group.toString() === group || obj.specialization === group)
