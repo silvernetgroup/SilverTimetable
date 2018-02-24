@@ -78,7 +78,8 @@ export default class Timetable extends React.Component<IProps> {
                         {this.renderDayTabs(this.props.filters.mode, this.props.lecturerMode)}
                     </Tabs>
                 </AppBar>
-                {this.renderDayTab(this.props.data, this.props.filters, this.props.selectedDay)}
+                {this.renderDayTab(
+                    this.props.data, this.props.filters, this.props.selectedDay, this.props.lecturerMode)}
                 <EventBlockMore
                     event={this.props.selectedEvent}
                     closeBottomDrawer={this.props.onBottomDrawerClose}
@@ -92,7 +93,9 @@ export default class Timetable extends React.Component<IProps> {
         if (this.props.lecturerMode) {
             return timetable.events.some((event) => event.lecturers.some((lecturer) => lecturer === filters.lecturer));
         }
-        return Object.keys(filters).every((key) => timetable.events.some((event) => event[key] === filters[key]
+        const keys = Object.keys(filters);
+        keys.pop(); // remove lecturer key
+        return keys.every((key) => timetable.events.some((event) => event[key] === filters[key]
             || ((key === "group") && event.specialization === filters.group)
             || (!filters.group && this.props.quickGroupChangeAllowed)));
     }
@@ -149,7 +152,9 @@ export default class Timetable extends React.Component<IProps> {
     //     config.set(temp);
     // }
 
-    private renderDayTab(data: ITimetable, filters: ITimetableFilters, selectedDay: number): JSX.Element {
+    private renderDayTab(
+        data: ITimetable, filters: ITimetableFilters,
+        selectedDay: number, lecturerMode: boolean): JSX.Element {
 
         const groupNames: string[] = this.generateGroupNames(data, filters);
 
@@ -181,7 +186,7 @@ export default class Timetable extends React.Component<IProps> {
                 {/* {this.saveCurrentGroup()} */}
                 <div className="event-blocks-container">
                     <PullRefresh onRefresh={() => this.props.onTimetableRefresh()} style={{ position: "relative" }}>
-                        {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group)}
+                        {this.renderEventBlocks(data, filters, selectedDay, this.props.filters.group, lecturerMode)}
                     </PullRefresh>
                 </div>
             </div >
@@ -191,7 +196,7 @@ export default class Timetable extends React.Component<IProps> {
 
     private renderEventBlocks(
         data: ITimetable, filters: ITimetableFilters,
-        dayOfWeek: number, group: string): JSX.Element[] {
+        dayOfWeek: number, group: string, lecturerMode: boolean): JSX.Element[] {
 
         const dayNames: any = {
             1: "PN",
@@ -231,6 +236,7 @@ export default class Timetable extends React.Component<IProps> {
                     event={event}
                     onClick={() => this.props.onEventBlockClick(event)}
                     order={index + 1}
+                    lecturerMode={lecturerMode}
                 />
                 {index + 1 < result.length &&
                     <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
