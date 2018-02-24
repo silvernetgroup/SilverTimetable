@@ -15,6 +15,7 @@ import LeftDrawer from "./LeftDrawer";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import { IGlobalState } from "../../store/IGlobalState";
 import { openLeftDrawer, closeLeftDrawer } from "../../actions";
+import IConfiguration from "../../store/IConfiguration";
 
 const styles: any = (theme) => ({
   flex: {
@@ -36,6 +37,7 @@ interface IProps {
   filters: ITimetableFilters;
   updateDate: string;
   classes: any;
+  lecturerMode: boolean;
   onRefreshClick: any;
 
   openLeftDrawer: any;
@@ -58,7 +60,13 @@ const ButtonAppBar = (props: IProps) => {
           <Switch>
             <Route exact path="/" render={() => (
               <React.Fragment>
-                <Typography type="title" color="inherit" className={classes.flex}>Plan zajęć WZIiM</Typography>
+                <Typography
+                  type="title"
+                  color="inherit"
+                  className={classes.flex}
+                >
+                  {props.lecturerMode ? props.filters.lecturer : "Plan zajęć WZIiM"}
+                </Typography>
               </React.Fragment>
             )} />
             <Route exact path="/settings" render={() => (
@@ -82,6 +90,7 @@ const mapStateToProps: ((state: IGlobalState, ownProps: any) => IProps) = (state
     leftDrawerOpen: state.navigationToolbar.leftDrawerOpen,
     filters: state.configuration.filters,
     updateDate: state.timetable.data ? state.timetable.data.date : null,
+    lecturerMode: state.configuration.lecturerMode,
     ...ownProps,
   };
 };

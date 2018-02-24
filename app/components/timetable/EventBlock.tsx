@@ -9,41 +9,51 @@ import { MoreVert } from "material-ui-icons";
 interface IProps {
     event: ITimetableEvent;
     order: number;
+    lecturerMode: boolean;
     onClick(): void;
 }
 
-export default class EventBlock extends React.Component<IProps> {
+const EventBlock = (props: IProps) => {
 
-    public render(): JSX.Element {
-        const { startTime, endTime } = this.props.event;
-        const style: any = {
-            backgroundColor: "#FFFFFF",
-            padding: 10,
-            margin: 10,
-        };
+    const { startTime, endTime } = props.event;
+    const style: any = {
+        backgroundColor: "#FFFFFF",
+        padding: 10,
+        margin: 10,
+    };
 
-        return (
-            <Paper
-                style={style}
-                elevation={1}
-                onClick={this.props.onClick}
-            >
-                <div className="header-event-block">
-                    <div className="lectureName-event-block">
-                        {this.props.event.name}
-                    </div>
+    return (
+        <Paper
+            style={style}
+            elevation={1}
+            onClick={props.onClick}
+        >
+            <div className="header-event-block">
+                <div className="lectureName-event-block">
+                    {props.event.name}
                 </div>
-                <div className="props-event-block">
-                    <span>
-                        {(this.props.event.isFaculty ? "(F) " : "") + this.props.event.type + " "}
-                        {startTime.format("HH:mm ")}
-                        - {endTime.format("HH:mm")}
-                        <br />
-                        <span className="additionalFt-event-block">{this.props.event.room + " "}</span>
-                        - {this.props.event.lecturers.join(", ")}
-                    </span>
-                </div>
-            </Paper>
-        );
-    }
-}
+            </div>
+            <div className="props-event-block">
+                <span>
+                    {(props.event.isFaculty ? "(F) " : "") + props.event.type + " "}
+                    {startTime.format("HH:mm ")}
+                    - {endTime.format("HH:mm")}
+                    <br />
+                    {props.lecturerMode
+                        ? <>
+                            sala <span className="additionalFt-event-block">{props.event.room + " "}</span> <br/>
+                            {props.event.fieldOfStudy} rok {props.event.year} <br />
+                            grupa {props.event.specialization || props.event.group}
+                        </>
+                        : <>
+                            <span className="additionalFt-event-block">{props.event.room + " "}</span>
+                            -{props.event.lecturers.join(", ")}
+                        </>
+                    }
+                </span>
+            </div>
+        </Paper>
+    );
+};
+
+export default EventBlock;

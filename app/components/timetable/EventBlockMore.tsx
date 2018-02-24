@@ -17,6 +17,7 @@ const styles = {
 
 interface IProps {
   event: ITimetableEvent;
+  lecturerMode: boolean;
   bottomDrawerOpen: boolean;
   closeBottomDrawer: any;
 }
@@ -68,8 +69,8 @@ export default class EventBlockMore extends React.Component<IProps> {
           <div
             tabIndex={0}
             role="button"
-            // onClick={() => this.props.closeBottomDrawer()}
-            // onKeyDown={() => this.props.closeBottomDrawer()}
+          // onClick={() => this.props.closeBottomDrawer()}
+          // onKeyDown={() => this.props.closeBottomDrawer()}
           >
             {sideList}
           </div>
@@ -123,6 +124,9 @@ export default class EventBlockMore extends React.Component<IProps> {
   }
 
   private renderLecturers(): JSX.Element {
+    if (this.props.lecturerMode) {
+      return this.renderOneLecturer(this.props.event.fieldOfStudy, 0);
+    }
     const rows = [];
     let key: number = 0;
     for (const item of this.props.event.lecturers) {
