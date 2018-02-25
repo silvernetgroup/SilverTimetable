@@ -6,4 +6,5 @@ export default interface ITimetableFilters {
     group?: string;
     department: string;
     academicYear: string;
+    lecturer?: string;
 }

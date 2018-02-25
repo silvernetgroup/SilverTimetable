@@ -30,6 +30,7 @@ export const initialState: IGlobalState = {
         },
         notifyAboutUpdates: true,
         allowQuickGroupChange: true,
+        lecturerMode: false,
     },
 };
 

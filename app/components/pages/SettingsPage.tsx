@@ -32,6 +32,7 @@ interface ISelectListsState {
   mode: boolean;
   group: boolean;
   academicYear: boolean;
+  lecturer: boolean;
 }
 
 interface ISelectListsValues {
@@ -42,6 +43,7 @@ interface ISelectListsValues {
   mode: string[];
   group: string[];
   academicYear: string[];
+  lecturer: string[];
 }
 
 class SettingsPage extends React.Component<IProps> {
@@ -58,64 +60,86 @@ class SettingsPage extends React.Component<IProps> {
     return (
       <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
-          <SelectListItem
-            name="Rok akademicki"
-            enabled={this.props.selectListsState.academicYear}
-            options={this.props.selectListsValues.academicYear}
-            activeOption={this.props.filters.academicYear}
-            onChange={(event, newValue) => this.props.changeFilter("academicYear", newValue)}
-          />
-          <SelectListItem
-            name="Wydział"
-            enabled={this.props.selectListsState.department}
-            options={this.props.selectListsValues.department}
-            activeOption={this.props.filters.department}
-            onChange={(event, newValue) => this.props.changeFilter("department", newValue)}
-          />
-          <SelectListItem
-            name="Kierunek"
-            enabled={this.props.selectListsState.fieldOfStudy}
-            options={this.props.selectListsValues.fieldOfStudy}
-            activeOption={this.props.filters.fieldOfStudy}
-            onChange={(event, newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
-          />
-          <SelectListItem
-            name="Stopień"
-            enabled={this.props.selectListsState.degree}
-            options={this.props.selectListsValues.degree}
-            activeOption={this.props.filters.degree}
-            onChange={(event, newValue) => this.props.changeFilter("degree", newValue)}
-          />
-          <SelectListItem
-            name="Semestr"
-            enabled={this.props.selectListsState.semester}
-            options={this.props.selectListsValues.semester}
-            activeOption={this.props.filters.semester}
-            onChange={(event, newValue) => this.props.changeFilter("semester", newValue)}
-          />
-          <SelectListItem
-            name="Tryb"
-            enabled={this.props.selectListsState.mode}
-            options={this.props.selectListsValues.mode}
-            activeOption={this.props.filters.mode}
-            onChange={(event, newValue) => this.props.changeFilter("mode", newValue)}
-          />
-          <SelectListItem
-            name="Grupa"
-            enabled={this.props.selectListsState.group}
-            options={this.props.selectListsValues.group}
-            activeOption={this.props.filters.group}
-            onChange={(event, newValue) => this.props.changeFilter("group", newValue)}
-          />
-        </List>
-        <List subheader={<ListSubheader>Inne</ListSubheader>}>
           <SwitchListItem
-            name="Szybka zmiana grupy "
-            iconName="SwapHoriz"
-            checked={this.props.configuration.allowQuickGroupChange}
-            onChange={(event, newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)}
+            name="Tryb prowadzącego"
+            iconName="School"
+            checked={this.props.configuration.lecturerMode}
+            onChange={(event, newValue) => this.props.changeConfigurationOption("lecturerMode", newValue)}
           />
+          {this.props.configuration.lecturerMode ?
+            <>
+              <SelectListItem
+                name=""
+                options={this.props.selectListsValues.lecturer}
+                enabled={this.props.selectListsState.lecturer}
+                activeOption={this.props.filters.lecturer}
+                onChange={(event, newValue) => this.props.changeFilter("lecturer", newValue)}
+              />
+            </>
+            :
+            <>
+              <SelectListItem
+                name="Rok akademicki"
+                enabled={this.props.selectListsState.academicYear}
+                options={this.props.selectListsValues.academicYear}
+                activeOption={this.props.filters.academicYear}
+                onChange={(event, newValue) => this.props.changeFilter("academicYear", newValue)}
+              />
+              <SelectListItem
+                name="Wydział"
+                enabled={this.props.selectListsState.department}
+                options={this.props.selectListsValues.department}
+                activeOption={this.props.filters.department}
+                onChange={(event, newValue) => this.props.changeFilter("department", newValue)}
+              />
+              <SelectListItem
+                name="Kierunek"
+                enabled={this.props.selectListsState.fieldOfStudy}
+                options={this.props.selectListsValues.fieldOfStudy}
+                activeOption={this.props.filters.fieldOfStudy}
+                onChange={(event, newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
+              />
+              <SelectListItem
+                name="Stopień"
+                enabled={this.props.selectListsState.degree}
+                options={this.props.selectListsValues.degree}
+                activeOption={this.props.filters.degree}
+                onChange={(event, newValue) => this.props.changeFilter("degree", newValue)}
+              />
+              <SelectListItem
+                name="Semestr"
+                enabled={this.props.selectListsState.semester}
+                options={this.props.selectListsValues.semester}
+                activeOption={this.props.filters.semester}
+                onChange={(event, newValue) => this.props.changeFilter("semester", newValue)}
+              />
+              <SelectListItem
+                name="Tryb"
+                enabled={this.props.selectListsState.mode}
+                options={this.props.selectListsValues.mode}
+                activeOption={this.props.filters.mode}
+                onChange={(event, newValue) => this.props.changeFilter("mode", newValue)}
+              />
+              <SelectListItem
+                name="Grupa"
+                enabled={this.props.selectListsState.group}
+                options={this.props.selectListsValues.group}
+                activeOption={this.props.filters.group}
+                onChange={(event, newValue) => this.props.changeFilter("group", newValue)}
+              />
+            </>
+          }
         </List>
+        {!this.props.configuration.lecturerMode &&
+          <List subheader={<ListSubheader>Inne</ListSubheader>}>
+            <SwitchListItem
+              name="Szybka zmiana grupy"
+              iconName="SwapHoriz"
+              checked={this.props.configuration.allowQuickGroupChange}
+              onChange={(event, newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)}
+            />
+          </List>
+        }
       </div>
     );
   }
@@ -130,14 +154,24 @@ const getAvailableOptions:
     }
 
     const resultsSet: Set<string> = new Set<string>();
-
-    data
-      .events
-      .filter((event, newValue) => filterKeys
-        .every((key) => event[key] === filters[key]))
-      .forEach((event, newValue) => resultsSet.add(optionName === "group"
-        ? event.specialization || event.group.toString()
-        : event[optionName]));
+    if (optionName !== "lecturers") {
+      data
+        .events
+        .filter((event) => filterKeys
+          .every((key) => event[key] === filters[key]))
+        .forEach((event) => resultsSet.add(optionName === "group"
+          ? event.specialization || event.group.toString()
+          : event[optionName]));
+    } else {
+      data
+        .events
+        .forEach((event) =>
+          event.lecturers.forEach(
+            (lecturer) =>
+              resultsSet.add(lecturer),
+          ),
+        );
+    }
 
     return [...resultsSet];
   };
@@ -161,6 +195,7 @@ const getSelectListsState: ((data: ITimetable, filters: ITimetableFilters) => IS
     mode: shouldBeEnabled("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"], data, filters),
     group: shouldBeEnabled("group",
       ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data, filters),
+    lecturer: shouldBeEnabled("lecturer", [], data, filters),
   };
 };
 
@@ -177,6 +212,7 @@ const getSelectListsValues: ((data: ITimetable, filters: ITimetableFilters) => I
         data, filters),
       group: getAvailableOptions("group",
         ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data, filters),
+      lecturer: getAvailableOptions("lecturers", [], data, filters),
     };
   };
 
