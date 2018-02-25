@@ -14,6 +14,10 @@ export const initialState: IGlobalState = {
         bottomDrawerOpen: false,
         data: null,
     },
+    floorPageWithPin: {
+        floorPageOpen: false,
+        roomNumber: null,
+    },
     configuration: {
         filters: {
             department: null,

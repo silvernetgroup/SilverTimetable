@@ -10,6 +10,8 @@ import {
     CHANGE_FILTER,
     CHANGE_CONFIGURATION_OPTION,
     LOAD_CONFIGURATION,
+    OPEN_FLOOR_PAGE_PIN,
+    CLOSE_FLOOR_PAGE_PIN,
 } from "../constants/action-types";
 import { IGlobalState } from "../store/IGlobalState";
 import ITimetableFilters from "../models/ITimetableFilters";
@@ -59,6 +61,11 @@ const rootReducer = (state: IGlobalState, action) => {
                     [action.payload.name]: action.payload.value,
                 },
             };
+        case OPEN_FLOOR_PAGE_PIN:
+            // tslint:disable-next-line:max-line-length
+            return {...state, timetable: { ...state.timetable, bottomDrawerOpen: false }, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: true} };
+        case CLOSE_FLOOR_PAGE_PIN:
+            return {...state, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: false} };
         default:
             return state;
     }

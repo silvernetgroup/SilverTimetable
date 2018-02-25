@@ -13,7 +13,7 @@ import NavigationToolbar from "./navigation/NavigationToolbar";
 import PushNotificationServices from "../services/PushNotificationServices";
 import ToastServices from "../services/ToastServices";
 import { IGlobalState } from "../store/IGlobalState";
-import { closeLeftDrawer, closeBottomDrawer } from "../actions/index";
+import { closeLeftDrawer, closeBottomDrawer, closeFloorPagePin } from "../actions/index";
 import { connect } from "react-redux";
 import { initialState } from "../store/index";
 import ITimetable from "../models/ITimetable";
@@ -27,6 +27,9 @@ const theme: any = createMuiTheme({
 interface IProps {
     leftDrawerOpen: boolean;
     bottomDrawerOpen: boolean;
+    floorPageOpen: boolean;
+
+    closeFloorPagePin: any;
     closeBottomDrawer: any;
     closeLeftDrawer: any;
 
@@ -55,6 +58,8 @@ class App extends React.Component<IProps> {
                 this.props.closeBottomDrawer();
             } else if (this.props.leftDrawerOpen) {
                 this.props.closeLeftDrawer();
+            } else if (this.props.floorPageOpen) {
+                this.props.closeFloorPagePin();
             } else if (window.location.hash !== "#/") {
                 window.location.replace("index.html#/");
             } else {
@@ -104,6 +109,7 @@ const mapStateToProps = (state: IGlobalState, ownProps) => {
         leftDrawerOpen: state.navigationToolbar.leftDrawerOpen,
         bottomDrawerOpen: state.timetable.bottomDrawerOpen,
         timetable: state.timetable,
+        floorPageOpen: state.floorPageWithPin.floorPageOpen,
     };
 };
 
@@ -111,6 +117,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeLeftDrawer: () => dispatch(closeLeftDrawer()),
         closeBottomDrawer: () => dispatch(closeBottomDrawer()),
+        closeFloorPagePin: () => dispatch(closeFloorPagePin()),
     };
 };
 

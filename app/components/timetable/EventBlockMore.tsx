@@ -9,6 +9,10 @@ import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
 import LecturersPages from "../../services/LecturersPages";
 
+import { IGlobalState } from "../../store/IGlobalState";
+import { openFloorPagePin } from "../../actions/index";
+import { connect } from "react-redux";
+
 const styles = {
   list: {
     width: 250,
@@ -19,11 +23,13 @@ interface IProps {
   event: ITimetableEvent;
   bottomDrawerOpen: boolean;
   closeBottomDrawer: any;
+
+  openFloorPagePin: any;
 }
 
 declare let navigator: any;
 
-export default class EventBlockMore extends React.Component<IProps> {
+class EventBlockMore extends React.Component<IProps> {
 
   public render() {
     if (!this.props.event) {
@@ -96,7 +102,7 @@ export default class EventBlockMore extends React.Component<IProps> {
         name={text}
         iconName="Map"
         linkPage={location}
-        onClick={() => this.props.closeBottomDrawer()}
+        onClick={() => this.props.openFloorPagePin()}
         color="black"
       />
     );
@@ -151,3 +157,17 @@ export default class EventBlockMore extends React.Component<IProps> {
     );
   }
 }
+
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    floorPageOpen: state.floorPageWithPin.floorPageOpen,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openFloorPagePin: () => dispatch(openFloorPagePin()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventBlockMore);

@@ -11,7 +11,7 @@ export default class TimetableServices extends React.Component {
     public static isNetworkAvailable = (): boolean => {
         if (typeof (Connection) === "undefined" || typeof (navigator.connection) === "undefined") {
             console.log("Plugin not installed");
-            return false;
+            return true;    // for testing purposes
         }
         const networkState = navigator.connection.type;
         console.log("Connection type: " + networkState);

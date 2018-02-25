@@ -9,6 +9,10 @@ import Hamburger from "material-ui-icons/Menu";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import ITimetable from "../../models/ITimetable";
 
+import { closeFloorPagePin } from "../../actions/index";
+import { connect } from "react-redux";
+import { IGlobalState } from "../../store/IGlobalState";
+
 const styles = {
   list: {
     width: 250,
@@ -21,6 +25,9 @@ interface IProps {
   openLeftDrawer: any;
   filters: ITimetableFilters;
   updateDate: string;
+
+  floorPageOpen: boolean;
+  closeFloorPagePin: any;
 }
 
 const LeftDrawer = (props: IProps) => {
@@ -57,6 +64,7 @@ const LeftDrawer = (props: IProps) => {
     bottom: 0,
     width: "100%",
   };
+
   return (
     <div>
       <IconButton
@@ -65,7 +73,12 @@ const LeftDrawer = (props: IProps) => {
       >
         <Hamburger />
       </IconButton>
-      <Drawer open={props.open} onClose={() => props.closeLeftDrawer()}>
+      <Drawer open={props.open} onClose={() => {
+        if (props.open && props.floorPageOpen) {
+          props.closeFloorPagePin();
+        }
+        props.closeLeftDrawer();
+       }}>
         <div
           tabIndex={0}
           role="button"
@@ -91,4 +104,16 @@ const LeftDrawer = (props: IProps) => {
   );
 };
 
-export default LeftDrawer;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+      floorPageOpen: state.floorPageWithPin.floorPageOpen,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      closeFloorPagePin: () => dispatch(closeFloorPagePin()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftDrawer);
