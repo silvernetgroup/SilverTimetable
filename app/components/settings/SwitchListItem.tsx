@@ -6,7 +6,7 @@ import {
   ListItemText,
 } from "material-ui/List";
 import Switch from "material-ui/Switch";
-import { SwapHoriz } from "material-ui-icons";
+import { SwapHoriz, School } from "material-ui-icons";
 
 interface IProps {
   name: string;
@@ -28,6 +28,7 @@ const SwitchListItem = (props: IProps) => {
 // tslint:disable:object-literal-shorthand
   const icons = {
     SwapHoriz: SwapHoriz,
+    School: School,
   };
   const IconName = icons[props.iconName];
   return (
