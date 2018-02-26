@@ -98,6 +98,19 @@ class EventBlockMore extends React.Component<IProps> {
       location = "/";
     }
 
+    if (location === "/"  // wrong building
+    || (this.props.event.room.substring(0, 1) !== "3"  // wrong floor
+    && ((this.lowercaseFirstLetter(this.props.event.room)).substring(0, 4) === "aula"
+        // wrong lecture hall:
+        && (this.props.event.room.substring(5, 7) !== "IV"
+            && this.props.event.room.substring(5, 7) !== "III")) )) {
+              return (
+                <div style={{ marginBottom: 16, marginLeft: 16, marginRight: 16, padding: "10px", paddingTop: "0px"}}>
+                  <Typography type="subheading">{text}</Typography>
+                </div>
+              );
+            }
+
     return (
       <LinkListItem
         name={text}
