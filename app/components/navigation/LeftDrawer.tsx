@@ -51,10 +51,23 @@ const LeftDrawer = (props: IProps) => {
             </Typography>
           </div>
         </div>
-        <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={null} />
-        <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" onClick={null} />
+        <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={() => {
+          if (props.floorPageOpen) {
+            props.closeFloorPagePin();
+          }
+        }} />
+        <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings"
+          onClick={() => {
+            if (props.floorPageOpen) {
+              props.closeFloorPagePin();
+            }
+          }} />
         <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" onClick={null} />
-        <LinkListItem name="O aplikacji" iconName="Info" linkPage="/about" onClick={null} />
+        <LinkListItem name="O aplikacji" iconName="Info" linkPage="/about" onClick={() => {
+          if (props.floorPageOpen) {
+            props.closeFloorPagePin();
+          }
+        }} />
       </List>
     </div>
   );
@@ -73,12 +86,7 @@ const LeftDrawer = (props: IProps) => {
       >
         <Hamburger />
       </IconButton>
-      <Drawer open={props.open} onClose={() => {
-        if (props.open && props.floorPageOpen) {
-          props.closeFloorPagePin();
-        }
-        props.closeLeftDrawer();
-       }}>
+      <Drawer open={props.open} onClose={() => props.closeLeftDrawer()}>
         <div
           tabIndex={0}
           role="button"

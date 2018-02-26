@@ -10,7 +10,7 @@ import Chip from "material-ui/Chip";
 import LecturersPages from "../../services/LecturersPages";
 
 import { IGlobalState } from "../../store/IGlobalState";
-import { openFloorPagePin } from "../../actions/index";
+import { openFloorPagePin, roomNumberAssign } from "../../actions/index";
 import { connect } from "react-redux";
 
 const styles = {
@@ -26,6 +26,8 @@ interface IProps {
   closeBottomDrawer: any;
 
   openFloorPagePin: any;
+  roomNumberAssign: any;
+  roomNumber?: string;
 }
 
 declare let navigator: any;
@@ -116,7 +118,12 @@ class EventBlockMore extends React.Component<IProps> {
         name={text}
         iconName="Map"
         linkPage={location}
-        onClick={() => this.props.openFloorPagePin()}
+        onClick={() => {
+          this.props.openFloorPagePin();
+          if (this.props.roomNumber === null) {
+            this.props.roomNumberAssign(this.props.event.room);
+          }
+        }}
         color="black"
       />
     );
@@ -178,12 +185,14 @@ class EventBlockMore extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     floorPageOpen: state.floorPageWithPin.floorPageOpen,
+    roomNumber: state.floorPageWithPin.roomNumber,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     openFloorPagePin: () => dispatch(openFloorPagePin()),
+    roomNumberAssign: (name) => dispatch(roomNumberAssign(name)),
   };
 };
 

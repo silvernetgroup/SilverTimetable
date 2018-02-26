@@ -12,6 +12,7 @@ import {
     LOAD_CONFIGURATION,
     OPEN_FLOOR_PAGE_PIN,
     CLOSE_FLOOR_PAGE_PIN,
+    ASSIGN_ROOM_NUMBER,
 } from "../constants/action-types";
 import { IGlobalState } from "../store/IGlobalState";
 import ITimetableFilters from "../models/ITimetableFilters";
@@ -65,7 +66,9 @@ const rootReducer = (state: IGlobalState, action) => {
             // tslint:disable-next-line:max-line-length
             return {...state, timetable: { ...state.timetable, bottomDrawerOpen: false }, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: true} };
         case CLOSE_FLOOR_PAGE_PIN:
-            return {...state, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: false} };
+            return {...state, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: false, roomNumber: null} };
+        case ASSIGN_ROOM_NUMBER:
+            return {...state, floorPageWithPin: {...state.floorPageWithPin, roomNumber: action.payload} };
         default:
             return state;
     }

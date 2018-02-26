@@ -25,3 +25,4 @@ export const changeConfigurationOption = (name: string, value: any) => ({
 
 export const openFloorPagePin = () => ({type: types.OPEN_FLOOR_PAGE_PIN});
 export const closeFloorPagePin = () => ({type: types.CLOSE_FLOOR_PAGE_PIN});
+export const roomNumberAssign = (name) => ({type: types.ASSIGN_ROOM_NUMBER, payload: name});
