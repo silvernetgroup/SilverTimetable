@@ -1,9 +1,3 @@
-/*export const coordinates = {
-    "3/58": {X: "40%", Y: "13%"},
-    "Aula IV": {X: "57%", Y: "40%"},
-    "Aula III": {X: "37%", Y: "40%"},
-};*/
-
 export default class FloorCoords {
 
     public static getCoords(roomNumber?: string): {X: string, Y: string} {

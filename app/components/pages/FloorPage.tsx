@@ -4,7 +4,6 @@ import { closeFloorPagePin } from "../../actions/index";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/IGlobalState";
 
-// import { coordinates } from "../../constants/floorCoords";
 import FloorCoords from "../../constants/FloorCoords";
 
 interface IProps {
@@ -24,17 +23,13 @@ class FloorPage extends React.Component<IProps> {
             textAlign: "center",
             marginTop: "69px",
         };
-        // tslint:disable-next-line:max-line-length
-        // const room: {X: string, Y: string} = this.props.roomNumber !== null ? coordinates[this.props.roomNumber] : {X: "-10%", Y: "-10%"};
 
         const pinStyle: any = {
             width: "18%",
             height: "10%",
             position: "absolute",
-            // tslint:disable-next-line:max-line-length
-            left: FloorCoords.getCoords(this.props.roomNumber) !== null ? FloorCoords.getCoords(this.props.roomNumber).X : "-10%",     // X
-            // tslint:disable-next-line:max-line-length
-            top: FloorCoords.getCoords(this.props.roomNumber) !== null ? FloorCoords.getCoords(this.props.roomNumber).Y : "-10%",
+            left: FloorCoords.getCoords(this.props.roomNumber).X,
+            top: FloorCoords.getCoords(this.props.roomNumber).Y,
             display: "block",
         };
 

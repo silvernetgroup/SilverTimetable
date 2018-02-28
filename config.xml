@@ -34,7 +34,6 @@
     <preference name="Orientation" value="portrait" />
     <preference name="xwalkVersion" value="19" />
     <engine name="ios" spec="^4.5.4" />
-    <engine name="android" spec="^6.4.0" />
     <plugin name="phonegap-plugin-push" spec="^2.1.0">
         <variable name="FCM_VERSION" value="11.0.1" />
     </plugin>
