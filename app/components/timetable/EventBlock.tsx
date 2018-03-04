@@ -41,13 +41,20 @@ const EventBlock = (props: IProps) => {
                     <br />
                     {props.lecturerMode
                         ? <>
-                            sala <span className="additionalFt-event-block">{props.event.room + " "}</span> <br/>
+                            {props.event.room.substr(0, 2) === "Au" || props.event.room.substr(0, 2) === "au"
+                        ? "" : "sala"} <span className="additionalFt-event-block">
+                            {props.event.room + ((props.event.department === "WZIM"
+                                || props.event.department === "WZIiM") && props.event.building !== "34"
+                                ? ", b." + props.event.building + " " : " ")}</span> <br/>
                             {props.event.fieldOfStudy} rok {props.event.year} <br />
                             grupa {props.event.specialization || props.event.group}
                         </>
                         : <>
-                            <span className="additionalFt-event-block">{props.event.room + " "}</span>
-                            -{props.event.lecturers.join(", ")}
+                            <span className="additionalFt-event-block">
+                                {props.event.room + (props.event.building !== "34"
+                                ? ", b." + props.event.building + " " : " ")}
+                            </span>
+                            - {props.event.lecturers.join(", ")}
                         </>
                     }
                 </span>

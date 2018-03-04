@@ -58,9 +58,10 @@ class App extends React.Component<IProps> {
                 this.props.closeBottomDrawer();
             } else if (this.props.leftDrawerOpen) {
                 this.props.closeLeftDrawer();
-            } else if (this.props.floorPageOpen) {
-                this.props.closeFloorPagePin();
             } else if (window.location.hash !== "#/") {
+                if (this.props.floorPageOpen) {
+                    this.props.closeFloorPagePin();
+                }
                 window.location.replace("index.html#/");
             } else {
                 navigator.app.exitApp();
