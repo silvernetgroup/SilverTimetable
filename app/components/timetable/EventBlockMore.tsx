@@ -8,6 +8,7 @@ import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
 import LecturersPages from "../../services/LecturersPages";
+import FloorCoords from "../../constants/FloorCoords";
 
 import { IGlobalState } from "../../store/IGlobalState";
 import { openFloorPagePin, roomNumberAssign } from "../../actions/index";
@@ -99,19 +100,14 @@ class EventBlockMore extends React.Component<IProps> {
     if (this.props.event.building !== "34") {
       location = "/";
     }
-
-    if (location === "/"  // wrong building
-    || (this.props.event.room.substring(0, 1) !== "3"  // wrong floor
-    && ((this.lowercaseFirstLetter(this.props.event.room)).substring(0, 4) === "aula"
-        // wrong lecture hall:
-        && (this.props.event.room.substring(5, 7) !== "IV"
-            && this.props.event.room.substring(5, 7) !== "III")) )) {
-              return (
-                <div style={{ marginBottom: 16, marginLeft: 16, marginRight: 16, padding: "10px", paddingTop: "0px"}}>
-                  <Typography type="subheading">{text}</Typography>
-                </div>
-              );
-            }
+    //    wrong building  OR    wrong floor:
+    if (location === "/" || FloorCoords.getCoords(this.props.event.room) === null) {
+      return (
+        <div style={{ marginBottom: 16, marginLeft: 16, marginRight: 16, padding: "10px", paddingTop: "0px"}}>
+          <Typography type="subheading">{text}</Typography>
+        </div>
+      );
+    }
 
     return (
       <LinkListItem
@@ -119,6 +115,7 @@ class EventBlockMore extends React.Component<IProps> {
         iconName="Map"
         linkPage={location}
         onClick={() => {
+          this.props.closeBottomDrawer();
           this.props.openFloorPagePin();
           if (this.props.roomNumber === null) {
             this.props.roomNumberAssign(this.props.event.room);

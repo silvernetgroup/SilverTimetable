@@ -63,8 +63,7 @@ const rootReducer = (state: IGlobalState, action) => {
                 },
             };
         case OPEN_FLOOR_PAGE_PIN:
-            // tslint:disable-next-line:max-line-length
-            return {...state, timetable: { ...state.timetable, bottomDrawerOpen: false }, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: true} };
+            return {...state, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: true} };
         case CLOSE_FLOOR_PAGE_PIN:
             return {...state, floorPageWithPin: {...state.floorPageWithPin, floorPageOpen: false, roomNumber: null} };
         case ASSIGN_ROOM_NUMBER:

@@ -24,16 +24,18 @@ class FloorPage extends React.Component<IProps> {
             marginTop: "69px",
         };
 
+        const roomCoords: {X: string, Y: string} = FloorCoords.getCoords(this.props.roomNumber);
+
         const pinStyle: any = {
             width: "18%",
             height: "10%",
             position: "absolute",
-            left: FloorCoords.getCoords(this.props.roomNumber).X,
-            top: FloorCoords.getCoords(this.props.roomNumber).Y,
+            left: roomCoords !== null ? roomCoords.X : null,
+            top: roomCoords !== null ? roomCoords.Y : null,
             display: "block",
         };
 
-        if (!this.props.floorPageOpen) {
+        if (!this.props.floorPageOpen || pinStyle.left === null) {
             return (
                 <div id="content" style = {style}>
                     <img src="res/img/floor.png" style={{ width: "100%" }} />

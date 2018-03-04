@@ -3,10 +3,12 @@ export default class FloorCoords {
     public static getCoords(roomNumber?: string): {X: string, Y: string} {
         switch (roomNumber) {
             case "IV":
+            case "aula IV":
             case "Aula IV":
                 return {X: "57%", Y: "40%"};
 
             case "III":
+            case "aula III":
             case "Aula III":
                 return {X: "37%", Y: "40%"};
 
@@ -164,7 +166,7 @@ export default class FloorCoords {
 
             case null:
             default:
-            return {X: "-10%", Y: "-10%"};
+                return null;
         }
     }
 }
