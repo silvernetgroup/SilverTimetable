@@ -231,3 +231,5 @@ plugins/
 *.der
 
 *.jks
+
+google-services\.json
