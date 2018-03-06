@@ -49,7 +49,9 @@ const EventBlock = (props: IProps) => {
                                 && props.event.building !== "34" && props.event.building !== null
                                 ? ", b." + props.event.building + " " : " ")}</span> <br/>
                             {props.event.fieldOfStudy} rok {props.event.year} <br />
-                            grupa {props.event.specialization || props.event.group}
+                            {(props.event.groups !== null && props.event.groups.length > 1) ? <>
+                            grupy {"".concat(props.event.groups)} </>
+                            : <> grupa {props.event.specialization || props.event.group} </> }
                         </>
                         : <>
                             <span className="additionalFt-event-block">
