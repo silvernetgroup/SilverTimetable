@@ -241,12 +241,12 @@ export default class Timetable extends React.Component<IProps> {
                 tab.push((tmp.specialization || tmp.group).toString());
 
                 for (let i = index + 1; i < result.length; i++) {
-                        const tmpp = result[i];
+                        const tmp2 = result[i];
                         // tslint:disable-next-line:max-line-length
-                        const mergedPropss: string = tmpp.endTime.toString() + tmpp.startTime.toString() + tmpp.name + tmpp.room + tmpp.type + tmpp.lecturers[0];
-                        const groupOfPropss = tmpp.specialization || tmp.group;
+                        const mergedPropss: string = tmp2.endTime.toString() + tmp2.startTime.toString() + tmp2.name + tmp2.room + tmp2.type + tmp2.lecturers[0];
+                        const groupOfPropss = tmp2.specialization || tmp2.group;
                         if (mergedProps === mergedPropss && groupOfProps !== groupOfPropss) {
-                            tab.push((tmpp.specialization || tmpp.group).toString());
+                            tab.push((tmp2.specialization || tmp2.group).toString());
                             result.splice(i, 1);
                             i = i - 1;
                         }
