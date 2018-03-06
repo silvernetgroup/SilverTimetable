@@ -26,7 +26,8 @@ const EventBlock = (props: IProps) => {
         <Paper
             style={style}
             elevation={1}
-            onClick={props.onClick}
+            onClick={props.event.lecturers === null || props.event.building === null || props.event.room === null
+                ? null : props.onClick}
         >
             <div className="header-event-block">
                 <div className="lectureName-event-block">
@@ -41,13 +42,23 @@ const EventBlock = (props: IProps) => {
                     <br />
                     {props.lecturerMode
                         ? <>
-                            sala <span className="additionalFt-event-block">{props.event.room + " "}</span> <br/>
+                            {props.event.room.substr(0, 2) === "Au" || props.event.room.substr(0, 2) === "au"
+                            ? "" : "sala"} <span className="additionalFt-event-block">
+                            {props.event.room + ((props.event.department === "WZIM"
+                                || props.event.department === "WZIiM")
+                                && props.event.building !== "34" && props.event.building !== null
+                                ? ", b." + props.event.building + " " : " ")}</span> <br/>
                             {props.event.fieldOfStudy} rok {props.event.year} <br />
                             grupa {props.event.specialization || props.event.group}
                         </>
                         : <>
-                            <span className="additionalFt-event-block">{props.event.room + " "}</span>
-                            -{props.event.lecturers.join(", ")}
+                            <span className="additionalFt-event-block">
+                                {props.event.room + ((props.event.department === "WZIM"
+                                || props.event.department === "WZIiM")
+                                && props.event.building !== "34" && props.event.building !== null
+                                ? ", b." + props.event.building + " " : " ")}
+                            </span>
+                            - {props.event.lecturers.join(", ")}
                         </>
                     }
                 </span>

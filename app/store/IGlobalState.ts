@@ -11,5 +11,9 @@ export interface IGlobalState {
         bottomDrawerOpen: boolean,
         data: ITimetable,
     };
+    floorPageWithPin: {
+        floorPageOpen: boolean,
+        roomNumber?: string,
+    };
     configuration: IConfiguration;
 }

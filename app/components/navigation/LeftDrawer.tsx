@@ -9,6 +9,10 @@ import Hamburger from "material-ui-icons/Menu";
 import ITimetableFilters from "../../models/ITimetableFilters";
 import ITimetable from "../../models/ITimetable";
 
+import { closeFloorPagePin } from "../../actions/index";
+import { connect } from "react-redux";
+import { IGlobalState } from "../../store/IGlobalState";
+
 const styles = {
   list: {
     width: 250,
@@ -21,6 +25,9 @@ interface IProps {
   openLeftDrawer: any;
   filters: ITimetableFilters;
   updateDate: string;
+
+  floorPageOpen: boolean;
+  closeFloorPagePin: any;
 }
 
 const LeftDrawer = (props: IProps) => {
@@ -44,10 +51,23 @@ const LeftDrawer = (props: IProps) => {
             </Typography>
           </div>
         </div>
-        <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={null} />
-        <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings" onClick={null} />
+        <LinkListItem name="Plan" iconName="Event" linkPage="/" onClick={() => {
+          if (props.floorPageOpen) {
+            props.closeFloorPagePin();
+          }
+        }} />
+        <LinkListItem name="Ustawienia" iconName="Settings" linkPage="/settings"
+          onClick={() => {
+            if (props.floorPageOpen) {
+              props.closeFloorPagePin();
+            }
+          }} />
         <LinkListItem name="Schemat piętra" iconName="Map" linkPage="/floor" onClick={null} />
-        <LinkListItem name="O aplikacji" iconName="Info" linkPage="/about" onClick={null} />
+        <LinkListItem name="O aplikacji" iconName="Info" linkPage="/about" onClick={() => {
+          if (props.floorPageOpen) {
+            props.closeFloorPagePin();
+          }
+        }} />
       </List>
     </div>
   );
@@ -57,6 +77,7 @@ const LeftDrawer = (props: IProps) => {
     bottom: 0,
     width: "100%",
   };
+
   return (
     <div>
       <IconButton
@@ -91,4 +112,16 @@ const LeftDrawer = (props: IProps) => {
   );
 };
 
-export default LeftDrawer;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+      floorPageOpen: state.floorPageWithPin.floorPageOpen,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      closeFloorPagePin: () => dispatch(closeFloorPagePin()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftDrawer);
