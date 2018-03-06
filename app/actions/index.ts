@@ -22,3 +22,7 @@ export const changeFilter = (name: string, value: any) => ({ type: types.CHANGE_
 export const changeConfigurationOption = (name: string, value: any) => ({
     type: types.CHANGE_CONFIGURATION_OPTION, payload: { name, value },
 });
+
+export const openFloorPagePin = () => ({type: types.OPEN_FLOOR_PAGE_PIN});
+export const closeFloorPagePin = () => ({type: types.CLOSE_FLOOR_PAGE_PIN});
+export const roomNumberAssign = (name) => ({type: types.ASSIGN_ROOM_NUMBER, payload: name});

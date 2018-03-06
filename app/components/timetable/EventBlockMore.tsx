@@ -8,6 +8,11 @@ import LinkListItem from "../navigation/LinkListItem";
 import Avatar from "material-ui/Avatar";
 import Chip from "material-ui/Chip";
 import LecturersPages from "../../services/LecturersPages";
+import FloorCoords from "../../constants/FloorCoords";
+
+import { IGlobalState } from "../../store/IGlobalState";
+import { openFloorPagePin, roomNumberAssign } from "../../actions/index";
+import { connect } from "react-redux";
 
 const styles = {
   list: {
@@ -20,11 +25,15 @@ interface IProps {
   lecturerMode: boolean;
   bottomDrawerOpen: boolean;
   closeBottomDrawer: any;
+
+  openFloorPagePin: any;
+  roomNumberAssign: any;
+  roomNumber?: string;
 }
 
 declare let navigator: any;
 
-export default class EventBlockMore extends React.Component<IProps> {
+class EventBlockMore extends React.Component<IProps> {
 
   public render() {
     if (!this.props.event) {
@@ -91,13 +100,27 @@ export default class EventBlockMore extends React.Component<IProps> {
     if (this.props.event.building !== "34") {
       location = "/";
     }
+    //    wrong building  OR    wrong floor:
+    if (location === "/" || FloorCoords.getCoords(this.props.event.room) === null) {
+      return (
+        <div style={{ marginBottom: 16, marginLeft: 16, marginRight: 16, padding: "10px", paddingTop: "0px"}}>
+          <Typography type="subheading">{text}</Typography>
+        </div>
+      );
+    }
 
     return (
       <LinkListItem
         name={text}
         iconName="Map"
         linkPage={location}
-        onClick={() => this.props.closeBottomDrawer()}
+        onClick={() => {
+          this.props.closeBottomDrawer();
+          this.props.openFloorPagePin();
+          if (this.props.roomNumber === null) {
+            this.props.roomNumberAssign(this.props.event.room);
+          }
+        }}
         color="black"
       />
     );
@@ -155,3 +178,19 @@ export default class EventBlockMore extends React.Component<IProps> {
     );
   }
 }
+
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    floorPageOpen: state.floorPageWithPin.floorPageOpen,
+    roomNumber: state.floorPageWithPin.roomNumber,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openFloorPagePin: () => dispatch(openFloorPagePin()),
+    roomNumberAssign: (name) => dispatch(roomNumberAssign(name)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventBlockMore);
