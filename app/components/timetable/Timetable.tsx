@@ -228,6 +228,34 @@ export default class Timetable extends React.Component<IProps> {
 
         result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
 
+        if (lecturerMode) {
+            for (let index = 0; index < result.length; index++) {
+                const tmp = result[index];
+
+                const tab: string[] = [];
+
+                // tslint:disable-next-line:max-line-length
+                const mergedProps: string = tmp.endTime.toString() + tmp.startTime.toString() + tmp.name + tmp.room + tmp.type + tmp.lecturers[0];
+                const groupOfProps = tmp.specialization || tmp.group;
+
+                tab.push((tmp.specialization || tmp.group).toString());
+
+                for (let i = index + 1; i < result.length; i++) {
+                        const tmpp = result[i];
+                        // tslint:disable-next-line:max-line-length
+                        const mergedPropss: string = tmpp.endTime.toString() + tmpp.startTime.toString() + tmpp.name + tmpp.room + tmpp.type + tmpp.lecturers[0];
+                        const groupOfPropss = tmpp.specialization || tmp.group;
+                        if (mergedProps === mergedPropss && groupOfProps !== groupOfPropss) {
+                            tab.push((tmpp.specialization || tmpp.group).toString());
+                            result.splice(i, 1);
+                            i = i - 1;
+                        }
+                }
+                tab.sort();
+                result[index].groups = tab;
+            }
+        }
+
         const elements: JSX.Element[] = result.length
             ? [(<BreakBlock isStart startTime={result[0].startTime} key={0} />)]
             : [];
@@ -250,42 +278,6 @@ export default class Timetable extends React.Component<IProps> {
             elements.push(<BreakBlock isEnd key={result.length + 1} />);
         }
 
-        if (lecturerMode) {
-            // let tmp = null;
-            for (let index = 0; index < elements.length; index++) {
-                const tmp = elements[index].props.children;
-
-                const tab: string[] = [];
-
-                if (tmp !== undefined) {
-                    const tmp2 = tmp[0].props.event;
-                    // tslint:disable-next-line:max-line-length
-                    const mergedProps: string = tmp2.endTime.toString() + tmp2.startTime.toString() + tmp2.name + tmp2.room + tmp2.type + tmp2.lecturers[0];
-                    const groupOfProps = tmp2.group || tmp2.specialization;
-
-                    tab.push(tmp2.group || tmp2.specialization);
-
-                    for (let i = index + 1; i < elements.length; i++) {
-                        const tmpp = elements[i].props.children;
-                        if (tmpp !== undefined) {
-                            const tmpp2 = tmpp[0].props.event;
-                             // tslint:disable-next-line:max-line-length
-                            const mergedPropss: string = tmpp2.endTime.toString() + tmpp2.startTime.toString() + tmpp2.name + tmpp2.room + tmpp2.type + tmpp2.lecturers[0];
-                            const groupOfPropss = tmpp2.group || tmpp2.specialization;
-                            if (mergedProps === mergedPropss && groupOfProps !== groupOfPropss) {
-                                tab.push(tmpp2.group || tmpp2.specialization);
-                                elements.splice(i, 1);
-                                i = i - 1;
-                            }
-                        }
-                    }
-                    tab.sort();
-                    elements[index].props.children[0].props.event.groups = tab;
-                }
-               // console.log(wart.props.children !== undefined ? wart.props.children[0].props.event.groups : "__");
-               // console.log("tablica grup: ", tab);
-            }
-        }
         return elements;
     }
 }

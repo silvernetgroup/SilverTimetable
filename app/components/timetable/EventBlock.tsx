@@ -50,7 +50,7 @@ const EventBlock = (props: IProps) => {
                                 ? ", b." + props.event.building + " " : " ")}</span> <br/>
                             {props.event.fieldOfStudy} rok {props.event.year} <br />
                             {(props.event.groups !== null && props.event.groups.length > 1) ? <>
-                            grupy {"".concat(props.event.groups)} </>
+                            grupy {props.event.groups.join(", ")} </>
                             : <> grupa {props.event.specialization || props.event.group} </> }
                         </>
                         : <>
@@ -60,7 +60,7 @@ const EventBlock = (props: IProps) => {
                                 && props.event.building !== "34" && props.event.building !== null
                                 ? ", b." + props.event.building + " " : " ")}
                             </span>
-                            - {props.event.lecturers.join(", ")}
+                            {props.event.lecturers[0] !== "" ? <> - {props.event.lecturers.join(", ")} </> : ""}
                         </>
                     }
                 </span>
