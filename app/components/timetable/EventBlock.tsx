@@ -48,10 +48,10 @@ const EventBlock = (props: IProps) => {
                                 || props.event.department === "WZIiM")
                                 && props.event.building !== "34" && props.event.building !== null
                                 ? ", b." + props.event.building + " " : " ")}</span> <br/>
-                            {props.event.fieldOfStudy} rok {props.event.year} <br />
+                            {props.event.fieldOfStudy} rok {props.event.year} {props.event.degree} <br />
                             {(props.event.groups !== null && props.event.groups.length > 1) ? <>
-                            grupy {props.event.groups.join(", ")} </>
-                            : <> grupa {props.event.specialization || props.event.group} </> }
+                            grupy: {props.event.groups.join(", ")} </>
+                            : <> grupa: {props.event.specialization || props.event.group} </> }
                         </>
                         : <>
                             <span className="additionalFt-event-block">
