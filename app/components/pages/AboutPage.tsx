@@ -14,17 +14,19 @@ export default class AboutPage extends React.Component {
         return (
             <div style={style}>
                 <img src="res/img/logo.png" style={{ width: 155 }} />
-                <h1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2, fontSize: "2.5em"}}>Plan WZIM</h1>
+                <h1 style={{ color: "#4A4A4A", marginTop: 0, marginBottom: 2, fontSize: "2.5em" }}>Plan WZIM</h1>
                 <Typography type="caption" gutterBottom align="center">
                     Wersja 1.0.8
                 </Typography>
-                <Typography type="subheading" gutterBottom style={{margin: "30px auto 0 auto", width: 280}}>
-                    Aplikacja stworzona przez członków koła naukowego Silver .NET: <br/><br/>
-                    Marcin Lewandowski <br/>
-                    Wiktor El Attar <br/>
-                    Michał Kocisz <br/>
-                    Maciej Maj <br/>
-                    Bartosz Matyjasiak <br/>
+                <Typography type="subheading" gutterBottom style={{ margin: "30px auto 0 auto", width: 280 }}>
+                    Aplikacja stworzona przez członków koła naukowego Silver .NET: <br /><br />
+                    Marcin Lewandowski <br />
+                    Paweł Kaczorowski <br />
+                    Wiktor El Attar <br />
+                    Michał Kocisz <br />
+                    Maciej Maj <br />
+                    Bartosz Matyjasiak <br />
+                    Jarosław Zimniak<br />
                 </Typography>
                 <img src="res/img/silver_logo.png" style={{ width: 160, marginTop: 10 }} />
             </div>
