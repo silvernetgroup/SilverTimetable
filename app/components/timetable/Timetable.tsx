@@ -235,7 +235,7 @@ export default class Timetable extends React.Component<IProps> {
                 const tab: string[] = [];
 
                 // tslint:disable-next-line:max-line-length
-                const mergedProps: string = tmp.endTime.toString() + tmp.startTime.toString() + tmp.name + tmp.room + tmp.type + tmp.lecturers[0];
+                const mergedProps: string = tmp.endTime.toString() + tmp.startTime.toString() + tmp.name.toLowerCase() + tmp.room + tmp.type + tmp.lecturers[0];
                 const groupOfProps = tmp.specialization || tmp.group;
 
                 tab.push((tmp.specialization || tmp.group).toString());
@@ -243,7 +243,7 @@ export default class Timetable extends React.Component<IProps> {
                 for (let i = index + 1; i < result.length; i++) {
                         const tmp2 = result[i];
                         // tslint:disable-next-line:max-line-length
-                        const mergedPropss: string = tmp2.endTime.toString() + tmp2.startTime.toString() + tmp2.name + tmp2.room + tmp2.type + tmp2.lecturers[0];
+                        const mergedPropss: string = tmp2.endTime.toString() + tmp2.startTime.toString() + tmp2.name.toLowerCase() + tmp2.room + tmp2.type + tmp2.lecturers[0];
                         const groupOfPropss = tmp2.specialization || tmp2.group;
                         if (mergedProps === mergedPropss && groupOfProps !== groupOfPropss) {
                             tab.push((tmp2.specialization || tmp2.group).toString());
