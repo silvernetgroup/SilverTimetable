@@ -21,4 +21,5 @@ export default interface ITimetableEvent {
     isFaculty: boolean;
     academicYear: string;
     building: string;
+    groups?: string[];
 }

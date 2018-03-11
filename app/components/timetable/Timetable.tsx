@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import PullRefresh from "react-pullrefresh";
 import Typography from "material-ui/Typography";
 import EventBlockMore from "./EventBlockMore";
+import { Input } from "material-ui";
 
 interface IProps {
     data: ITimetable;
@@ -208,7 +209,7 @@ export default class Timetable extends React.Component<IProps> {
             6: "SO",
             7: "NIE",
         };
-
+        const tablica: any[] = [];
         const result = this.props.lecturerMode
             ?
             data.events.filter((obj) => (obj.lecturers.some((lecturer) => lecturer === filters.lecturer)
@@ -226,6 +227,34 @@ export default class Timetable extends React.Component<IProps> {
                     && obj.academicYear === filters.academicYear);
 
         result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
+
+        if (lecturerMode) {
+            for (let index = 0; index < result.length; index++) {
+                const tmp = result[index];
+
+                const tab: string[] = [];
+
+                // tslint:disable-next-line:max-line-length
+                const mergedProps: string = tmp.endTime.toString() + tmp.startTime.toString() + tmp.name.toLowerCase() + tmp.room + tmp.type + tmp.lecturers[0];
+                const groupOfProps = tmp.specialization || tmp.group;
+
+                tab.push((tmp.specialization || tmp.group).toString());
+
+                for (let i = index + 1; i < result.length; i++) {
+                        const tmp2 = result[i];
+                        // tslint:disable-next-line:max-line-length
+                        const mergedPropss: string = tmp2.endTime.toString() + tmp2.startTime.toString() + tmp2.name.toLowerCase() + tmp2.room + tmp2.type + tmp2.lecturers[0];
+                        const groupOfPropss = tmp2.specialization || tmp2.group;
+                        if (mergedProps === mergedPropss && groupOfProps !== groupOfPropss) {
+                            tab.push((tmp2.specialization || tmp2.group).toString());
+                            result.splice(i, 1);
+                            i = i - 1;
+                        }
+                }
+                tab.sort();
+                result[index].groups = tab;
+            }
+        }
 
         const elements: JSX.Element[] = result.length
             ? [(<BreakBlock isStart startTime={result[0].startTime} key={0} />)]

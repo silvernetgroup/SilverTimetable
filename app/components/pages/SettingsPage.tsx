@@ -57,6 +57,12 @@ class SettingsPage extends React.Component<IProps> {
   }
 
   public render(): JSX.Element {
+    const lecturers: string[] = this.props.selectListsValues.lecturer.filter((v) => v !== "" && v !== " ");
+    try {
+      lecturers.sort((a, b) => a.split(" ")[1].localeCompare(b.split(" ")[1], "pl", { sensitivity: "base" }));
+    } catch {
+      lecturers.sort();
+    }
     return (
       <div style={{ marginTop: "69px" }}>
         <List subheader={<ListSubheader>Filtrowanie</ListSubheader>}>
@@ -70,7 +76,7 @@ class SettingsPage extends React.Component<IProps> {
             <>
               <SelectListItem
                 name=""
-                options={this.props.selectListsValues.lecturer}
+                options={lecturers}
                 enabled={this.props.selectListsState.lecturer}
                 activeOption={this.props.filters.lecturer}
                 onChange={(event, newValue) => this.props.changeFilter("lecturer", newValue)}
